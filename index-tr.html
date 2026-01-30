@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cakir IT-Solutions | Altyapı & Akıllı Yazılım</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
+        
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        
+        <label for="nav-toggle" class="hamburger">
+            <i class="fa-solid fa-bars"></i>
+        </label>
+
+        <ul class="nav-links">
+            <label for="nav-toggle" class="close-btn">
+                <i class="fa-solid fa-xmark"></i>
+            </label>
+            
+            <li><a href="#home">Anasayfa</a></li>
+            <li><a href="#about">Hakkımızda</a></li>
+            <li><a href="#services">Hizmetler</a></li>
+            <li><a href="#projects">Projeler</a></li>
+            <li><a href="#contact" class="btn-nav-contact">İletişim</a></li>
+
+            <li class="language-wrapper">
+                <a href="index.html" class="lang-link">EN</a>
+                <span>|</span>
+                <a href="index-nl.html" class="lang-link">NL</a>
+                <span>|</span>
+                <a href="index-tr.html" class="lang-link active">TR</a>
+                <span>|</span>
+                <a href="index-fr.html" class="lang-link">FR</a>
+            </li>
+        </ul>
+        
+        <label for="nav-toggle" class="nav-overlay"></label>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="badge">EST. 2018 • ZELE</span>
+            <h1>Altyapıdan <br> <span class="highlight">Dijital Çözümlere</span></h1>
+            <p>Ağır sanayi altyapısı (Yönlendirilebilir Sondaj) ile modern yazılım dünyası arasında köprü kuruyoruz. İnşaat ve lojistik sektörü için profesyonel IT hizmetleri.</p>
+            <div class="hero-btns">
+                <a href="#services" class="btn btn-primary">Uzmanlık Alanlarımız</a>
+                <a href="#contact" class="btn btn-outline">Proje Başlat</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Biz Kimiz?</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>Hibrit Bir Mühendislik Şirketi</h3>
+                    <p><strong>Özcan Çakır</strong> tarafından kurulan Cakir IT-Solutions, sıradan bir yazılım ajansı değildir. Köklerimiz altyapı sektörüne dayanmakta olup, 2018'den beri karmaşık <strong>Yatay Yönlendirilebilir Sondaj</strong> (Gestuurde Boring) projeleri yürütmekteyiz.</p>
+                    <p>Sahada karşılaştığımız sorunları çözmek amacıyla <strong>Kasım 2025</strong>'te resmi olarak <strong>IT Departmanımızı</strong> kurduk. Bugün, lojistik ve inşaat iş akışlarını dijitalleştirmek için özel Kotlin Android Uygulamaları ve Web Platformları geliştiriyoruz.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-box">
+                        <i class="fa-solid fa-trowel-bricks"></i>
+                        <span>Altyapı</span>
+                        <p>Zemin İşleri & Sondaj Uzmanlığı</p>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-code"></i>
+                        <span>IT-Bölümü</span>
+                        <p>Lojistik Takip Uygulamaları</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services-section section-padding">
+        <div class="container">
+            <h2 class="section-title">Hizmetlerimiz</h2>
+            <div class="services-grid">
+                
+                <div class="service-card">
+                    <div class="icon"><i class="fa-solid fa-road"></i></div>
+                    <h3>Yatay Sondaj</h3>
+                    <p>Telekom (Fiber) ve enerji kabloları için yüksek hassasiyetli yatay sondaj hizmetleri. Kendi makine parkurumuz ve uzmanlığımızla hizmet veriyoruz.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>Teknik Kurulumlar</h3>
+                    <p>Sanayi bölgeleri için aydınlatma direkleri (Verlichtingspalen) ve kablo yönetimi sistemlerinin stratejik planlaması ve kurulumu.</p>
+                </div>
+
+                <div class="service-card highlight-card">
+                    <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
+                    <h3>Özel Yazılım</h3>
+                    <p><strong>Kotlin Android Uygulamaları</strong> ve Web Sitesi geliştirme. Filo yönetimini optimize etmek için gerçek zamanlı takip sistemleri kuruyoruz.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">Öne Çıkan Projeler</h2>
+            <div class="projects-grid">
+                <div class="project-item">
+                    <div class="project-info">
+                        <h4>Mobil Hava Durumu Uygulaması</h4>
+                        <p>Lojistik verimliliği için Kotlin & Firebase ile geliştirilmiş gerçek zamanlı GPS takip çözümü. Çalışma koşulları için hava durumu entegrasyonu.</p>
+                        <div class="tags">
+                            <span>Kotlin</span><span>Firebase</span><span>Google Maps API</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-info">
+                        <h4>Lace Holland bv Fiber Genişletme</h4>
+                        <p>Yerel fiber optik ağ genişletmesi için 2 km'lik yönlendirilebilir sondaj yönetimi.</p>
+                        <div class="tags">
+                            <span>Altyapı</span><span>Sondaj</span><span>2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">İletişime Geçin</h2>
+            <p class="contact-subtitle">Sondaj teklifi veya özel bir uygulama mı lazım? Bir tık uzağınızdayız.</p>
+            
+            <div class="contact-grid">
+                
+                <div class="contact-card whatsapp-card">
+                    <div class="icon"><i class="fa-brands fa-whatsapp"></i></div>
+                    <h3>Hızlı Sohbet</h3>
+                    <p>WhatsApp Hattı</p>
+                    <a href="https://wa.me/32486240642" target="_blank" class="btn-whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i> +32 486 24 06 42
+                    </a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                    <h3>E-posta</h3>
+                    <p>Teklifler & Belgeler İçin</p>
+                    <a href="mailto:info@it-solutions-cakir.be" class="contact-link">info@it-solutions-cakir.be</a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <h3>Merkez Ofis</h3>
+                    <p>Ofisimizi Ziyaret Edin</p>
+                    <span class="contact-text">Kruisstraat 55, 9240 Zele<br>Belçika</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2026 <strong>Cakir IT-Solutions</strong>. Tüm Hakları Saklıdır.</p>
+            <p class="small-text">İşletme Numarası: BE 0637.765.003 | RPR Dendermonde</p>
+        </div>
+    </footer>
+
+</body>
+</html>
