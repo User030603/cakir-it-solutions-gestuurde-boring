@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cakir IT-Solutions | Infrastructure & Logiciels Intelligents</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
+        
+        <input type="checkbox" id="nav-toggle" class="nav-toggle">
+        
+        <label for="nav-toggle" class="hamburger">
+            <i class="fa-solid fa-bars"></i>
+        </label>
+
+        <ul class="nav-links">
+            <label for="nav-toggle" class="close-btn">
+                <i class="fa-solid fa-xmark"></i>
+            </label>
+            
+            <li><a href="#home">Accueil</a></li>
+            <li><a href="#about">À propos</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#projects">Projets</a></li>
+            <li><a href="#contact" class="btn-nav-contact">Contact</a></li>
+
+            <li class="language-wrapper">
+                <a href="index.html" class="lang-link">EN</a>
+                <span>|</span>
+                <a href="index-nl.html" class="lang-link">NL</a>
+                <span>|</span>
+                <a href="index-tr.html" class="lang-link">TR</a>
+                <span>|</span>
+                <a href="index-fr.html" class="lang-link active">FR</a>
+            </li>
+        </ul>
+        
+        <label for="nav-toggle" class="nav-overlay"></label>
+    </nav>
+
+    <header id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="badge">EST. 2018 • ZELE</span>
+            <h1>Des Travaux Publics aux <br> <span class="highlight">Solutions Numériques</span></h1>
+            <p>Nous faisons le pont entre l'infrastructure lourde (Forage Dirigé) et les logiciels modernes. Services informatiques professionnels pour le secteur de la construction et de la logistique.</p>
+            <div class="hero-btns">
+                <a href="#services" class="btn btn-primary">Notre Expertise</a>
+                <a href="#contact" class="btn btn-outline">Démarrer un Projet</a>
+            </div>
+        </div>
+    </header>
+
+    <section id="about" class="section-padding">
+        <div class="container">
+            <h2 class="section-title">Qui Sommes-Nous ?</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>Une Entreprise d'Ingénierie Hybride</h3>
+                    <p>Fondée par <strong>Özcan Çakır</strong>, Cakir IT-Solutions n'est pas une agence de logiciels typique. Nous avons de profondes racines dans le secteur des infrastructures, exécutant des projets complexes de <strong>Forage Horizontal Dirigé</strong> depuis 2018.</p>
+                    <p>En <strong>novembre 2025</strong>, nous avons officiellement lancé notre <strong>Division IT</strong> pour résoudre les problèmes rencontrés sur le terrain. Aujourd'hui, nous développons des applications Android Kotlin sur mesure et des plateformes web pour numériser la logistique et la construction.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-box">
+                        <i class="fa-solid fa-trowel-bricks"></i>
+                        <span>Infrastructure</span>
+                        <p>Expertise en Terrassement & Forage</p>
+                    </div>
+                    <div class="stat-box">
+                        <i class="fa-solid fa-code"></i>
+                        <span>Division IT</span>
+                        <p>Spécialisé dans les Apps de Transport</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services-section section-padding">
+        <div class="container">
+            <h2 class="section-title">Nos Services</h2>
+            <div class="services-grid">
+                
+                <div class="service-card">
+                    <div class="icon"><i class="fa-solid fa-road"></i></div>
+                    <h3>Forage Dirigé</h3>
+                    <p>Forage horizontal dirigé de haute précision pour les câbles télécoms (Fibre) et énergétiques. Nous opérons avec nos propres machines.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>Installations Techniques</h3>
+                    <p>Planification stratégique et installation de poteaux d'éclairage et gestion de câbles pour les garages industriels.</p>
+                </div>
+
+                <div class="service-card highlight-card">
+                    <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
+                    <h3>Logiciels Sur Mesure</h3>
+                    <p>Développement d'<strong>Applications Android Kotlin</strong> et de sites web. Nous créons des systèmes de suivi en temps réel pour optimiser la gestion de flotte.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section-padding bg-light">
+        <div class="container">
+            <h2 class="section-title">Projets Récents</h2>
+            <div class="projects-grid">
+                <div class="project-item">
+                    <div class="project-info">
+                        <h4>App Météo Mobile</h4>
+                        <p>Une solution de suivi GPS en temps réel construite avec Kotlin & Firebase pour l'efficacité logistique. Intégration météo pour les conditions de travail.</p>
+                        <div class="tags">
+                            <span>Kotlin</span><span>Firebase</span><span>Google Maps API</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-item">
+                    <div class="project-info">
+                        <h4>Expansion Fibre Lace Holland bv</h4>
+                        <p>Gestion de 2 km de forage dirigé pour l'expansion du réseau local de fibre optique.</p>
+                        <div class="tags">
+                            <span>Infrastructure</span><span>Forage</span><span>2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title">Contactez-Nous</h2>
+            <p class="contact-subtitle">Besoin d'un devis pour un forage ou une application sur mesure ? Nous sommes à un clic.</p>
+            
+            <div class="contact-grid">
+                
+                <div class="contact-card whatsapp-card">
+                    <div class="icon"><i class="fa-brands fa-whatsapp"></i></div>
+                    <h3>Chat Rapide</h3>
+                    <p>Ligne directe via WhatsApp</p>
+                    <a href="https://wa.me/32486240642" target="_blank" class="btn-whatsapp">
+                        <i class="fa-brands fa-whatsapp"></i> +32 486 24 06 42
+                    </a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="icon"><i class="fa-solid fa-envelope"></i></div>
+                    <h3>Envoyez un Email</h3>
+                    <p>Pour Devis & Documents</p>
+                    <a href="mailto:info@it-solutions-cakir.be" class="contact-link">info@it-solutions-cakir.be</a>
+                </div>
+
+                <div class="contact-card">
+                    <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <h3>Siège Social</h3>
+                    <p>Visitez notre bureau</p>
+                    <span class="contact-text">Kruisstraat 55, 9240 Zele<br>Belgique</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2026 <strong>Cakir IT-Solutions</strong>. Tous Droits Réservés.</p>
+            <p class="small-text">Numéro d'entreprise : BE 0637.765.003 | RPR Dendermonde</p>
+        </div>
+    </footer>
+
+</body>
+</html>
