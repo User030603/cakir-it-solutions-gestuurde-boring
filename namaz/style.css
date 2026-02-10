@@ -1,68 +1,21 @@
-/* Konum başlığı rengi ve stili */
-.location-header { 
-    color: #10b981; 
-    font-size: 20px; 
-    font-weight: bold; 
-    margin-bottom: 15px; 
-    text-align: center;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body { background-color: #0f172a; color: #f8fafc; display: flex; justify-content: center; min-height: 100vh; }
+.mobile-container { width: 100%; max-width: 480px; padding: 20px; background: #0f172a; }
 
-/* Mobil Responsive Sihri: Tabloyu bu kapsayıcı içine hapsettik */
-.table-scroll-container {
-    width: 100%;
-    overflow-x: auto; /* Sağa kaydırma izni verir */
-    -webkit-overflow-scrolling: touch; /* iOS için akıcı kaydırma */
-    margin-bottom: 20px;
-    border-radius: 15px;
-}
+.app-header { text-align: center; margin-bottom: 25px; }
+.app-header h1 { color: #10b981; font-size: 24px; margin-bottom: 5px; }
+.app-header p { color: #94a3b8; font-size: 14px; }
 
-.table-wrapper { 
-    background: #1e293b; 
-    padding: 5px; 
-    min-width: 480px; /* Tablonun çok daralmasını önler ki vakitler okunsun */
-}
+#map-container { height: 200px; border-radius: 20px; overflow: hidden; margin-bottom: 15px; border: 1px solid #334155; }
+#map { height: 100%; width: 100%; }
 
-table { 
-    width: 100%; 
-    border-collapse: collapse; 
-    color: #f8fafc; 
-}
+.btn-geo { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #10b981; background: rgba(16, 185, 129, 0.1); color: #10b981; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
 
-th { 
-    background: #0f172a; 
-    color: #94a3b8; 
-    padding: 12px 8px; 
-    font-size: 11px; 
-    text-transform: uppercase; 
-}
+.selection-card { background: #1e293b; border-radius: 20px; padding: 20px; margin-bottom: 20px; border: 1px solid #334155; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; color: #94a3b8; font-size: 12px; margin-bottom: 8px; text-transform: uppercase; }
+select { width: 100%; padding: 12px; border-radius: 10px; background: #0f172a; border: 1px solid #334155; color: white; font-size: 15px; outline: none; }
 
-td { 
-    padding: 15px 8px; 
-    text-align: center; 
-    border-bottom: 1px solid #334155; 
-    font-size: 14px; 
-}
+.btn-primary { width: 100%; padding: 16px; border-radius: 15px; border: none; background: #10b981; color: white; font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3); }
 
-/* Bugünün satırını vurgula */
-.today-row { 
-    background: rgba(16, 185, 129, 0.25) !important; 
-    color: #10b981 !important; 
-    font-weight: bold;
-}
-
-.today-row td {
-    border-bottom: 2px solid #10b981;
-}
-
-/* Tarih altındaki yıl/gün bilgisi */
-small {
-    display: block;
-    font-size: 10px;
-    opacity: 0.7;
-}
-
-/* Butonun rengini ana sayfayla uyumlu yapalım */
-.back-btn {
-    background: #334155 !important;
-    width: 100%;
-}
+.app-footer { text-align: center; margin-top: 30px; color: #64748b; font-size: 12px; line-height: 1.6; }
