@@ -11,8 +11,7 @@
         table { width: 100%; border-collapse: collapse; color: #f8fafc; min-width: 450px; }
         th { background: #0f172a; color: #94a3b8; padding: 10px; font-size: 11px; text-transform: uppercase; }
         td { padding: 12px; text-align: center; border-bottom: 1px solid #334155; font-size: 14px; }
-        .today-row { background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: bold; }
-        .error-msg { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; padding: 15px; border-radius: 15px; text-align: center; margin: 20px 0; display: none; }
+        .today-row { background: rgba(16, 185, 129, 0.3) !important; color: #10b981; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -23,12 +22,7 @@
         <div id="location-display" class="location-header">Yükleniyor...</div>
     </div>
 
-    <div id="error-box" class="error-msg">
-        ⚠️ Üzgünüz, bu bölge için vakit verisi şu an API tarafından sağlanamıyor. 
-        Lütfen geri dönüp en yakın büyük şehri seçin.
-    </div>
-
-    <div class="table-wrapper" id="table-area">
+    <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
@@ -40,11 +34,12 @@
                     <th>Yatsı</th>
                 </tr>
             </thead>
-            <tbody id="calendar-body"></tbody>
+            <tbody id="calendar-body">
+                </tbody>
         </table>
     </div>
 
-    <button class="btn-primary" style="background:#334155;" onclick="window.location.href='index.html'">⬅ Geri Dön / Bölge Değiştir</button>
+    <button class="btn-primary" style="background:#334155;" onclick="window.location.href='index.html'">⬅ Geri Dön</button>
 </div>
 
 <script>
@@ -55,40 +50,36 @@
     if(locName) document.getElementById('location-display').innerText = "📍 " + locName;
 
     if(id) {
-        // API klasöründen ilgili JSON dosyasını çekmeye çalış
+        // Dosyayı çekiyoruz
         fetch(`api/vakitler/${id}.json`)
             .then(res => {
-                if(!res.ok) throw new Error("Dosya bulunamadı");
+                if(!res.ok) throw new Error(`Dosya bulunamadı: ${id}.json`);
                 return res.json();
             })
             .then(data => {
                 let html = '';
-                const bugun = new Date().toLocaleDateString('tr-TR');
-                const limit = new Date(2026, 2, 11); // 10 Mart 2026 sınırı
+                // Bugünün tarihini gün/ay/yıl formatında al (Örn: 10.02.2026)
+                const now = new Date();
+                const bugun = now.toLocaleDateString('tr-TR', {day: '2-digit', month: '2-digit', year: 'numeric'});
 
                 data.forEach(v => {
-                    const p = v.MiladiTarihKisa.split('.');
-                    const vDate = new Date(p[2], p[1]-1, p[0]);
-
-                    if (vDate < limit) {
-                        const isToday = v.MiladiTarihKisa === bugun ? 'class="today-row"' : '';
-                        html += `<tr ${isToday}>
-                            <td>${v.MiladiTarihKisa.split('.')[0]} ${v.KameriTarihKisa.split(' ')[1]}</td>
-                            <td>${v.Imsak}</td>
-                            <td>${v.Ogle}</td>
-                            <td>${v.Ikindi}</td>
-                            <td>${v.Aksam}</td>
-                            <td>${v.Yatsi}</td>
-                        </tr>`;
-                    }
+                    // JSON'daki tarih ile bugünü kıyasla
+                    const isToday = v.MiladiTarihKisa === bugun ? 'class="today-row"' : '';
+                    
+                    html += `<tr ${isToday}>
+                        <td>${v.MiladiTarihKisa}<br><small>${v.MiladiTarihUzun.split(' ')[2]}</small></td>
+                        <td>${v.Imsak}</td>
+                        <td>${v.Ogle}</td>
+                        <td>${v.Ikindi}</td>
+                        <td>${v.Aksam}</td>
+                        <td>${v.Yatsi}</td>
+                    </tr>`;
                 });
                 document.getElementById('calendar-body').innerHTML = html;
             })
             .catch(err => {
-                // Eğer dosya (vakitler/ID.json) yoksa burası çalışır
-                document.getElementById('table-area').style.display = 'none';
-                document.getElementById('error-box').style.display = 'block';
-                document.getElementById('location-display').innerText = "Veri Bulunamadı";
+                document.getElementById('location-display').innerHTML = 
+                    `<div style="color:#ef4444; font-size:14px;">⚠️ Hata: Veri yüklenemedi!<br>${err.message}</div>`;
             });
     }
 </script>
