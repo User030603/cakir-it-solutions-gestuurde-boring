@@ -5,14 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Namaz Takvimi - Furkan</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .location-header { color: #10b981; font-size: 20px; font-weight: bold; margin-bottom: 15px; }
-        .table-wrapper { background: #1e293b; border-radius: 20px; padding: 5px; overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; color: #f8fafc; min-width: 450px; }
-        th { background: #0f172a; color: #94a3b8; padding: 10px; font-size: 11px; text-transform: uppercase; }
-        td { padding: 12px; text-align: center; border-bottom: 1px solid #334155; font-size: 14px; }
-        .today-row { background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: bold; }
-    </style>
+    <link rel="stylesheet" href="takvim.css">
 </head>
 <body>
 
@@ -23,7 +16,7 @@
     </div>
 
     <div class="table-wrapper">
-        <table>
+        <table id="prayer-table">
             <thead>
                 <tr>
                     <th>Tarih</th>
@@ -34,54 +27,18 @@
                     <th>Yatsı</th>
                 </tr>
             </thead>
-            <tbody id="calendar-body"></tbody>
+            <tbody id="calendar-body">
+                </tbody>
         </table>
     </div>
 
-    <button class="btn-primary" style="background:#334155; margin-top:15px;" onclick="window.history.back()">⬅ Geri Dön</button>
+    <button class="btn-primary back-btn" onclick="window.location.href='index.html'">⬅ Geri Dön</button>
+
+    <footer class="app-footer">
+        © 2026 Cakir IT Solutions
+    </footer>
 </div>
 
-<script>
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    const locName = params.get('name');
-
-    if(locName) document.getElementById('location-display').innerText = "📍 " + locName;
-
-    if(id) {
-        fetch(`api/vakitler/${id}.json`)
-            .then(res => {
-                if(!res.ok) throw new Error("Vakit dosyası bulunamadı!");
-                return res.json();
-            })
-            .then(data => {
-                let html = '';
-                const bugun = new Date().toLocaleDateString('tr-TR');
-                const limit = new Date(2026, 2, 11); // 10 Mart dahil
-
-                data.forEach(v => {
-                    const p = v.MiladiTarihKisa.split('.');
-                    const vDate = new Date(p[2], p[1]-1, p[0]);
-
-                    if (vDate < limit) {
-                        const isToday = v.MiladiTarihKisa === bugun ? 'class="today-row"' : '';
-                        html += `<tr ${isToday}>
-                            <td>${v.MiladiTarihKisa.split('.')[0]} ${v.KameriTarihKisa.split(' ')[1]}</td>
-                            <td>${v.Imsak}</td>
-                            <td>${v.Ogle}</td>
-                            <td>${v.Ikindi}</td>
-                            <td>${v.Aksam}</td>
-                            <td>${v.Yatsi}</td>
-                        </tr>`;
-                    }
-                });
-                document.getElementById('calendar-body').innerHTML = html;
-            })
-            .catch(err => {
-                document.getElementById('location-display').innerHTML = 
-                    `<span style="color:#ef4444">Hata: Bu bölge için vakit dosyası (${id}.json) eksik!</span>`;
-            });
-    }
-</script>
+<script src="takvim.js"></script>
 </body>
 </html>
