@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Namaz Vakti Takvimi</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .table-container { overflow-x: auto; margin-top: 20px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; }
+        th, td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 14px; }
+        th { background: #27ae60; color: white; }
+        tr:nth-child(even) { background: #f9f9f9; }
+        .today { background: #e7f3ff !important; font-weight: bold; border: 2px solid #1877f2; }
+    </style>
+</head>
+<body>
+<div class="main-card" style="max-width: 800px;">
+    <h1>Namaz Takvimi</h1>
+    <p id="location-name">Yükleniyor...</p>
+    
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tarih</th>
+                    <th>İmsak</th>
+                    <th>Güneş</th>
+                    <th>Öğle</th>
+                    <th>İkindi</th>
+                    <th>Akşam</th>
+                    <th>Yatsı</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body">
+                </tbody>
+        </table>
+    </div>
+    <br>
+    <button class="location-btn" onclick="window.history.back()">Geri Dön</button>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const ilceId = urlParams.get('id');
+
+    fetch(`api/vakitler/${ilceId}.json`)
+        .then(res => res.json())
+        .then(data => {
+            let html = '';
+            const today = new Date().toLocaleDateString('tr-TR');
+            
+            // Sadece 10 Mart 2026'ya kadar olanları filtrele
+            data.forEach(vakit => {
+                const vakitTarih = vakit.MiladiTarihKisa; // Format: 10.02.2026
+                const gunParts = vakitTarih.split('.');
+                const vakitDateObj = new Date(gunParts[2], gunParts[1]-1, gunParts[0]);
+                const limitDate = new Date(2026, 2, 11); // 11 Mart'tan öncesi (yani 10 Mart dahil)
+
+                if (vakitDateObj < limitDate) {
+                    let isToday = vakitTarih === today ? 'class="today"' : '';
+                    html += `<tr ${isToday}>
+                        <td>${vakitTarih}</td>
+                        <td>${vakit.Imsak}</td>
+                        <td>${vakit.Gunes}</td>
+                        <td>${vakit.Ogle}</td>
+                        <td>${vakit.Ikindi}</td>
+                        <td>${vakit.Aksam}</td>
+                        <td>${vakit.Yatsi}</td>
+                    </tr>`;
+                }
+            });
+            document.getElementById('calendar-body').innerHTML = html;
+        });
+</script>
+</body>
+</html>
