@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Namaz Takvimi - Furkan</title>
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="takvim.css">
@@ -11,28 +11,34 @@
 
 <div class="mobile-container">
     <div class="app-header">
-        <h1>Namaz Takvimi</h1>
-        <div id="location-display" class="location-header">Yükleniyor...</div>
+        <h1 id="city-title">Namaz Takvimi</h1>
+        <p id="country-subtitle">Yükleniyor...</p>
     </div>
 
-    <div class="table-wrapper">
-        <table id="prayer-table">
-            <thead>
-                <tr>
-                    <th>Tarih</th>
-                    <th>İmsak</th>
-                    <th>Öğle</th>
-                    <th>İkindi</th>
-                    <th>Akşam</th>
-                    <th>Yatsı</th>
-                </tr>
-            </thead>
-            <tbody id="calendar-body">
-                </tbody>
-        </table>
+    <div class="today-card" id="today-info" style="display:none;">
+        <div class="date-main" id="miladi-today">--.--.----</div>
+        <div class="date-sub" id="hicri-today">-- -------- ----</div>
     </div>
 
-    <button class="btn-primary back-btn" onclick="window.location.href='../index.html'">⬅ Geri Dön</button>
+    <div class="table-scroll-area">
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tarih</th>
+                        <th>İmsak</th>
+                        <th>Öğle</th>
+                        <th>İkindi</th>
+                        <th>Akşam</th>
+                        <th>Yatsı</th>
+                    </tr>
+                </thead>
+                <tbody id="calendar-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <button class="btn-primary back-btn" onclick="window.location.href='../index.html'">⬅ Başka Bölge Seç</button>
 
     <footer class="app-footer">
         © 2026 Cakir IT Solutions
