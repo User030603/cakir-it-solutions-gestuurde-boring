@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if(locName) document.getElementById('location-display').innerText = "📍 " + decodeURIComponent(locName);
 
     if(id) {
-        // Bir üst klasördeki api klasörüne gitmek için ../ ekledik
+        // api klasörü bir üstte olduğu için ../api dedik
         fetch(`../api/vakitler/${id}.json`)
             .then(res => {
                 if(!res.ok) throw new Error("Vakit dosyası bulunamadı");
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .catch(err => {
                 document.getElementById('location-display').innerHTML = 
-                    `<div style="color:#ef4444; font-size:14px;">⚠️ Hata: Veri bulunamadı!</div>`;
+                    `<div style="color:#ef4444; font-size:14px;">⚠️ Hata: Veri dosyası bulunamadı!</div>`;
             });
     }
 });
