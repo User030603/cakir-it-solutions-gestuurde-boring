@@ -1,65 +1,74 @@
 let map, marker;
 
 window.onload = function() {
-    // Haritayı Zele merkezli başlat
+    // Başlangıç: Zele
     map = L.map('map').setView([51.06, 4.03], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     marker = L.marker([51.06, 4.03]).addTo(map);
 
-    // Ülkeleri senin api klasöründen çek
+    // Ülkeleri çek
     fetch('api/ulkeler/liste.json')
         .then(res => res.json())
         .then(data => {
-            let html = '<option value="">Ülke Seçin</option>';
-            data.forEach(u => html += `<option value="${u.UlkeID}">${u.UlkeAdi}</option>`);
-            document.getElementById('country').innerHTML = html;
+            const select = document.getElementById('country');
+            data.forEach(u => {
+                let opt = document.createElement('option');
+                opt.value = u.UlkeID;
+                opt.innerText = u.UlkeAdi;
+                select.appendChild(opt);
+            });
         });
 };
 
-// Konum Bul Butonu Fonksiyonu
 function findMyState() {
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            map.setView([lat, lng], 14);
-            marker.setLatLng([lat, lng]);
-            alert("Konumunuz bulundu! Lütfen listeden en yakın bölgeyi seçin.");
-        });
-    } else {
-        alert("Tarayıcınız konum özelliğini desteklemiyor.");
+        navigator.geolocation.getCurrentPosition(pos => {
+            const {latitude, longitude} = pos.coords;
+            map.setView([latitude, longitude], 15);
+            marker.setLatLng([latitude, longitude]);
+        }, () => alert("Konum erişimi reddedildi."));
     }
 }
 
 function loadCities() {
-    let uId = document.getElementById('country').value;
+    const uId = document.getElementById('country').value;
     if(!uId) return;
     fetch(`api/sehirler/${uId}.json`)
         .then(res => res.json())
         .then(data => {
-            let html = '<option value="">Şehir Seçin</option>';
-            data.forEach(s => html += `<option value="${s.SehirID}">${s.SehirAdi}</option>`);
-            document.getElementById('city').innerHTML = html;
-            document.getElementById('district').innerHTML = '<option>Önce Şehir Seçin</option>';
+            const select = document.getElementById('city');
+            select.innerHTML = '<option value="">Şehir Seçiniz...</option>';
+            data.forEach(s => {
+                let opt = document.createElement('option');
+                opt.value = s.SehirID;
+                opt.innerText = s.SehirAdi;
+                select.appendChild(opt);
+            });
         });
 }
 
 function loadDistricts() {
-    let sId = document.getElementById('city').value;
+    const sId = document.getElementById('city').value;
     if(!sId) return;
     fetch(`api/ilceler/${sId}.json`)
         .then(res => res.json())
         .then(data => {
-            let html = '<option value="">İlçe Seçin</option>';
-            data.forEach(i => html += `<option value="${i.IlceID}">${i.IlceAdi}</option>`);
-            document.getElementById('district').innerHTML = html;
+            const select = document.getElementById('district');
+            select.innerHTML = '<option value="">İlçe Seçiniz...</option>';
+            data.forEach(i => {
+                let opt = document.createElement('option');
+                opt.value = i.IlceID;
+                opt.innerText = i.IlceAdi;
+                select.appendChild(opt);
+            });
         });
 }
 
-// İlçe seçilince takvime yönlendir
-document.getElementById('district').onchange = function() {
-    let id = this.value;
-    if(id) {
-        window.location.href = `takvim.html?id=${id}`;
+function goToCalendar() {
+    const id = document.getElementById('district').value;
+    if(!id) {
+        alert("Lütfen bir ilçe seçin!");
+        return;
     }
-};
+    window.location.href = `takvim.html?id=${id}`;
+}
