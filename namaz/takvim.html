@@ -51,13 +51,13 @@
     if(id) {
         fetch(`api/vakitler/${id}.json`)
             .then(res => {
-                if(!res.ok) throw new Error("Vakit dosyası bulunamadı!");
+                if(!res.ok) throw new Error("Vakit verisi bulunamadı");
                 return res.json();
             })
             .then(data => {
                 let html = '';
                 const bugun = new Date().toLocaleDateString('tr-TR');
-                const limit = new Date(2026, 2, 11); // 10 Mart dahil
+                const limit = new Date(2026, 2, 11); 
 
                 data.forEach(v => {
                     const p = v.MiladiTarihKisa.split('.');
@@ -78,8 +78,13 @@
                 document.getElementById('calendar-body').innerHTML = html;
             })
             .catch(err => {
+                // Eğer dosya yoksa (Bolvadin 9170 gibi), bu mesaj görünecek
                 document.getElementById('location-display').innerHTML = 
-                    `<span style="color:#ef4444">Hata: Bu bölge için vakit dosyası (${id}.json) eksik!</span>`;
+                    `<div style="color:#ff4d4d; font-size:14px; margin-top:10px;">
+                        ⚠️ Üzgünüz, bu bölge (${id}) için namaz vakti verisi API tarafından sağlanmıyor.<br>
+                        Lütfen ana sayfaya dönüp en yakın merkezi seçin.
+                    </div>`;
+                console.log("Hata:", err.message);
             });
     }
 </script>
