@@ -1,24 +1,32 @@
 document.addEventListener("DOMContentLoaded", function() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
-    const locName = params.get('name');
+    const name = params.get('name');
 
-    if(locName) document.getElementById('location-display').innerText = "📍 " + decodeURIComponent(locName);
+    if(name) document.getElementById('city-title').innerText = decodeURIComponent(name);
 
     if(id) {
-        // api klasörü bir üstte olduğu için ../api dedik
         fetch(`../api/vakitler/${id}.json`)
             .then(res => {
-                if(!res.ok) throw new Error("Vakit dosyası bulunamadı");
+                if(!res.ok) throw new Error("Dosya bulunamadı");
                 return res.json();
             })
             .then(data => {
+                const todayStr = new Date().toLocaleDateString('tr-TR', {day:'2-digit', month:'2-digit', year:'numeric'});
                 let html = '';
-                const today = new Date().toLocaleDateString('tr-TR', {day:'2-digit', month:'2-digit', year:'numeric'});
 
                 data.forEach(v => {
-                    const isToday = v.MiladiTarihKisa === today ? 'class="today-row"' : '';
-                    html += `<tr ${isToday}>
+                    const isToday = v.MiladiTarihKisa === todayStr;
+                    
+                    // Eğer bugünse üstteki kartı doldur
+                    if(isToday) {
+                        document.getElementById('today-info').style.display = 'block';
+                        document.getElementById('miladi-today').innerText = v.MiladiTarihUzun;
+                        document.getElementById('hicri-today').innerText = v.HicriTarihUzun;
+                    }
+
+                    const rowClass = isToday ? 'class="today-row"' : '';
+                    html += `<tr ${rowClass}>
                         <td>${v.MiladiTarihKisa.substring(0,5)}<br><small>${v.MiladiTarihUzun.split(' ')[2]}</small></td>
                         <td>${v.Imsak}</td>
                         <td>${v.Ogle}</td>
@@ -30,8 +38,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 document.getElementById('calendar-body').innerHTML = html;
             })
             .catch(err => {
-                document.getElementById('location-display').innerHTML = 
-                    `<div style="color:#ef4444; font-size:14px;">⚠️ Hata: Veri dosyası bulunamadı!</div>`;
+                document.getElementById('city-title').innerText = "Hata!";
+                document.getElementById('country-subtitle').innerText = "Vakit dosyası eksik.";
             });
     }
 });
