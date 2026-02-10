@@ -1,28 +1,65 @@
-/* Konum Başlığı */
+/* Genel Sayfa Düzeni */
 .location-header { 
     color: #10b981; 
-    font-size: 20px; 
+    font-size: 22px; 
     font-weight: bold; 
-    margin-bottom: 20px; 
+    margin-bottom: 5px; 
     text-align: center;
 }
 
-/* MOBİL SİHİR: Tabloyu bu kapsayıcıya aldık ki taşmasın */
+#country-subtitle {
+    color: #94a3b8;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* BUGÜNÜN ÖZETİ KARTI (Yeni İstediğin Alan) */
+.today-card {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid #10b981;
+    border-radius: 20px;
+    padding: 15px;
+    text-align: center;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+}
+
+.date-main { 
+    color: #10b981; 
+    font-size: 20px; 
+    font-weight: bold; 
+}
+
+.date-sub { 
+    color: #f8fafc; 
+    font-size: 15px; 
+    margin-top: 5px; 
+    font-style: italic;
+}
+
+/* TABLO ALANI VE MOBİL KAYDIRMA */
+.table-scroll-area {
+    width: 100%;
+    overflow-x: auto; /* Sağa kaydırmayı sağlar */
+    -webkit-overflow-scrolling: touch;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #334155;
+}
+
 .table-wrapper { 
     background: #1e293b; 
-    border-radius: 15px; 
     padding: 5px; 
-    overflow-x: auto; /* Parmağınla yana kaydırmayı sağlar */
-    -webkit-overflow-scrolling: touch; /* iPhone'da akıcı kaydırma */
-    margin-bottom: 25px; 
-    border: 1px solid #334155;
+    min-width: 500px; /* Vakitlerin mobilde büzüşmesini engeller */
 }
 
 table { 
     width: 100%; 
     border-collapse: collapse; 
     color: #f8fafc; 
-    min-width: 500px; /* Tablonun büzüşüp yazıları iç içe geçirmesini önler */
 }
 
 th { 
@@ -30,8 +67,7 @@ th {
     color: #94a3b8; 
     padding: 12px 5px; 
     font-size: 11px; 
-    text-transform: uppercase;
-    text-align: center;
+    text-transform: uppercase; 
 }
 
 td { 
@@ -41,14 +77,18 @@ td {
     font-size: 14px; 
 }
 
-/* Bugünün satırını vurgulama */
+/* Bugünün Satırını Parlat */
 .today-row { 
     background: rgba(16, 185, 129, 0.25) !important; 
     color: #10b981 !important; 
     font-weight: bold;
 }
 
-/* Tarih altındaki gün ismi (Pazartesi vb.) */
+.today-row td {
+    border-bottom: 2px solid #10b981;
+}
+
+/* Tarih Altındaki Küçük Yazı */
 small {
     display: block;
     font-size: 10px;
@@ -60,20 +100,22 @@ small {
 .back-btn {
     background: #334155 !important;
     width: 100%;
-    border-radius: 10px;
-    padding: 12px;
+    border-radius: 12px;
+    padding: 14px;
     color: white;
     border: none;
-    cursor: pointer;
     font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-/* Telefonlar için özel ayar */
+.back-btn:hover {
+    background: #475569 !important;
+}
+
+/* Mobil için yazı boyutlarını dengele */
 @media (max-width: 480px) {
-    .location-header {
-        font-size: 18px;
-    }
-    td {
-        font-size: 13px;
-    }
+    .location-header { font-size: 18px; }
+    .date-main { font-size: 18px; }
+    td { font-size: 13px; }
 }
