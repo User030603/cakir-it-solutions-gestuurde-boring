@@ -6,12 +6,13 @@
     <title>Namaz Takvimi - Furkan</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .location-header { color: #10b981; font-size: 20px; font-weight: bold; margin-bottom: 15px; }
-        .table-wrapper { background: #1e293b; border-radius: 20px; padding: 5px; overflow-x: auto; }
+        .location-header { color: #10b981; font-size: 20px; font-weight: bold; margin-bottom: 15px; text-align: center; }
+        .table-wrapper { background: #1e293b; border-radius: 20px; padding: 5px; overflow-x: auto; margin-bottom: 20px; }
         table { width: 100%; border-collapse: collapse; color: #f8fafc; min-width: 450px; }
         th { background: #0f172a; color: #94a3b8; padding: 10px; font-size: 11px; text-transform: uppercase; }
         td { padding: 12px; text-align: center; border-bottom: 1px solid #334155; font-size: 14px; }
         .today-row { background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: bold; }
+        .error-msg { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; padding: 15px; border-radius: 15px; text-align: center; margin: 20px 0; display: none; }
     </style>
 </head>
 <body>
@@ -22,7 +23,12 @@
         <div id="location-display" class="location-header">Yükleniyor...</div>
     </div>
 
-    <div class="table-wrapper">
+    <div id="error-box" class="error-msg">
+        ⚠️ Üzgünüz, bu bölge için vakit verisi şu an API tarafından sağlanamıyor. 
+        Lütfen geri dönüp en yakın büyük şehri seçin.
+    </div>
+
+    <div class="table-wrapper" id="table-area">
         <table>
             <thead>
                 <tr>
@@ -38,7 +44,7 @@
         </table>
     </div>
 
-    <button class="btn-primary" style="background:#334155; margin-top:15px;" onclick="window.history.back()">⬅ Geri Dön</button>
+    <button class="btn-primary" style="background:#334155;" onclick="window.location.href='index.html'">⬅ Geri Dön / Bölge Değiştir</button>
 </div>
 
 <script>
@@ -49,15 +55,16 @@
     if(locName) document.getElementById('location-display').innerText = "📍 " + locName;
 
     if(id) {
+        // API klasöründen ilgili JSON dosyasını çekmeye çalış
         fetch(`api/vakitler/${id}.json`)
             .then(res => {
-                if(!res.ok) throw new Error("Vakit verisi bulunamadı");
+                if(!res.ok) throw new Error("Dosya bulunamadı");
                 return res.json();
             })
             .then(data => {
                 let html = '';
                 const bugun = new Date().toLocaleDateString('tr-TR');
-                const limit = new Date(2026, 2, 11); 
+                const limit = new Date(2026, 2, 11); // 10 Mart 2026 sınırı
 
                 data.forEach(v => {
                     const p = v.MiladiTarihKisa.split('.');
@@ -78,13 +85,10 @@
                 document.getElementById('calendar-body').innerHTML = html;
             })
             .catch(err => {
-                // Eğer dosya yoksa (Bolvadin 9170 gibi), bu mesaj görünecek
-                document.getElementById('location-display').innerHTML = 
-                    `<div style="color:#ff4d4d; font-size:14px; margin-top:10px;">
-                        ⚠️ Üzgünüz, bu bölge (${id}) için namaz vakti verisi API tarafından sağlanmıyor.<br>
-                        Lütfen ana sayfaya dönüp en yakın merkezi seçin.
-                    </div>`;
-                console.log("Hata:", err.message);
+                // Eğer dosya (vakitler/ID.json) yoksa burası çalışır
+                document.getElementById('table-area').style.display = 'none';
+                document.getElementById('error-box').style.display = 'block';
+                document.getElementById('location-display').innerText = "Veri Bulunamadı";
             });
     }
 </script>
