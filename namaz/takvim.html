@@ -3,50 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>10 Mart Takvimi - Furkan Namaz Vakitleri</title>
+    <title>Namaz Takvimi - Furkan</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .table-wrapper {
-            background: #1e293b;
-            border-radius: 20px;
-            padding: 10px;
-            overflow-x: auto; /* Mobilde tablonun kaymasını sağlar */
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            color: #f8fafc;
-            min-width: 500px; /* Tablonun çok daralmasını önler */
-        }
-        th {
-            background: #0f172a;
-            color: #10b981;
-            padding: 12px;
-            font-size: 13px;
-            text-transform: uppercase;
-        }
-        td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #334155;
-            font-size: 15px;
-        }
-        .today-row {
-            background: rgba(16, 185, 129, 0.15);
-            color: #10b981;
-            font-weight: bold;
-        }
-        .back-btn {
-            background: #334155;
-            margin-top: 20px;
-        }
+        .location-header { color: #10b981; font-size: 20px; font-weight: bold; margin-bottom: 15px; }
+        .table-wrapper { background: #1e293b; border-radius: 20px; padding: 5px; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; color: #f8fafc; min-width: 450px; }
+        th { background: #0f172a; color: #94a3b8; padding: 10px; font-size: 11px; text-transform: uppercase; }
+        td { padding: 12px; text-align: center; border-bottom: 1px solid #334155; font-size: 14px; }
+        .today-row { background: rgba(16, 185, 129, 0.2); color: #10b981; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="mobile-container" style="max-width: 800px;"> <div class="app-header">
-        <h1>10 Mart'a Kadar Vakitler</h1>
-        <p>Seçilen bölge için namaz takvimi</p>
+<div class="mobile-container">
+    <div class="app-header">
+        <h1>Namaz Takvimi</h1>
+        <div id="location-display" class="location-header">Yükleniyor...</div>
     </div>
 
     <div class="table-wrapper">
@@ -61,45 +34,43 @@
                     <th>Yatsı</th>
                 </tr>
             </thead>
-            <tbody id="calendar-body">
-                </tbody>
+            <tbody id="calendar-body"></tbody>
         </table>
     </div>
 
-    <button class="btn-primary back-btn" onclick="window.history.back()">⬅ Başka Bölge Seç</button>
-
-    <footer class="app-footer">
-        © 2026 Cakir IT Solutions | Geliştirici: <strong>Furkan</strong>
-    </footer>
+    <button class="btn-primary" style="background:#334155; margin-top:15px;" onclick="window.history.back()">⬅ Geri Dön</button>
 </div>
 
 <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const ilceId = urlParams.get('id');
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const locName = params.get('name');
 
-    if(ilceId) {
-        fetch(`api/vakitler/${ilceId}.json`)
+    // İsmi hemen ekrana yaz
+    if(locName) document.getElementById('location-display').innerText = "📍 " + locName;
+
+    if(id) {
+        fetch(`api/vakitler/${id}.json`)
             .then(res => res.json())
             .then(data => {
                 let html = '';
-                const today = new Date().toLocaleDateString('tr-TR');
-                
-                data.forEach(v => {
-                    const gunParts = v.MiladiTarihKisa.split('.');
-                    const vakitDate = new Date(gunParts[2], gunParts[1]-1, gunParts[0]);
-                    const limitDate = new Date(2026, 2, 11); // 11 Mart'tan öncesi
+                const bugun = new Date().toLocaleDateString('tr-TR');
+                const limit = new Date(2026, 2, 11); // 10 Mart dahil
 
-                    if (vakitDate < limitDate) {
-                        const isToday = v.MiladiTarihKisa === today ? 'class="today-row"' : '';
-                        html += `
-                            <tr ${isToday}>
-                                <td>${v.MiladiTarihKisa.split('.')[0]} ${v.KameriTarihKisa.split(' ')[1]}</td>
-                                <td>${v.Imsak}</td>
-                                <td>${v.Ogle}</td>
-                                <td>${v.Ikindi}</td>
-                                <td>${v.Aksam}</td>
-                                <td>${v.Yatsi}</td>
-                            </tr>`;
+                data.forEach(v => {
+                    const p = v.MiladiTarihKisa.split('.');
+                    const vDate = new Date(p[2], p[1]-1, p[0]);
+
+                    if (vDate < limit) {
+                        const isToday = v.MiladiTarihKisa === bugun ? 'class="today-row"' : '';
+                        html += `<tr ${isToday}>
+                            <td>${v.MiladiTarihKisa.split('.')[0]} ${v.KameriTarihKisa.split(' ')[1]}</td>
+                            <td>${v.Imsak}</td>
+                            <td>${v.Ogle}</td>
+                            <td>${v.Ikindi}</td>
+                            <td>${v.Aksam}</td>
+                            <td>${v.Yatsi}</td>
+                        </tr>`;
                     }
                 });
                 document.getElementById('calendar-body').innerHTML = html;
