@@ -2,43 +2,54 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Furkan Namaz Vakitleri</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
 
-<div class="main-card">
-    <div class="header">
+<div class="mobile-container">
+    <div class="app-header">
         <h1>Furkan Namaz Vakitleri</h1>
-        <p>Konumunuzu seçin veya haritadan bulun</p>
+        <p>Huzurla, vaktinde ibadet.</p>
     </div>
 
-    <div id="map" style="height: 200px; border-radius: 15px; margin-bottom: 20px;"></div>
-
-    <button class="location-btn" onclick="findMyState()">📍 Konumumu Bul</button>
-
-    <div class="divider">veya manuel seçin</div>
-
-    <div class="select-group">
-        <label>Ülke</label>
-        <select id="country" onchange="loadCities()"><option value="">Seçiniz...</option></select>
+    <div id="map-container">
+        <div id="map"></div>
     </div>
 
-    <div class="select-group">
-        <label>Şehir</label>
-        <select id="city" onchange="loadDistricts()"><option value="">Önce Ülke Seçin</option></select>
+    <div class="action-buttons">
+        <button class="btn-geo" onclick="findMyState()">📍 Konumumu Bul</button>
     </div>
 
-    <div class="select-group">
-        <label>İlçe</label>
-        <select id="district"><option value="">Önce Şehir Seçin</option></select>
+    <div class="selection-card">
+        <div class="form-group">
+            <label>Ülke</label>
+            <select id="country" onchange="loadCities()">
+                <option value="">Ülke Seçiniz...</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Şehir</label>
+            <select id="city" onchange="loadDistricts()">
+                <option value="">Şehir Seçiniz...</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>İlçe</label>
+            <select id="district">
+                <option value="">İlçe Seçiniz...</option>
+            </select>
+        </div>
     </div>
 
-    <div class="footer">
-        © 2026 Cakir IT Solutions | Geliştirici: <span class="dev-name">Furkan</span>
-    </div>
+    <button class="btn-primary" onclick="goToCalendar()">🕌 Namaz Vakitlerini Göster</button>
+
+    <footer class="app-footer">
+        <p>© 2026 Cakir IT Solutions</p>
+        <p>Geliştirici: <strong>Furkan</strong></p>
+    </footer>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
