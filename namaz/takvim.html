@@ -46,12 +46,14 @@
     const id = params.get('id');
     const locName = params.get('name');
 
-    // İsmi hemen ekrana yaz
     if(locName) document.getElementById('location-display').innerText = "📍 " + locName;
 
     if(id) {
         fetch(`api/vakitler/${id}.json`)
-            .then(res => res.json())
+            .then(res => {
+                if(!res.ok) throw new Error("Vakit dosyası bulunamadı!");
+                return res.json();
+            })
             .then(data => {
                 let html = '';
                 const bugun = new Date().toLocaleDateString('tr-TR');
@@ -74,6 +76,10 @@
                     }
                 });
                 document.getElementById('calendar-body').innerHTML = html;
+            })
+            .catch(err => {
+                document.getElementById('location-display').innerHTML = 
+                    `<span style="color:#ef4444">Hata: Bu bölge için vakit dosyası (${id}.json) eksik!</span>`;
             });
     }
 </script>
