@@ -1,24 +1,28 @@
 let map, marker;
 
 window.onload = function() {
-    // Haritayı başlat
+    // Haritayı başlat (Zele merkezli)
     map = L.map('map').setView([51.06, 4.03], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     marker = L.marker([51.06, 4.03]).addTo(map);
 
     // Ülkeleri yükle
     fetch('api/ulkeler/liste.json')
-        .then(res => res.json())
+        .then(res => {
+            if (!res.ok) throw new Error("Dosya bulunamadı");
+            return res.json();
+        })
         .then(data => {
             const select = document.getElementById('country');
             select.innerHTML = '<option value="">Ülke Seçiniz...</option>';
             data.forEach(u => {
-                let opt = document.createElement('option');
-                opt.value = u.UlkeID;
-                opt.innerText = u.UlkeAdi;
-                select.appendChild(opt);
+                addOption(select, u.UlkeID, u.UlkeAdi);
             });
-        }).catch(err => console.error("Ülke listesi yüklenemedi:", err));
+        })
+        .catch(err => {
+            console.error("Ülke listesi yüklenemedi:", err);
+            alert("Hata: Ülke listesi yüklenemedi. Lütfen 'api' klasörünü kontrol edin.");
+        });
 };
 
 function findMyState() {
@@ -27,7 +31,7 @@ function findMyState() {
             const {latitude, longitude} = pos.coords;
             map.setView([latitude, longitude], 15);
             marker.setLatLng([latitude, longitude]);
-            alert("Konumunuz işaretlendi. En yakın bölgeyi listeden seçip devam edebilirsiniz.");
+            alert("Konumunuz işaretlendi. Şimdi listeden Ülke ve Şehir seçerek devam edebilirsiniz.");
         }, () => alert("Konum izni verilmedi."));
     }
 }
@@ -38,9 +42,11 @@ async function loadCities() {
 
     const select = document.getElementById('city');
     select.innerHTML = '<option value="">Şehir Seçiniz...</option>';
+    document.getElementById('district').innerHTML = '<option value="">İlçe Seçiniz...</option>';
 
     try {
         const res = await fetch(`api/sehirler/${uId}.json`);
+        if (!res.ok) throw new Error("Şehir dosyası yok");
         const data = await res.json();
         
         if (!data || data.length === 0) {
@@ -49,15 +55,15 @@ async function loadCities() {
             data.forEach(s => addOption(select, s.SehirID, s.SehirAdi));
         }
     } catch (e) {
-        // Android mantığı: Şehir yoksa ülkeyi kullan
+        // Fallback: Şehir yoksa ülke ID'sini şehir gibi kullan (Android mantığı)
         addOption(select, uId, "Genel Merkez");
     }
-    document.getElementById('district').innerHTML = '<option value="">İlçe Seçiniz...</option>';
 }
 
 async function loadDistricts() {
     const sId = document.getElementById('city').value;
     const sName = document.getElementById('city').options[document.getElementById('city').selectedIndex].text;
+    
     if(!sId || sName.includes("Seçiniz")) return;
 
     const select = document.getElementById('district');
@@ -65,20 +71,21 @@ async function loadDistricts() {
 
     try {
         const res = await fetch(`api/ilceler/${sId}.json`);
-        if (!res.ok) throw new Error(); // Dosya yoksa hataya düşür
+        // AFYON (502) DURUMU: Dosya bulunamazsa hataya düş ve şehri kullan
+        if (!res.ok) throw new Error("İlçe dosyası yok");
         const data = await res.json();
 
         if (!data || data.length === 0) {
             addOption(select, sId, sName + " (Merkez)");
         } else {
             data.forEach(i => addOption(select, i.IlceID, i.IlceAdi));
-            // Eğer liste varsa ama 'MERKEZ' yoksa manuel ekle
-            if(!data.find(d => d.IlceAdi.includes("MERKEZ"))) {
+            // Eğer liste var ama Merkez yoksa, manuel ekle
+            if(!data.find(d => d.IlceAdi.toUpperCase().includes("MERKEZ"))) {
                 addOption(select, sId, "MERKEZ");
             }
         }
     } catch (e) {
-        // AFYON ÖRNEĞİ: Dosya yoksa veya hata varsa şehri ilçe gibi kullan
+        // Hata durumunda (Örn: 502.json yoksa) şehri ilçe gibi kullandır
         addOption(select, sId, sName + " (Merkez)");
     }
 }
@@ -94,15 +101,22 @@ function goToCalendar() {
     const dSelect = document.getElementById('district');
     const cSelect = document.getElementById('city');
     
-    // Android mantığı: İlçe ID varsa al, yoksa Şehir ID al
-    const finalId = (dSelect.value && dSelect.value !== "") ? dSelect.value : cSelect.value;
-    const finalName = (dSelect.value && !dSelect.options[dSelect.selectedIndex].text.includes("Seçiniz")) 
-                      ? dSelect.options[dSelect.selectedIndex].text 
-                      : cSelect.options[cSelect.selectedIndex].text;
+    // Değerleri alırken boşluk kontrolü yap
+    const dVal = dSelect.value;
+    const cVal = cSelect.value;
+    
+    // İlçe ID varsa al, yoksa Şehir ID al (Android findLocationId stratejisi)
+    const finalId = (dVal && dVal !== "" && !dSelect.options[dSelect.selectedIndex].text.includes("Seçiniz")) ? dVal : cVal;
+    
+    const dText = dSelect.options[dSelect.selectedIndex]?.text;
+    const cText = cSelect.options[cSelect.selectedIndex]?.text;
+    
+    const finalName = (dVal && dVal !== "" && !dText.includes("Seçiniz")) ? dText : cText;
 
     if(!finalId || finalName.includes("Seçiniz")) {
         alert("Lütfen bir bölge seçin abicim!");
         return;
     }
+    
     window.location.href = `takvim.html?id=${finalId}&name=${encodeURIComponent(finalName)}`;
 }
