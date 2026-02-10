@@ -21,7 +21,6 @@ window.onload = function() {
         })
         .catch(err => {
             console.error("Ülke listesi yüklenemedi:", err);
-            alert("Hata: Ülke listesi yüklenemedi. Lütfen 'api' klasörünü kontrol edin.");
         });
 };
 
@@ -55,7 +54,6 @@ async function loadCities() {
             data.forEach(s => addOption(select, s.SehirID, s.SehirAdi));
         }
     } catch (e) {
-        // Fallback: Şehir yoksa ülke ID'sini şehir gibi kullan (Android mantığı)
         addOption(select, uId, "Genel Merkez");
     }
 }
@@ -71,7 +69,6 @@ async function loadDistricts() {
 
     try {
         const res = await fetch(`api/ilceler/${sId}.json`);
-        // AFYON (502) DURUMU: Dosya bulunamazsa hataya düş ve şehri kullan
         if (!res.ok) throw new Error("İlçe dosyası yok");
         const data = await res.json();
 
@@ -79,13 +76,11 @@ async function loadDistricts() {
             addOption(select, sId, sName + " (Merkez)");
         } else {
             data.forEach(i => addOption(select, i.IlceID, i.IlceAdi));
-            // Eğer liste var ama Merkez yoksa, manuel ekle
             if(!data.find(d => d.IlceAdi.toUpperCase().includes("MERKEZ"))) {
                 addOption(select, sId, "MERKEZ");
             }
         }
     } catch (e) {
-        // Hata durumunda (Örn: 502.json yoksa) şehri ilçe gibi kullandır
         addOption(select, sId, sName + " (Merkez)");
     }
 }
@@ -101,11 +96,10 @@ function goToCalendar() {
     const dSelect = document.getElementById('district');
     const cSelect = document.getElementById('city');
     
-    // Değerleri alırken boşluk kontrolü yap
     const dVal = dSelect.value;
     const cVal = cSelect.value;
     
-    // İlçe ID varsa al, yoksa Şehir ID al (Android findLocationId stratejisi)
+    // İlçe ID varsa al, yoksa Şehir ID al
     const finalId = (dVal && dVal !== "" && !dSelect.options[dSelect.selectedIndex].text.includes("Seçiniz")) ? dVal : cVal;
     
     const dText = dSelect.options[dSelect.selectedIndex]?.text;
@@ -118,5 +112,6 @@ function goToCalendar() {
         return;
     }
     
-    window.location.href = `takvim.html?id=${finalId}&name=${encodeURIComponent(finalName)}`;
+    // BURASI DEĞİŞTİ: Artık takvim klasöründeki index.html'e gidiyor
+    window.location.href = `takvim/?id=${finalId}&name=${encodeURIComponent(finalName)}`;
 }
