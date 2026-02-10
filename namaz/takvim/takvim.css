@@ -1,0 +1,86 @@
+/* Takvim Sayfasına Özel Stil */
+
+.location-header { 
+    color: #10b981; 
+    font-size: 22px; 
+    font-weight: bold; 
+    margin-bottom: 20px; 
+    text-align: center;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.table-wrapper { 
+    background: #1e293b; 
+    border-radius: 20px; 
+    padding: 10px; 
+    overflow-x: auto; /* Mobilde tablonun taşmasını önler, kaydırılabilir yapar */
+    margin-bottom: 25px; 
+    border: 1px solid #334155;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    color: #f8fafc; 
+    min-width: 500px; /* Tablo çok sıkışmasın diye minimum genişlik */
+}
+
+th { 
+    background: #0f172a; 
+    color: #94a3b8; 
+    padding: 15px 10px; 
+    font-size: 12px; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    border-radius: 8px;
+}
+
+td { 
+    padding: 15px 10px; 
+    text-align: center; 
+    border-bottom: 1px solid #334155; 
+    font-size: 15px; 
+}
+
+/* Bugünün satırını parlat */
+.today-row { 
+    background: rgba(16, 185, 129, 0.2) !important; 
+    color: #10b981 !important; 
+    font-weight: bold;
+    position: relative;
+}
+
+.today-row td {
+    border-bottom: 2px solid #10b981;
+}
+
+/* Tarih altındaki gün ismi (Küçük yazı) */
+small {
+    display: block;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+/* Geri Dön Butonu Özelleştirme */
+.back-btn {
+    background: #334155 !important;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.back-btn:hover {
+    background: #475569 !important;
+}
+
+/* Mobil için yazı boyutlarını biraz küçültelim */
+@media (max-width: 480px) {
+    td {
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+    .location-header {
+        font-size: 18px;
+    }
+}
