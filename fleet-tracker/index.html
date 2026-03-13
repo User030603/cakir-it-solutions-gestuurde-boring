@@ -2,78 +2,96 @@
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Cakir Logistics - Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cakir Logistics | Fleet Dashboard</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        body { margin: 0; font-family: sans-serif; }
-        #map { height: 100vh; width: 100%; }
-        .admin-panel { position: absolute; top: 10px; left: 50px; z-index: 1000; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        #map { height: 100vh; width: 100%; z-index: 1; }
+        
+        .overlay-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            width: 280px;
+            border-left: 5px solid #0056b3;
+        }
+
+        h2 { margin: 0 0 5px 0; color: #333; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; }
+        .status-text { color: #666; font-size: 12px; margin-bottom: 15px; }
+        .driver-card {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #eee;
+        }
+        .driver-name { font-weight: bold; color: #0056b3; display: block; }
+        .driver-status { font-size: 11px; background: #e2e3e5; padding: 2px 6px; border-radius: 4px; }
     </style>
 </head>
 <body>
 
-    <div class="admin-panel">
-        <h2>🚚 Cakir Dashboard</h2>
-        <p>Live vlootoverzicht</p>
-        <div id="driver-list">Laden van chauffeurs...</div>
+    <div class="overlay-panel">
+        <h2>Fleet Control</h2>
+        <div class="status-text">Live tracking verbonden</div>
+        <div id="driver-list">Zoeken naar actieve voertuigen...</div>
     </div>
 
     <div id="map"></div>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-        // JOUW Firebase configuratie (Kopieer dit uit je Firebase Console)
         const firebaseConfig = {
-            apiKey: "JOUW_API_KEY",
+            apiKey: "JOUW_KEY",
             authDomain: "cakir-logistics-tracker.firebaseapp.com",
             databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
             projectId: "cakir-logistics-tracker",
             storageBucket: "cakir-logistics-tracker.appspot.com",
-            messagingSenderId: "JOUW_ID",
             appId: "JOUW_APP_ID"
         };
 
-        // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Initialize Leaflet Map op Zele HQ
-        var map = L.map('map').setView([51.0654, 4.0289], 13);
+        // Kaart centreren op regio Zele
+        const map = L.map('map').setView([51.0654, 4.0289], 12);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        // Bijhouden van markers per chauffeur
         const markers = {};
 
-        // Luister naar LIVE updates in de 'tracking' node
-        const trackingRef = ref(db, 'tracking');
-        onValue(trackingRef, (snapshot) => {
+        // Haal tracking data op
+        onValue(ref(db, 'tracking'), (snapshot) => {
             const data = snapshot.val();
-            const driverListDiv = document.getElementById('driver-list');
-            driverListDiv.innerHTML = "";
+            const list = document.getElementById('driver-list');
+            list.innerHTML = "";
 
-            for (let uid in data) {
-                if (uid === "1" || uid === "Gast_User") continue; // Filter test-data
+            for (let id in data) {
+                if (id === "1" || id === "Gast_User") continue;
 
-                const pos = data[uid];
-                const lat = pos.latitude;
-                const lon = pos.longitude;
-
-                // Update of maak marker
-                if (markers[uid]) {
-                    markers[uid].setLatLng([lat, lon]);
-                } else {
-                    markers[uid] = L.marker([lat, lon]).addTo(map)
-                        .bindPopup(`Chauffeur: ${uid}`);
-                }
+                const { latitude, longitude } = data[id];
                 
-                driverListDiv.innerHTML += `<div>📍 Chauffeur actief op kaart</div>`;
+                if (markers[id]) {
+                    markers[id].setLatLng([latitude, longitude]);
+                } else {
+                    markers[id] = L.marker([latitude, longitude]).addTo(map).bindPopup(`ID: ${id}`);
+                }
+
+                list.innerHTML += `
+                    <div class="driver-card">
+                        <span class="driver-name">Voertuig: ${id.substring(0,6)}</span>
+                        <span class="driver-status">Actief</span>
+                    </div>`;
             }
         });
     </script>
-
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </body>
 </html>
