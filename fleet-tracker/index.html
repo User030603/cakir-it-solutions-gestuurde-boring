@@ -3,66 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fleet Command Center | Cakir</title>
+    <title>Cakir Logistics | Ultimate Command Center</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        :root { --primary: #0056b3; --danger: #dc3545; --success: #28a745; --warning: #ffc107; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Inter', 'Segoe UI', sans-serif; background: #f4f7f9; }
+        :root { --primary: #002d5b; --accent: #0056b3; --sos: #ff0000; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; }
         #map { height: 100vh; width: 100%; z-index: 1; }
         
+        /* Sidebar Styling */
         .admin-sidebar {
             position: absolute; top: 0; left: 0; z-index: 1000;
-            width: 350px; height: 100vh; background: white;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.1); display: flex; flex-direction: column;
+            width: 360px; height: 100vh; background: white;
+            box-shadow: 5px 0 20px rgba(0,0,0,0.15); display: flex; flex-direction: column;
         }
 
-        .header { padding: 25px; background: var(--primary); color: white; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 20px; background: #f8f9fa; }
-        .stat-box { padding: 10px; background: white; border-radius: 8px; text-align: center; border: 1px solid #eee; }
-        .stat-val { font-size: 20px; font-weight: bold; color: var(--primary); display: block; }
-        .stat-label { font-size: 11px; color: #888; text-transform: uppercase; }
+        .header { padding: 25px; background: var(--primary); color: white; text-align: center; }
+        .stats-bar { display: flex; justify-content: space-around; padding: 15px; background: #e9ecef; border-bottom: 1px solid #dee2e6; }
+        .stat-item { text-align: center; }
+        .stat-num { display: block; font-size: 18px; font-weight: bold; color: var(--primary); }
+        .stat-lbl { font-size: 10px; text-transform: uppercase; color: #666; }
 
-        .driver-list-container { flex: 1; overflow-y: auto; padding: 20px; }
-        .driver-item {
-            background: white; padding: 15px; border-radius: 10px;
-            margin-bottom: 15px; border: 1px solid #eef2f7; cursor: pointer;
-            transition: all 0.3s ease; position: relative;
+        .driver-list { flex: 1; overflow-y: auto; padding: 15px; }
+        .driver-card {
+            background: #fff; padding: 15px; border-radius: 12px;
+            margin-bottom: 15px; border: 1px solid #eee; cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .driver-item:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-color: var(--primary); }
-        
-        .name-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
-        .driver-name { font-weight: 700; font-size: 15px; color: #2c3e50; }
-        
-        .badge { font-size: 9px; padding: 4px 8px; border-radius: 20px; font-weight: 800; color: white; }
-        .bg-start { background: var(--success); }
-        .bg-pauze { background: var(--warning); color: #333; }
-        .bg-sos { background: var(--danger); animation: pulse 1.5s infinite; }
-        
-        .meta-info { font-size: 12px; color: #7f8c8d; display: flex; align-items: center; gap: 5px; margin-top: 4px; }
-        
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); } 100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); } }
+        .driver-card:hover { border-color: var(--accent); background: #f8faff; transform: translateX(5px); }
+        .driver-card.active-focus { border-left: 5px solid var(--accent); background: #f0f7ff; }
+
+        /* Status Badges */
+        .badge { float: right; font-size: 10px; padding: 4px 10px; border-radius: 50px; color: white; font-weight: bold; }
+        .status-start_rit { background: #28a745; }
+        .status-pauze { background: #ffc107; color: #333; }
+        .status-sos { background: var(--sos); animation: blink 0.8s infinite; }
+
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; font-size: 12px; }
+        .info-label { color: #888; display: block; }
+        .info-value { font-weight: 600; color: #333; }
     </style>
 </head>
 <body>
 
     <div class="admin-sidebar">
         <div class="header">
-            <h1 style="margin:0; font-size: 22px;">Control Center</h1>
-            <div style="font-size: 12px; opacity: 0.8;">Live Vloot Management</div>
+            <h2 style="margin:0;">Fleet Command</h2>
+            <div style="font-size: 11px; opacity: 0.7;">CAKIR IT SOLUTIONS LOGISTICS</div>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-box">
-                <span class="stat-val" id="count-total">0</span>
-                <span class="stat-label">Voertuigen</span>
-            </div>
-            <div class="stat-box">
-                <span class="stat-val" id="count-active" style="color: var(--success);">0</span>
-                <span class="stat-label">In Rit</span>
-            </div>
+        <div class="stats-bar">
+            <div class="stat-item"><span class="stat-num" id="total-v">0</span><span class="stat-lbl">Totaal</span></div>
+            <div class="stat-item"><span class="stat-num" id="active-v" style="color: #28a745;">0</span><span class="stat-lbl">Rijdend</span></div>
+            <div class="stat-item"><span class="stat-num" id="sos-v" style="color: red;">0</span><span class="stat-lbl">SOS</span></div>
         </div>
 
-        <div class="driver-list-container" id="driver-list">
+        <div class="driver-list" id="list">
             </div>
     </div>
 
@@ -75,71 +72,91 @@
 
         const firebaseConfig = {
             apiKey: "JOUW_KEY",
-            authDomain: "cakir-logistics-tracker.firebaseapp.com",
             databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
             projectId: "cakir-logistics-tracker"
         };
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        
         const map = L.map('map', { zoomControl: false }).setView([51.0654, 4.0289], 10);
-        L.control.zoom({ position: 'bottomright' }).addTo(map);
-        
-        // Meerdere kaartlagen voor een pro look
-        const streetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-        const markers = {};
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        window.focusOnDriver = (lat, lon, id) => {
-            map.flyTo([lat, lon], 16);
+        const markers = {};
+        const routes = {}; // Hier slaan we de stippellijnen op
+
+        // GLOBALE FOCUS FUNCTIE
+        window.inspectDriver = (lat, lon, id) => {
+            map.flyTo([lat, lon], 16, { duration: 1.5 });
             if(markers[id]) markers[id].openPopup();
+            
+            // Highlight de kaart in de lijst
+            document.querySelectorAll('.driver-card').forEach(c => c.classList.remove('active-focus'));
+            event.currentTarget.classList.add('active-focus');
         };
 
-        function calculateTime(ts) {
+        function formatDuration(ts) {
             if(!ts) return "0m";
-            const mins = Math.floor((Date.now() - ts) / 60000);
-            return mins < 60 ? mins + "m" : Math.floor(mins/60) + "u " + (mins%60) + "m";
+            const diff = Math.floor((Date.now() - ts) / 60000);
+            return diff < 60 ? diff + "m" : Math.floor(diff/60) + "u " + (diff%60) + "m";
         }
 
         onValue(ref(db, '/'), (snapshot) => {
             const data = snapshot.val() || {};
             const tracking = data.tracking || {};
             const meldingen = data.meldingen || {};
+            const listContainer = document.getElementById('list');
             
-            const list = document.getElementById('driver-list');
-            list.innerHTML = "";
-            
-            let total = 0; let active = 0;
+            let countT = 0, countA = 0, countS = 0;
+            listContainer.innerHTML = "";
 
             for (let id in tracking) {
                 if (id === "1" || id === "Gast_User") continue;
-                total++;
-                
+                countT++;
+
                 const loc = tracking[id];
-                const info = meldingen[id] || { naam: "Onbekend", status: "OFFLINE", timestamp: Date.now() };
-                if(info.status === "START_RIT") active++;
+                const info = meldingen[id] || { naam: "Chauffeur", status: "ONLINE", timestamp: Date.now() };
+                
+                if(info.status === "START_RIT") countA++;
+                if(info.status === "SOS") countS++;
 
-                const statusColor = info.status.toLowerCase().includes("sos") ? "bg-sos" : (info.status === "START_RIT" ? "bg-start" : "bg-pauze");
-
-                // Marker met aangepast icoon logica
+                // 1. UPDATE MARKER
                 if (markers[id]) {
                     markers[id].setLatLng([loc.latitude, loc.longitude]);
                 } else {
                     markers[id] = L.marker([loc.latitude, loc.longitude]).addTo(map).bindPopup(`<b>${info.naam}</b>`);
                 }
 
-                list.innerHTML += `
-                    <div class="driver-item" onclick="focusOnDriver(${loc.latitude}, ${loc.longitude}, '${id}')">
-                        <div class="name-row">
-                            <span class="driver-name">${info.naam}</span>
-                            <span class="badge ${statusColor}">${info.status}</span>
+                // 2. UPDATE ROUTE STIPPELLIJN (Gemaakte afstand)
+                if (!routes[id]) {
+                    routes[id] = L.polyline([], {
+                        color: '#0056b3',
+                        dashArray: '10, 10', // Dit maakt de stippellijn
+                        weight: 3,
+                        opacity: 0.6
+                    }).addTo(map);
+                }
+                routes[id].addLatLng([loc.latitude, loc.longitude]);
+
+                // 3. UI CARD BOUWEN
+                const startTime = new Date(info.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                const statusClass = "status-" + info.status.toLowerCase();
+
+                listContainer.innerHTML += `
+                    <div class="driver-card" onclick="inspectDriver(${loc.latitude}, ${loc.longitude}, '${id}')">
+                        <span class="badge ${statusClass}">${info.status}</span>
+                        <div class="driver-name">${info.naam}</div>
+                        
+                        <div class="info-grid">
+                            <div><span class="info-label">Starttijd</span><span class="info-value">${startTime}</span></div>
+                            <div><span class="info-label">Duur</span><span class="info-value">${formatDuration(info.timestamp)}</span></div>
+                            <div><span class="info-label">Latitude</span><span class="info-value">${loc.latitude.toFixed(4)}</span></div>
+                            <div><span class="info-label">Longitude</span><span class="info-value">${loc.longitude.toFixed(4)}</span></div>
                         </div>
-                        <div class="meta-info">📍 ${loc.latitude.toFixed(3)}, ${loc.longitude.toFixed(3)}</div>
-                        <div class="meta-info">⏱️ Bezig: <b>${calculateTime(info.timestamp)}</b></div>
                     </div>`;
             }
-            document.getElementById('count-total').innerText = total;
-            document.getElementById('count-active').innerText = active;
+            document.getElementById('total-v').innerText = countT;
+            document.getElementById('active-v').innerText = countA;
+            document.getElementById('sos-v').innerText = countS;
         });
     </script>
 </body>
