@@ -1,139 +1,106 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cakir Logistics | Live Fleet Control</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cakir Logistics | Ultimate Control Center</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"/>
 
-<style>
-  :root {
-    --bg: #0b0f1a; --panel: #111827; --panel2: #1a2235; --border: #1e2d45;
-    --accent: #00d4ff; --accent2: #0099bb; --green: #00e676; --yellow: #ffea00;
-    --red: #ff4444; --text: #e2e8f0; --muted: #64748b; --sidebar: 360px;
-  }
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; }
+    <style>
+        :root {
+            --bg: #0b0f1a; --panel: #111827; --border: #1e2d45;
+            --accent: #00d4ff; --green: #00e676; --red: #ff4444; --text: #e2e8f0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; }
 
-  /* ===== SIDEBAR ===== */
-  #sidebar {
-    width: var(--sidebar); min-width: var(--sidebar); height: 100vh;
-    background: var(--panel); border-right: 1px solid var(--border);
-    display: flex; flex-direction: column; z-index: 1000; position: relative;
-    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
-  }
+        /* SIDEBAR */
+        #sidebar { width: 380px; min-width: 380px; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; z-index: 1000; }
+        .brand { padding: 24px 20px; background: linear-gradient(135deg, #0f1d30 0%, #0b1525 100%); border-bottom: 1px solid var(--border); }
+        
+        .stats-row { display: flex; padding: 15px; gap: 8px; border-bottom: 1px solid var(--border); }
+        .stat-box { flex: 1; background: #1a2235; border: 1px solid var(--border); border-radius: 8px; padding: 8px; text-align: center; }
+        .stat-val { font-family: 'IBM Plex Mono'; font-size: 18px; font-weight: 700; color: var(--accent); }
+        .stat-lbl { font-size: 8px; text-transform: uppercase; color: #64748b; }
 
-  .brand {
-    padding: 20px 20px 16px; border-bottom: 1px solid var(--border);
-    background: linear-gradient(135deg, #0f1d30 0%, #0b1525 100%);
-  }
-  .brand-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .brand-icon {
-    width: 36px; height: 36px; background: var(--accent); border-radius: 8px;
-    display: flex; align-items: center; justify-content: center; font-size: 18px;
-    box-shadow: 0 0 20px rgba(0,212,255,0.4);
-  }
-  .brand-name { font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 700; color: white; letter-spacing: 0.05em; }
+        /* DRIVER CARDS */
+        .driver-list { flex: 1; overflow-y: auto; padding: 12px; }
+        .driver-card {
+            background: #1a2235; border: 1px solid var(--border); border-radius: 12px;
+            padding: 14px; margin-bottom: 10px; transition: 0.2s; position: relative;
+        }
+        .driver-card.active { border-color: var(--accent); background: #162033; }
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        
+        .route-btn-small {
+            background: var(--accent); color: #000; border: none; padding: 5px 10px;
+            border-radius: 4px; font-size: 10px; font-weight: bold; cursor: pointer;
+        }
 
-  /* Stats row */
-  .stats-row { display: flex; padding: 14px 20px; gap: 12px; border-bottom: 1px solid var(--border); }
-  .stat-box { flex: 1; background: var(--panel2); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; transition: 0.3s; }
-  .stat-box:hover { border-color: var(--accent); }
-  .stat-val { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; }
-  .stat-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+        /* STATUS BAR (Replacement for alert) */
+        #status-bar {
+            position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+            z-index: 1100; background: rgba(0,0,0,0.85); color: white; padding: 10px 20px;
+            border-radius: 50px; font-size: 13px; border: 1px solid var(--accent);
+            display: none; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
 
-  /* Driver list */
-  .driver-list { flex: 1; overflow-y: auto; padding: 12px; }
-  .driver-card {
-    background: var(--panel2); border: 1px solid var(--border); border-radius: 10px;
-    padding: 12px 14px; margin-bottom: 8px; cursor: pointer; transition: 0.2s;
-    display: flex; align-items: center; gap: 12px; position: relative;
-  }
-  .driver-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--muted); }
-  .driver-card.active { border-color: var(--accent); background: #0f1e33; }
-  .driver-card.active::before { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
-  
-  /* Status Colors */
-  .status-start_rit::before { background: var(--green); }
-  .status-sos::before { background: var(--red); animation: pulse_red 1s infinite; }
-  @keyframes pulse_red { 50% { opacity: 0.3; } }
+        /* MAP */
+        #map { flex: 1; position: relative; }
+        .map-tools { position: absolute; right: 20px; bottom: 40px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
+        .tool-btn { width: 42px; height: 42px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; color: white; cursor: pointer; font-size: 18px; display: flex; align-items: center; justify-content: center; }
 
-  .driver-avatar {
-    width: 40px; height: 40px; border-radius: 10px;
-    background: linear-gradient(135deg, #1e3a5f, #0a1e35); border: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace;
-    font-weight: 700; color: var(--accent);
-  }
+        /* PULSING DOT FOR ME */
+        .pulse-me {
+            width: 12px; height: 12px; background: #2196f3; border: 2px solid white;
+            border-radius: 50%; box-shadow: 0 0 0 rgba(33, 150, 243, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0px rgba(33, 150, 243, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(33, 150, 243, 0); } 100% { box-shadow: 0 0 0 0px rgba(33, 150, 243, 0); } }
 
-  /* Route panel */
-  #route-panel { border-top: 1px solid var(--border); background: #0a1520; max-height: 0; overflow: hidden; transition: 0.4s; }
-  #route-panel.open { max-height: 200px; padding: 16px 20px; }
-  .route-stat-val { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 700; color: var(--accent); }
-  .route-btn { flex: 1; padding: 8px; background: var(--panel2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); cursor: pointer; font-size: 11px; font-weight: 600; }
-  .route-btn.primary { background: var(--accent); color: #000; }
-
-  /* ===== MAP ===== */
-  #map { flex: 1; height: 100vh; position: relative; }
-  .map-controls { position: absolute; right: 16px; bottom: 40px; z-index: 900; display: flex; flex-direction: column; gap: 8px; }
-  .ctrl-btn {
-    width: 40px; height: 40px; background: var(--panel); border: 1px solid var(--border);
-    border-radius: 8px; color: var(--text); cursor: pointer; display: flex; align-items: center;
-    justify-content: center; box-shadow: 0 2px 12px rgba(0,0,0,0.5); transition: 0.2s;
-  }
-  .ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-  #loading { position: absolute; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
-</style>
+        #route-panel { border-top: 1px solid var(--border); background: #0a1520; max-height: 0; overflow: hidden; transition: 0.4s; }
+        #route-panel.open { max-height: 200px; padding: 16px 20px; }
+    </style>
 </head>
 <body>
 
-<div id="loading">
-  <div style="font-size: 48px; margin-bottom: 16px; animation: spin 2s linear infinite;">🛰️</div>
-  <div style="font-family: 'IBM Plex Mono', monospace; color: var(--accent); letter-spacing: 2px;">SYNCING WITH CAKIR REALTIME DB...</div>
-</div>
+<div id="status-bar"></div>
 
 <div id="sidebar">
-  <div class="brand">
-    <div class="brand-logo">
-      <div class="brand-icon">🚛</div>
-      <div>
-        <div class="brand-name">CAKIR LOGISTICS</div>
-        <div style="font-size: 10px; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase;">Fleet Control Center</div>
-      </div>
+    <div class="brand">
+        <h2 style="font-family: 'IBM Plex Mono'; font-size: 18px; color: var(--accent);">CAKIR LOGISTICS</h2>
+        <p style="font-size: 10px; opacity: 0.5;">REAL-TIME DISPATCH V8</p>
     </div>
-  </div>
 
-  <div class="stats-row">
-    <div class="stat-box"><div class="stat-val" id="stat-active">0</div><div class="stat-lbl">Totaal</div></div>
-    <div class="stat-box"><div class="stat-val" id="stat-rijdend" style="color:var(--green)">0</div><div class="stat-lbl">Rijdend</div></div>
-    <div class="stat-box"><div class="stat-val" id="stat-sos" style="color:var(--red)">0</div><div class="stat-lbl">SOS</div></div>
-  </div>
-
-  <div class="driver-list" id="driver-list"></div>
-
-  <div id="route-panel">
-    <div style="display: flex; gap: 16px; margin-bottom: 14px;">
-      <div style="flex: 1;"><div class="route-stat-val" id="route-time">--</div><div style="font-size: 10px; color: var(--muted);">Reistijd</div></div>
-      <div style="flex: 1;"><div class="route-stat-val" id="route-dist">--</div><div style="font-size: 10px; color: var(--muted);">Afstand</div></div>
+    <div class="stats-row">
+        <div class="stat-box"><div class="stat-val" id="stat-active">0</div><div class="stat-lbl">Totaal</div></div>
+        <div class="stat-box"><div class="stat-val" id="stat-rijdend" style="color:var(--green)">0</div><div class="stat-lbl">Rijdend</div></div>
+        <div class="stat-box"><div class="stat-val" id="stat-sos" style="color:var(--red)">0</div><div class="stat-lbl">SOS</div></div>
     </div>
-    <div style="display:flex; gap:8px;">
-      <button class="route-btn" onclick="clearRoute()">✕ Wissen</button>
-      <button class="route-btn primary" onclick="focusDriver()">🎯 Focus</button>
+
+    <div class="driver-list" id="driver-list"></div>
+
+    <div id="route-panel">
+        <div style="font-size: 10px; color: var(--accent); margin-bottom: 10px;">> ROUTE INFO (VAN MIJ NAAR CHAUFFEUR)</div>
+        <div style="display:flex; gap: 20px; margin-bottom: 12px;">
+            <div><div class="stat-val" id="route-time">--</div><div class="stat-lbl">Tijd</div></div>
+            <div><div class="stat-val" id="route-dist">--</div><div class="stat-lbl">Afstand</div></div>
+        </div>
+        <button onclick="window.clearRoute()" style="width:100%; padding:8px; background:var(--border); border:none; color:white; border-radius:4px; cursor:pointer;">Route Wissen</button>
     </div>
-  </div>
 </div>
 
 <div id="map">
-  <div class="map-controls">
-    <button class="ctrl-btn" onclick="toggleTile()">🛰️</button>
-    <button class="ctrl-btn" onclick="goToMyLocation()">🎯</button>
-    <button class="ctrl-btn" onclick="map.setZoom(map.getZoom()+1)">+</button>
-    <button class="ctrl-btn" onclick="map.setZoom(map.getZoom()-1)">-</button>
-  </div>
+    <div class="map-tools">
+        <button class="tool-btn" onclick="window.toggleSat()">🛰️</button>
+        <button class="tool-btn" onclick="window.getMyLocation(true)">🎯</button>
+        <button class="tool-btn" onclick="window.map.zoomIn()">+</button>
+        <button class="tool-btn" onclick="window.map.zoomOut()">-</button>
+    </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -143,26 +110,99 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // JOUW ECHTE FIREBASE CONFIGURATIE
     const firebaseConfig = {
-        databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
-        projectId: "cakir-logistics-tracker-c4b6b"
+        databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // MAP SETUP
-    const map = L.map('map', { center: [51.0654, 4.0289], zoom: 11, zoomControl: false, attributionControl: false });
-    const darkTile = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-    const satTile = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
-
-    const markers = {};
-    const driverCache = {};
-    let selectedId = null;
+    // Globals
+    window.map = L.map('map', { center: [51.0654, 4.0289], zoom: 10, zoomControl: false, attributionControl: false });
+    const darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(window.map);
+    const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+    
+    let myLocation = null;
+    let myMarker = null;
     let routeControl = null;
+    const markers = {};
+    const driverCoords = {};
 
-    // FIREBASE SYNC (Tracking + Meldingen)
+    // UI Feedback function
+    window.setStatus = (msg, isError = false) => {
+        const bar = document.getElementById('status-bar');
+        bar.innerText = msg;
+        bar.style.display = 'block';
+        bar.style.borderColor = isError ? 'red' : '#00d4ff';
+        if(!isError) setTimeout(() => bar.style.display = 'none', 5000);
+    };
+
+    // 🎯 Geolocation logic
+    window.getMyLocation = (focus = false) => {
+        if (!navigator.geolocation) return window.setStatus("Browser ondersteunt geen GPS", true);
+
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                myLocation = [pos.coords.latitude, pos.coords.longitude];
+                const pulseIcon = L.divIcon({ className: '', html: '<div class="pulse-me"></div>' });
+
+                if (myMarker) {
+                    myMarker.setLatLng(myLocation);
+                } else {
+                    myMarker = L.marker(myLocation, { icon: pulseIcon }).addTo(window.map).bindPopup("Jij bent hier");
+                }
+                if (focus) window.map.flyTo(myLocation, 15);
+            },
+            (err) => {
+                if (err.code === 1) {
+                    window.setStatus("Sta locatie toe via het 🔒 slotje in je adresbalk → Locatie → Toestaan", true);
+                } else {
+                    window.setStatus("GPS Fout: " + err.message, true);
+                }
+            },
+            { enableHighAccuracy: true }
+        );
+    };
+
+    // 🚛 Route from ME to DRIVER
+    window.routeToDriver = (id) => {
+        if (!myLocation) {
+            window.setStatus("Uw locatie wordt opgehaald, probeer over 2 seconden opnieuw...");
+            window.getMyLocation();
+            return;
+        }
+        if (!driverCoords[id]) return;
+
+        if (routeControl) window.map.removeControl(routeControl);
+
+        routeControl = L.Routing.control({
+            waypoints: [
+                L.latLng(myLocation[0], myLocation[1]),
+                L.latLng(driverCoords[id][0], driverCoords[id][1])
+            ],
+            lineOptions: { styles: [{ color: '#00d4ff', weight: 6, opacity: 0.8 }] },
+            createMarker: () => null
+        }).addTo(window.map);
+
+        routeControl.on('routesfound', (e) => {
+            const r = e.routes[0].summary;
+            document.getElementById('route-time').innerText = Math.round(r.totalTime / 60) + "m";
+            document.getElementById('route-dist').innerText = (r.totalDistance / 1000).toFixed(1) + "km";
+            document.getElementById('route-panel').classList.add('open');
+        });
+    };
+
+    window.clearRoute = () => {
+        if (routeControl) window.map.removeControl(routeControl);
+        document.getElementById('route-panel').classList.remove('open');
+    };
+
+    window.toggleSat = () => {
+        if (window.map.hasLayer(darkLayer)) { window.map.removeLayer(darkLayer); satLayer.addTo(window.map); }
+        else { window.map.removeLayer(satLayer); darkLayer.addTo(window.map); }
+    };
+
+    // 🔥 Sync Firebase
     onValue(ref(db, '/'), (snapshot) => {
         const data = snapshot.val() || {};
         const tracking = data.tracking || {};
@@ -170,92 +210,51 @@
         const list = document.getElementById('driver-list');
         list.innerHTML = "";
 
-        let totaal = 0, rijdend = 0, sos = 0;
+        let dCount = 0, rCount = 0, sCount = 0;
 
         for (let id in tracking) {
             if (id === "1" || id === "Gast_User") continue;
-            totaal++;
+            dCount++;
             const loc = tracking[id];
-            const info = meldingen[id] || { naam: "Chauffeur", status: "ONLINE" };
-            driverCache[id] = { lat: loc.latitude, lng: loc.longitude };
+            const info = meldingen[id] || { naam: "Chauffeur", status: "STANDBY" };
+            driverCoords[id] = [loc.latitude, loc.longitude];
 
-            if (info.status === "START_RIT") rijdend++;
-            if (info.status === "SOS") sos++;
+            if (info.status === "START_RIT") rCount++;
+            if (info.status === "SOS") sCount++;
 
-            // Marker Update
+            // Marker
             const color = info.status === "SOS" ? "#ff4444" : (info.status === "START_RIT" ? "#00e676" : "#ffea00");
             const icon = L.divIcon({
-                html: `<div style="background:${color}; width:32px; height:32px; border-radius:10px; border:2px solid white; box-shadow:0 0 15px ${color}88; display:flex; align-items:center; justify-content:center; color:black; font-weight:bold; font-size:9px;">TRK</div>`,
+                html: `<div style="background:${color}; width:28px; height:28px; border-radius:50%; border:2px solid white; box-shadow:0 0 10px ${color}; display:flex; align-items:center; justify-content:center; color:black; font-weight:bold; font-size:9px;">TRK</div>`,
                 className: ''
             });
 
             if (markers[id]) {
-                markers[id].setLatLng([loc.latitude, loc.longitude]).setIcon(icon);
+                markers[id].setLatLng(driverCoords[id]).setIcon(icon);
             } else {
-                markers[id] = L.marker([loc.latitude, loc.longitude], { icon }).addTo(map).bindPopup(`<b>${info.naam}</b>`);
+                markers[id] = L.marker(driverCoords[id], { icon }).addTo(window.map).bindPopup(`<b>${info.naam}</b>`);
             }
 
-            // Card Update in Sidebar
+            // List UI
             const card = document.createElement('div');
-            card.className = `driver-card status-${info.status.toLowerCase()}${selectedId === id ? ' active' : ''}`;
+            card.className = `driver-card ${info.status === 'SOS' ? 'active' : ''}`;
             card.innerHTML = `
-                <div class="driver-avatar">${info.naam.substring(0,2).toUpperCase()}</div>
-                <div style="flex:1">
-                    <div style="font-weight:600; font-size:14px;">${info.naam}</div>
-                    <div style="font-size:11px; color:var(--muted);">${info.status}</div>
-                </div>`;
-            card.onclick = () => {
-                selectedId = id;
-                map.flyTo([loc.latitude, loc.longitude], 15);
-                document.querySelectorAll('.driver-card').forEach(c => c.classList.remove('active'));
-                card.classList.add('active');
-            };
+                <div class="card-header">
+                    <strong>${info.naam}</strong>
+                    <button class="route-btn-small" onclick="window.routeToDriver('${id}')">ROUTE</button>
+                </div>
+                <div style="font-size:11px; color:#94a3b8;">Status: ${info.status}</div>
+            `;
             list.appendChild(card);
         }
-
-        document.getElementById('stat-active').innerText = totaal;
-        document.getElementById('stat-rijdend').innerText = rijdend;
-        document.getElementById('stat-sos').innerText = sos;
-        document.getElementById('loading').style.display = 'none';
+        document.getElementById('stat-active').innerText = dCount;
+        document.getElementById('stat-rijdend').innerText = rCount;
+        document.getElementById('stat-sos').innerText = sCount;
     });
 
-    // ROUTE CALCULATOR
-    map.on('click', (e) => {
-        if (!selectedId) return;
-        const start = driverCache[selectedId];
-        if (routeControl) map.removeControl(routeControl);
-
-        routeControl = L.Routing.control({
-            waypoints: [L.latLng(start.lat, start.lng), L.latLng(e.latlng.lat, e.latlng.lng)],
-            lineOptions: { styles: [{ color: '#00d4ff', weight: 6, opacity: 0.9 }] },
-            createMarker: () => null
-        }).addTo(map);
-
-        routeControl.on('routesfound', (ev) => {
-            const r = ev.routes[0].summary;
-            document.getElementById('route-time').textContent = Math.round(r.totalTime / 60) + "m";
-            document.getElementById('route-dist').textContent = (r.totalDistance / 1000).toFixed(1) + "km";
-            document.getElementById('route-panel').classList.add('open');
-        });
-    });
-
-    window.toggleTile = () => {
-        if (map.hasLayer(darkTile)) { map.removeLayer(darkTile); satTile.addTo(map); }
-        else { map.removeLayer(satTile); darkTile.addTo(map); }
-    };
-
-    window.goToMyLocation = () => {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(pos => {
-                map.flyTo([pos.coords.latitude, pos.coords.longitude], 15);
-                L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(map).bindPopup("Jij bent hier").openPopup();
-            }, () => alert("Toegang tot locatie geweigerd."));
-        }
-    };
-
-    window.clearRoute = () => { if (routeControl) map.removeControl(routeControl); document.getElementById('route-panel').classList.remove('open'); };
-    window.focusDriver = () => { if (selectedId) map.flyTo([driverCache[selectedId].lat, driverCache[selectedId].lng], 15); };
-
+    // Start geolocation on load
+    window.getMyLocation();
 </script>
+
 </body>
 </html>
