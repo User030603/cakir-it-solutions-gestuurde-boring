@@ -3,65 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cakir Logistics | Live Traffic & Fleet</title>
+    <title>Cakir Logistics Control Center</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    
     <style>
-        :root { --primary: #002d5b; --accent: #007bff; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
-        #map { height: 100vh; width: 100%; background: #ebe7de; }
+        :root { --google-blue: #4285F4; --google-red: #EA4335; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Roboto', Arial, sans-serif; overflow: hidden; }
+        #map { height: 100vh; width: 100%; z-index: 1; }
         
-        .sidebar {
-            position: absolute; top: 0; left: 0; z-index: 1000;
-            width: 360px; height: 100vh; background: white;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.1); display: flex; flex-direction: column;
+        /* Floating Google Search Bar Style */
+        .google-search-container {
+            position: absolute; top: 20px; left: 20px; z-index: 1100;
+            width: 390px; background: white; border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3); padding: 10px;
+            display: flex; flex-direction: column;
         }
 
-        .header { padding: 20px; background: var(--primary); color: white; }
-        .info-bar { padding: 15px; background: #fff3cd; color: #856404; font-size: 13px; border-bottom: 1px solid #ffeeba; }
+        .search-input-wrapper { display: flex; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .search-input-wrapper input {
+            border: none; outline: none; width: 100%; font-size: 16px; padding: 5px 10px;
+        }
 
-        .driver-list { flex: 1; overflow-y: auto; padding: 10px; }
+        /* Chauffeur List Sidebar (Scrollbaar) */
+        .driver-tray {
+            max-height: 400px; overflow-y: auto; margin-top: 10px;
+        }
+
         .driver-card {
-            background: #fff; padding: 15px; border-radius: 8px;
-            margin-bottom: 10px; border: 1px solid #eee; cursor: pointer;
+            padding: 12px; border-radius: 6px; cursor: pointer;
+            border: 1px solid transparent; transition: 0.2s;
+            display: flex; justify-content: space-between; align-items: center;
         }
-        .driver-card.selected { border: 2px solid var(--accent); background: #f0f7ff; }
+        .driver-card:hover { background: #f1f3f4; }
+        .driver-card.selected { background: #e8f0fe; border: 1px solid var(--google-blue); }
 
-        .status-dot { height: 100px; width: 10px; display: inline-block; border-radius: 50%; margin-right: 5px; }
-        
-        /* Knop voor eigen locatie */
-        .loc-btn {
-            position: absolute; bottom: 20px; right: 20px; z-index: 1000;
-            background: white; border: none; padding: 12px; border-radius: 50%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2); cursor: pointer; font-size: 20px;
+        .driver-info { font-size: 14px; font-weight: 500; color: #3c4043; }
+        .status-indicator { font-size: 11px; padding: 2px 6px; border-radius: 4px; color: white; }
+
+        /* Google Maps Floating Buttons */
+        .map-tools { position: absolute; bottom: 30px; right: 20px; z-index: 1100; display: flex; flex-direction: column; gap: 10px; }
+        .tool-btn {
+            background: white; border: none; width: 40px; height: 40px;
+            border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+            cursor: pointer; font-size: 20px; display: flex; align-items: center; justify-content: center;
         }
 
-        .eta-info { 
-            margin-top: 10px; padding: 10px; background: #e8f5e9; 
-            border-radius: 6px; color: #2e7d32; font-weight: bold; font-size: 13px;
+        .eta-panel {
+            background: var(--google-blue); color: white; padding: 10px;
+            border-radius: 0 0 8px 8px; font-weight: bold; font-size: 13px;
+            margin-top: 5px; display: none;
         }
     </style>
 </head>
 <body>
 
-    <button class="loc-btn" onclick="window.findMyLocation()" title="Mijn Locatie">🎯</button>
-
-    <div class="sidebar">
-        <div class="header">
-            <h2 style="margin:0;">Fleet Control</h2>
-            <div style="font-size: 12px; opacity: 0.8;">Real-time Traffic & Dispatching</div>
+    <div class="google-search-container">
+        <div class="search-input-wrapper">
+            <span style="font-size: 20px; margin-right: 10px;">🔍</span>
+            <input type="text" id="target-address" placeholder="Zoek een adres of boorlocatie...">
         </div>
+        
+        <div class="driver-tray" id="driver-list">
+            </div>
+        <div id="eta-display" class="eta-panel"></div>
+    </div>
 
-        <div class="info-bar" id="instruction">
-            <b>1.</b> Kies een chauffeur.<br><b>2.</b> Klik op de kaart voor route & reistijd.
-        </div>
-
-        <div id="driver-list" class="driver-list"></div>
+    <div class="map-tools">
+        <button class="tool-btn" onclick="map.locate({setView: true, maxZoom: 16})" title="Mijn Locatie">🎯</button>
+        <button class="tool-btn" onclick="location.reload()" title="Verversen">🔄</button>
     </div>
 
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -75,69 +93,62 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // KAART INITIALISATIE
+        // Google Maps Layers
         const map = L.map('map', { zoomControl: false }).setView([51.0654, 4.0289], 10);
         
-        // Standaard kaart
-        const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-        // LIVE TRAFFIC LAYER (Hybrid)
-        const trafficLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m,traffic&x={x}&y={y}&z={z}', {
-            maxZoom: 20,
-            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-            opacity: 0.7
+        const googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+            maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3']
         }).addTo(map);
 
+        const googleTraffic = L.tileLayer('http://{s}.google.com/vt/lyrs=m,traffic&x={x}&y={y}&z={z}',{
+            maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], opacity: 0.8
+        }).addTo(map);
+
+        const geocoder = L.Control.Geocoder.nominatim();
         const markers = {};
-        const driverCoords = {};
-        let selectedDriverId = null;
         let routeLayer = null;
+        let selectedId = null;
+        let driverData = {};
 
-        // EIGEN LOCATIE OPVRAGEN
-        window.findMyLocation = () => {
-            map.locate({setView: true, maxZoom: 15});
+        // Functie: Route berekenen (Net als Maps)
+        window.planRoute = (destLat, destLon) => {
+            if (!selectedId) return alert("Kies eerst een chauffeur!");
+            const start = driverData[selectedId];
+            
+            const url = `https://router.project-osrm.org/route/v1/driving/${start.lon},${start.lat};${destLon},${destLat}?overview=full&geometries=geojson`;
+            
+            fetch(url).then(r => r.json()).then(data => {
+                const route = data.routes[0];
+                if (routeLayer) map.removeLayer(routeLayer);
+                
+                routeLayer = L.geoJSON(route.geometry, {
+                    style: { color: '#4285F4', weight: 6, opacity: 0.9 }
+                }).addTo(map);
+
+                const mins = Math.round(route.duration / 60);
+                const km = (route.distance / 1000).toFixed(1);
+                
+                const panel = document.getElementById('eta-display');
+                panel.style.display = "block";
+                panel.innerHTML = `🚗 Snelste route: ${mins} min (${km} km) - Via Google Traffic`;
+                
+                map.fitBounds(routeLayer.getBounds(), { padding: [100, 100] });
+            });
         };
 
-        map.on('locationfound', (e) => {
-            L.circle(e.latlng, e.accuracy).addTo(map);
-            L.marker(e.latlng).addTo(map).bindPopup("Jij bent hier").openPopup();
+        // Adres Zoekbalk Event
+        document.getElementById('target-address').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                geocoder.geocode(e.target.value, (results) => {
+                    if (results.length > 0) {
+                        const { lat, lng } = results[0].center;
+                        window.planRoute(lat, lng);
+                    }
+                });
+            }
         });
 
-        // ROUTE STARTEN BIJ KLIK
-        map.on('click', async (e) => {
-            if (!selectedDriverId) return;
-
-            const { lat: dLat, lng: dLon } = e.latlng;
-            const { lat: sLat, lon: sLon } = driverCoords[selectedDriverId];
-
-            const url = `https://router.project-osrm.org/route/v1/driving/${sLon},${sLat};${dLon},${dLat}?overview=full`;
-
-            const res = await fetch(url);
-            const data = await res.json();
-            const route = data.routes[0];
-
-            if (routeLayer) map.removeLayer(routeLayer);
-            routeLayer = L.polyline(L.GeoJSON.coordsToLatLngs(L.GeoJSON.utils.decodePolyline(route.geometry, 5)), {
-                color: '#007bff', weight: 7, opacity: 0.8
-            }).addTo(map);
-
-            const min = Math.round(route.duration / 60);
-            const km = (route.distance / 1000).toFixed(1);
-            
-            document.getElementById(`eta-${selectedDriverId}`).innerHTML = 
-                `⏱️ Reistijd: ~${min} min (${km} km)<br><span style="color:#d32f2f; font-size:11px;">* Check de rode lijnen voor file!</span>`;
-            
-            map.fitBounds(routeLayer.getBounds(), { padding: [50, 50] });
-        });
-
-        window.selectDriver = (id, lat, lon) => {
-            selectedDriverId = id;
-            map.flyTo([lat, lon], 14);
-            document.querySelectorAll('.driver-card').forEach(el => el.classList.remove('selected'));
-            document.getElementById(`card-${id}`).classList.add('selected');
-        };
-
-        // FIREBASE SYNC (Namen + Locatie)
+        // Firebase Sync
         onValue(ref(db, '/'), (snapshot) => {
             const data = snapshot.val() || {};
             const tracking = data.tracking || {};
@@ -148,21 +159,31 @@
             for (let id in tracking) {
                 if (id === "1" || id === "Gast_User") continue;
                 const loc = tracking[id];
-                const info = meldingen[id] || { naam: "Chauffeur", status: "Onderweg" };
-                driverCoords[id] = { lat: loc.latitude, lon: loc.longitude };
+                const info = meldingen[id] || { naam: "Chauffeur", status: "ONLINE" };
+                driverData[id] = { lat: loc.latitude, lon: loc.longitude };
 
                 if (!markers[id]) markers[id] = L.marker([loc.latitude, loc.longitude]).addTo(map);
-                markers[id].setLatLng([loc.latitude, loc.longitude]).bindPopup(`<b>${info.naam}</b><br>Status: ${info.status}`);
+                markers[id].setLatLng([loc.latitude, loc.longitude]).bindPopup(`<b>${info.naam}</b>`);
+
+                const isSelected = selectedId === id ? "selected" : "";
+                const statusColor = info.status === "SOS" ? "#EA4335" : "#34A853";
 
                 list.innerHTML += `
-                    <div class="driver-card" id="card-${id}" onclick="selectDriver('${id}', ${loc.latitude}, ${loc.longitude})">
-                        <strong style="font-size:16px; color:#002d5b;">${info.naam}</strong>
-                        <div style="font-size:12px; color:#666; margin-top:4px;">Huidige status: <i>${info.status}</i></div>
-                        <div id="eta-${id}" class="eta-info" style="${selectedDriverId === id ? '' : 'display:none'}">Klik op kaart voor ETA</div>
+                    <div class="driver-card ${isSelected}" onclick="window.selectDriver('${id}')">
+                        <div class="driver-info">
+                            <div>${info.naam}</div>
+                            <div style="font-size:11px; color:#70757a;">${info.status}</div>
+                        </div>
+                        <span class="status-indicator" style="background:${statusColor}">●</span>
                     </div>`;
             }
         });
 
+        window.selectDriver = (id) => {
+            selectedId = id;
+            const p = driverData[id];
+            map.flyTo([p.lat, p.lon], 15);
+        };
     </script>
 </body>
 </html>
