@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cakir Logistics | Fleet Control</title>
+<title>Cakir Logistics | Fleet Command V12</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
@@ -18,7 +18,6 @@
   body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(--text); height:100vh; overflow:hidden; display:flex; }
 
   #sidebar { width:var(--sidebar); min-width:var(--sidebar); height:100vh; background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:1000; box-shadow:10px 0 30px rgba(0,0,0,0.5); }
-  
   .brand { padding:20px; background:linear-gradient(135deg,#0f1d30,#0b1525); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
   .brand-icon { width:40px; height:40px; background:var(--accent); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow:0 0 20px rgba(0,212,255,0.4); }
   .brand-name { font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:700; color:white; }
@@ -34,25 +33,21 @@
   .driver-card::before { content:''; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--muted); }
   .driver-card.s-sos::before { background:var(--red); animation:blink 0.8s infinite; }
   .driver-card.s-start_rit::before { background:var(--green); }
-
   .d-avatar { width:38px; height:38px; border-radius:9px; background:linear-gradient(135deg,#1e3a5f,#0a1e35); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-weight:700; color:var(--accent); }
   .start-btn { background:var(--green); color:#000; border:none; border-radius:5px; padding:6px 12px; font-size:10px; font-weight:700; cursor:pointer; margin-left:auto; }
 
-  #route-panel { border-top:1px solid var(--border); background:#0a1520; max-height:0; overflow:hidden; transition:0.4s ease; padding:0 18px; }
+  #route-panel { border-top:1px solid var(--border); background:#0a1520; max-height:0; overflow:hidden; transition:0.4s ease; }
   #route-panel.open { max-height:300px; padding:16px 18px; overflow-y:auto; }
-  
-  /* Verberg de standaard Leaflet routing box maar toon de tekst */
-  .leaflet-routing-container { width:100% !important; background:transparent !important; color:white !important; border:none !important; box-shadow:none !important; font-family:'IBM Plex Sans' !important; }
+  .leaflet-routing-container { width:100% !important; background:transparent !important; color:white !important; border:none !important; box-shadow:none !important; }
   .leaflet-routing-alt { background:#1a2235 !important; padding:10px !important; border-radius:8px !important; margin-bottom:10px; }
 
   #map { flex:1; height:100vh; position:relative; }
   .map-tools { position:absolute; right:16px; bottom:36px; z-index:900; display:flex; flex-direction:column; gap:8px; }
-  .map-btn { width:40px; height:40px; background:var(--panel); border:1px solid var(--border); border-radius:9px; color:var(--text); font-size:17px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 12px rgba(0,0,0,0.5); }
+  .ctrl-btn { width:40px; height:40px; background:var(--panel); border:1px solid var(--border); border-radius:9px; color:var(--text); font-size:17px; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 2px 12px rgba(0,0,0,0.5); }
+  .ctrl-btn.active { color:var(--accent); border-color:var(--accent); box-shadow:0 0 10px var(--accent-glow); }
 
-  #status-bar { position:absolute; top:14px; left:50%; transform:translateX(-50%); z-index:900; background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:8px 18px; font-size:12px; font-family:'IBM Plex Mono',monospace; color:var(--muted); display:none; }
-  
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
   #loading { position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 </style>
 </head>
 <body>
@@ -62,19 +57,17 @@
   <p style="margin-top:20px;font-family:'IBM Plex Mono';color:var(--accent);">CAKIR LOGISTICS: SYNCING...</p>
 </div>
 
-<div id="status-bar"></div>
-
 <div id="sidebar">
   <div class="brand">
     <div class="brand-icon">🚛</div>
     <div>
       <div class="brand-name">CAKIR LOGISTICS</div>
-      <div style="font-size:10px;color:var(--accent);letter-spacing:2px;">ENTERPRISE V11</div>
+      <div style="font-size:10px;color:var(--accent);letter-spacing:2px;">ENTERPRISE V12</div>
     </div>
   </div>
 
   <div class="stats-row">
-    <div class="stat"><div class="stat-val" id="s-total">0</div><div class="stat-lbl">Totaal</div></div>
+    <div class="stat"><div class="stat-val" id="s-total">0</div><div class="stat-lbl">Vloot</div></div>
     <div class="stat"><div class="stat-val" id="s-rij" style="color:var(--green)">0</div><div class="stat-lbl">Rijdend</div></div>
     <div class="stat"><div class="stat-val" id="s-sos" style="color:var(--red)">0</div><div class="stat-lbl">SOS</div></div>
   </div>
@@ -90,10 +83,13 @@
 
 <div id="map">
   <div class="map-tools">
-    <button class="map-btn" onclick="window.toggleSat()">🛰️</button>
-    <button class="map-btn" onclick="window.getMyLocation()">🎯</button>
-    <button class="map-btn" onclick="map.setZoom(map.getZoom()+1)">+</button>
-    <button class="map-btn" onclick="map.setZoom(map.getZoom()-1)">−</button>
+    <button class="ctrl-btn" onclick="window.toggleLayer('light')" id="btn-light" title="Lichte Kaart">⚪</button>
+    <button class="ctrl-btn" onclick="window.toggleLayer('dark')" id="btn-dark" title="Cyber Dark Kaart">⚫</button>
+    <button class="ctrl-btn" onclick="window.toggleLayer('sat')" id="btn-sat" title="Satelliet">🛰️</button>
+    <button class="ctrl-btn" onclick="window.toggleTraffic()" id="btn-traffic" title="Traffic">🚦</button>
+    <button class="ctrl-btn" onclick="window.getMyLocation()" title="Mijn Locatie">🎯</button>
+    <button class="ctrl-btn" onclick="map.zoomIn()">+</button>
+    <button class="ctrl-btn" onclick="map.zoomOut()">−</button>
   </div>
 </div>
 
@@ -112,50 +108,75 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// MAP INITIALISATIE
 window.map = L.map('map', { center:[51.0654,4.0289], zoom:11, zoomControl:false, attributionControl:false });
-const darkTile = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(window.map);
-const satTile = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
 
-let myLocation = null, routeControl = null, selectedId = null;
-const markers = {}, driverStore = {};
-
-window.setStatus = (msg) => {
-    const bar = document.getElementById('status-bar');
-    bar.textContent = msg; bar.style.display = 'block';
-    setTimeout(() => bar.style.display = 'none', 5000);
+// KAART LAGEN DEFINITIES
+const layers = {
+  light: L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'),
+  dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'),
+  sat: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'),
+  traffic: L.tileLayer('https://{s}.google.com/vt/lyrs=m,traffic&x={x}&y={y}&z={z}', {
+    maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], opacity: 0.6
+  })
 };
 
+layers.light.addTo(window.map); // Start met licht
+document.getElementById('btn-light').classList.add('active');
+
+let trafficOn = false;
+let currentLayer = 'light';
+
+window.toggleLayer = (type) => {
+  window.map.removeLayer(layers[currentLayer]);
+  layers[type].addTo(window.map);
+  currentLayer = type;
+  
+  // UI Update knoppen
+  ['light', 'dark', 'sat'].forEach(l => document.getElementById(`btn-${l}`).classList.remove('active'));
+  document.getElementById(`btn-${type}`).classList.add('active');
+};
+
+window.toggleTraffic = () => {
+  trafficOn = !trafficOn;
+  if(trafficOn) layers.traffic.addTo(window.map);
+  else window.map.removeLayer(layers.traffic);
+  document.getElementById('btn-traffic').classList.toggle('active', trafficOn);
+};
+
+// LOCATIE & ROUTING
+let myLocation = null, routeControl = null;
+const markers = {}, driverStore = {};
+
 window.getMyLocation = () => {
-    navigator.geolocation.getCurrentPosition(pos => {
-        myLocation = [pos.coords.latitude, pos.coords.longitude];
-        window.map.flyTo(myLocation, 15);
-        L.marker(myLocation, {icon: L.divIcon({html:'🔵', className:''})}).addTo(window.map);
-    });
+  navigator.geolocation.getCurrentPosition(pos => {
+    myLocation = [pos.coords.latitude, pos.coords.longitude];
+    window.map.flyTo(myLocation, 15);
+    L.circleMarker(myLocation, { radius: 8, color: '#00d4ff', fillColor: '#00d4ff', fillOpacity: 0.8 }).addTo(window.map);
+  });
 };
 
 window.startRoute = (id) => {
-    if(!myLocation) return window.setStatus("Haal eerst je eigen locatie op (🎯)");
-    const target = driverStore[id];
-    if(routeControl) window.map.removeControl(routeControl);
+  if(!myLocation) return alert("Haal eerst je eigen locatie op (🎯)");
+  const target = driverStore[id];
+  if(routeControl) window.map.removeControl(routeControl);
 
-    routeControl = L.Routing.control({
-        waypoints: [L.latLng(myLocation[0], myLocation[1]), L.latLng(target.lat, target.lng)],
-        lineOptions: { styles: [{ color: '#00d4ff', weight: 6 }] },
-        createMarker: () => null
-    }).addTo(window.map);
+  routeControl = L.Routing.control({
+    waypoints: [L.latLng(myLocation[0], myLocation[1]), L.latLng(target.lat, target.lng)],
+    lineOptions: { styles: [{ color: '#00d4ff', weight: 6 }] },
+    createMarker: () => null
+  }).addTo(window.map);
 
-    routeControl.on('routesfound', (e) => {
-        const panel = document.getElementById('route-panel');
-        const content = document.getElementById('instructions-content');
-        panel.classList.add('open');
-        // Verplaats de instructies naar onze zijbalk
-        setTimeout(() => {
-            const leafletBox = document.querySelector('.leaflet-routing-container');
-            if(leafletBox) content.appendChild(leafletBox);
-        }, 100);
-    });
+  routeControl.on('routesfound', () => {
+    document.getElementById('route-panel').classList.add('open');
+    const content = document.getElementById('instructions-content');
+    content.innerHTML = "";
+    const leafletBox = document.querySelector('.leaflet-routing-container');
+    if(leafletBox) content.appendChild(leafletBox);
+  });
 };
 
+// FIREBASE SYNC
 onValue(ref(db, '/'), (snap) => {
     const data = snap.val() || {};
     const tracking = data.tracking || {};
@@ -171,7 +192,6 @@ onValue(ref(db, '/'), (snap) => {
         driverStore[id] = { lat: loc.latitude, lng: loc.longitude };
         if (info.status === "START_RIT") rij++; if (info.status === "SOS") sos++;
 
-        const color = info.status === "SOS" ? "#ff4444" : (info.status === "START_RIT" ? "#00e676" : "#ffea00");
         if (markers[id]) markers[id].setLatLng([loc.latitude, loc.longitude]);
         else markers[id] = L.marker([loc.latitude, loc.longitude]).addTo(window.map).bindPopup(info.naam);
 
@@ -183,7 +203,7 @@ onValue(ref(db, '/'), (snap) => {
                 <div style="font-weight:600;font-size:14px;">${info.naam}</div>
                 <div style="font-size:11px;color:var(--muted);">${info.status}</div>
             </div>
-            <button class="start-btn" onclick="event.stopPropagation();window.startRoute('${id}')">ROUTE STARTEN</button>
+            <button class="start-btn" onclick="event.stopPropagation();window.startRoute('${id}')">START ROUTE</button>
         `;
         list.appendChild(card);
     }
@@ -194,7 +214,6 @@ onValue(ref(db, '/'), (snap) => {
 });
 
 window.clearRoute = () => { if(routeControl) window.map.removeControl(routeControl); document.getElementById('route-panel').classList.remove('open'); };
-window.toggleSat = () => { /* Logica voor Satelliet */ };
 </script>
 </body>
 </html>
