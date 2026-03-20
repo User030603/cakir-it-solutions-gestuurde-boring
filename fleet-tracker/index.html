@@ -3,58 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cakir Logistics | Intelligent Routing</title>
+    <title>Cakir Logistics | Smart Route Planner</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         :root { --primary: #002d5b; --accent: #007bff; --success: #28a745; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
-        #map { height: 100vh; width: 100%; z-index: 1; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: #f8f9fa; overflow: hidden; }
+        #map { height: 100vh; width: 100%; cursor: crosshair; }
         
         .sidebar {
             position: absolute; top: 0; left: 0; z-index: 1000;
-            width: 380px; height: 100vh; background: white;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1); display: flex; flex-direction: column;
+            width: 360px; height: 100vh; background: white;
+            box-shadow: 2px 0 15px rgba(0,0,0,0.2); display: flex; flex-direction: column;
         }
 
         .header { padding: 20px; background: var(--primary); color: white; }
-        .planner-box { padding: 15px; background: #f1f3f5; border-bottom: 1px solid #ddd; }
+        .instruction-box { padding: 15px; background: #fff3cd; border-bottom: 1px solid #ffeeba; font-size: 13px; color: #856404; }
         
+        .driver-list { flex: 1; overflow-y: auto; padding: 10px; }
         .driver-card {
-            padding: 15px; border-bottom: 1px solid #eee; cursor: pointer;
-            transition: 0.2s;
+            background: white; padding: 15px; border-radius: 10px;
+            margin-bottom: 10px; border: 1px solid #eee; cursor: pointer;
+            transition: 0.3s;
         }
-        .driver-card:hover { background: #f0f7ff; }
-        .driver-card.selected { border-left: 5px solid var(--accent); background: #e7f1ff; }
+        .driver-card:hover { border-color: var(--accent); background: #f0f7ff; }
+        .driver-card.selected { border-left: 6px solid var(--accent); background: #e7f1ff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
 
-        .eta-box { 
-            margin-top: 8px; padding: 8px; background: #fff; 
-            border-radius: 6px; border: 1px dashed var(--success);
-            font-size: 13px; color: var(--success); font-weight: bold;
+        .name-header { font-weight: bold; font-size: 16px; color: var(--primary); display: block; }
+        .eta-result { 
+            margin-top: 10px; padding: 10px; background: #d4edda; 
+            border-radius: 8px; color: #155724; font-size: 13px; 
+            font-weight: bold; border: 1px solid #c3e6cb; display: none;
         }
-
-        input, button { 
-            width: 100%; padding: 10px; margin-top: 5px; 
-            border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box;
-        }
-        button { background: var(--accent); color: white; font-weight: bold; cursor: pointer; border: none; }
-        button:hover { background: #0056b3; }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
         <div class="header">
-            <h2 style="margin:0;">Route Planner</h2>
-            <div style="font-size: 11px; opacity: 0.8;">Week 7: OSRM Routing Engine</div>
+            <h2 style="margin:0;">Smart Planner</h2>
+            <div style="font-size: 12px; opacity: 0.8;">Cakir IT Solutions - Fleet Control</div>
         </div>
 
-        <div class="planner-box">
-            <label style="font-size: 12px; font-weight: bold;">Bestemming (Lat, Lon):</label>
-            <input type="text" id="dest-input" placeholder="Bijv: 51.065, 4.028">
-            <button onclick="window.planRoute()">Bereken Snelste Route</button>
+        <div class="instruction-box" id="guide">
+            <b>Stap 1:</b> Klik op een chauffeur in de lijst.<br>
+            <b>Stap 2:</b> Klik ergens op de kaart (bestemming).
         </div>
 
-        <div id="driver-list" style="flex:1; overflow-y:auto;">
+        <div id="driver-list" class="driver-list">
             </div>
     </div>
 
@@ -78,26 +73,29 @@
 
         const markers = {};
         let routeLayer = null;
+        let destMarker = null;
         let selectedDriverId = null;
         let driverCoords = {};
 
-        // SELECTEER CHAUFFEUR
+        // 1. SELECTEER CHAUFFEUR
         window.selectDriver = (id, lat, lon) => {
             selectedDriverId = id;
             map.flyTo([lat, lon], 14);
             document.querySelectorAll('.driver-card').forEach(el => el.classList.remove('selected'));
-            event.currentTarget.classList.add('selected');
+            document.getElementById(`card-${id}`).classList.add('selected');
+            document.getElementById('guide').innerHTML = "<b>Stap 2:</b> Klik nu op de kaart om de route te berekenen.";
         };
 
-        // BEREKEN ROUTE VIA OSRM API
-        window.planRoute = async () => {
-            if (!selectedDriverId) return alert("Selecteer eerst een chauffeur!");
-            const destStr = document.getElementById('dest-input').value;
-            if (!destStr.includes(',')) return alert("Voer een geldige bestemming in (lat, lon)");
+        // 2. KLIK OP KAART = ROUTE BEREKENEN
+        map.on('click', async (e) => {
+            if (!selectedDriverId) return alert("Selecteer eerst een chauffeur uit de lijst!");
 
-            const [dLat, dLon] = destStr.split(',').map(s => s.trim());
-            const sLat = driverCoords[selectedDriverId].lat;
-            const sLon = driverCoords[selectedDriverId].lon;
+            const { lat: dLat, lng: dLon } = e.latlng;
+            const { lat: sLat, lon: sLon } = driverCoords[selectedDriverId];
+
+            // Plaats of verplaats bestemmingsmarker
+            if (destMarker) map.removeLayer(destMarker);
+            destMarker = L.marker([dLat, dLon], { icon: L.divIcon({className: 'dest-icon', html: '📍', iconSize: [30, 30]}) }).addTo(map);
 
             const url = `https://router.project-osrm.org/route/v1/driving/${sLon},${sLat};${dLon},${dLat}?overview=full&geometries=geojson`;
 
@@ -106,48 +104,44 @@
                 const data = await response.json();
                 const route = data.routes[0];
 
-                // Verwijder oude route
                 if (routeLayer) map.removeLayer(routeLayer);
+                routeLayer = L.geoJSON(route.geometry, { style: { color: '#007bff', weight: 6, opacity: 0.8 } }).addTo(map);
 
-                // Teken de nieuwe route op de kaart
-                routeLayer = L.geoJSON(route.geometry, {
-                    style: { color: '#007bff', weight: 6, opacity: 0.7 }
-                }).addTo(map);
-
-                // Update ETA in de UI
                 const duration = Math.round(route.duration / 60);
                 const distance = (route.distance / 1000).toFixed(1);
-                document.getElementById(`eta-${selectedDriverId}`).innerText = 
-                    `⏱️ ETA: ${duration} min (${distance} km)`;
+                
+                const etaBox = document.getElementById(`eta-${selectedDriverId}`);
+                etaBox.style.display = "block";
+                etaBox.innerText = `🚚 Bestemming bereikt in: ${duration} min (${distance} km)`;
 
-                map.fitBounds(routeLayer.getBounds(), { padding: [50, 50] });
+                map.fitBounds(routeLayer.getBounds(), { padding: [100, 100] });
+            } catch (err) { alert("Route niet gevonden."); }
+        });
 
-            } catch (e) {
-                alert("Fout bij routeberekening: " + e.message);
-            }
-        };
-
-        onValue(ref(db, 'tracking'), (snapshot) => {
-            const tracking = snapshot.val() || {};
+        onValue(ref(db, '/'), (snapshot) => {
+            const data = snapshot.val() || {};
+            const tracking = data.tracking || {};
+            const meldingen = data.meldingen || {};
             const list = document.getElementById('driver-list');
             list.innerHTML = "";
 
             for (let id in tracking) {
                 if (id === "1" || id === "Gast_User") continue;
                 const loc = tracking[id];
+                const info = meldingen[id] || { naam: "Chauffeur", status: "Actief" };
                 driverCoords[id] = { lat: loc.latitude, lon: loc.longitude };
 
                 if (markers[id]) {
                     markers[id].setLatLng([loc.latitude, loc.longitude]);
                 } else {
-                    markers[id] = L.marker([loc.latitude, loc.longitude]).addTo(map).bindPopup(id);
+                    markers[id] = L.marker([loc.latitude, loc.longitude]).addTo(map).bindPopup(`<b>${info.naam}</b>`);
                 }
 
                 list.innerHTML += `
-                    <div class="driver-card" onclick="selectDriver('${id}', ${loc.latitude}, ${loc.longitude})">
-                        <strong>ID: ${id.substring(0, 8)}</strong>
-                        <div style="font-size: 12px; color: #666;">Locatie: ${loc.latitude.toFixed(4)}, ${loc.longitude.toFixed(4)}</div>
-                        <div class="eta-box" id="eta-${id}">Klik 'Bereken Route' voor ETA</div>
+                    <div class="driver-card" id="card-${id}" onclick="selectDriver('${id}', ${loc.latitude}, ${loc.longitude})">
+                        <span class="name-header">${info.naam}</span>
+                        <div style="font-size: 12px; color: #666;">Status: ${info.status}</div>
+                        <div class="eta-result" id="eta-${id}"></div>
                     </div>`;
             }
         });
