@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cakir Logistics | Live Fleet Command</title>
+<title>Cakir Logistics | Live Fleet Control</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -11,283 +11,128 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"/>
 
 <style>
-  /* ===== CSS VARIABLES & RESET ===== */
   :root {
-    --bg: #080b13;
-    --panel: #0f172a;
-    --panel-light: #1e293b;
-    --border: #334155;
-    --accent: #00d4ff;
-    --accent-glow: rgba(0, 212, 255, 0.3);
-    --green: #10b981;
-    --yellow: #f59e0b;
-    --red: #ef4444;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --sidebar-width: 380px;
-    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --bg: #0b0f1a; --panel: #111827; --panel2: #1a2235; --border: #1e2d45;
+    --accent: #00d4ff; --accent2: #0099bb; --green: #00e676; --yellow: #ffea00;
+    --red: #ff4444; --text: #e2e8f0; --muted: #64748b; --sidebar: 360px;
   }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'IBM Plex Sans', sans-serif; background: var(--bg); color: var(--text); height: 100vh; overflow: hidden; display: flex; }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
-  body { 
-    font-family: 'IBM Plex Sans', sans-serif; 
-    background: var(--bg); 
-    color: var(--text-main); 
-    height: 100vh; 
-    overflow: hidden; 
-    display: flex; 
-  }
-
-  /* ===== SIDEBAR STYLING ===== */
+  /* ===== SIDEBAR ===== */
   #sidebar {
-    width: var(--sidebar-width);
-    min-width: var(--sidebar-width);
-    height: 100vh;
-    background: var(--panel);
-    border-right: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    z-index: 1000;
+    width: var(--sidebar); min-width: var(--sidebar); height: 100vh;
+    background: var(--panel); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; z-index: 1000; position: relative;
     box-shadow: 10px 0 30px rgba(0,0,0,0.5);
   }
 
-  /* Header Section */
-  .brand-container {
-    padding: 24px;
-    background: linear-gradient(180deg, rgba(15,23,42,1) 0%, rgba(8,11,19,1) 100%);
-    border-bottom: 1px solid var(--border);
+  .brand {
+    padding: 20px 20px 16px; border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, #0f1d30 0%, #0b1525 100%);
   }
-  .brand-flex { display: flex; align-items: center; gap: 14px; }
-  .logo-box {
-    width: 44px; height: 44px;
-    background: var(--accent);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 0 20px var(--accent-glow);
+  .brand-logo { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .brand-icon {
+    width: 36px; height: 36px; background: var(--accent); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+    box-shadow: 0 0 20px rgba(0,212,255,0.4);
   }
-  .brand-text h1 {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 18px; font-weight: 700; color: #fff;
-    letter-spacing: 1px;
-  }
-  .brand-status {
-    font-size: 10px; color: var(--accent);
-    text-transform: uppercase; letter-spacing: 3px; font-weight: 600;
-  }
+  .brand-name { font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 700; color: white; letter-spacing: 0.05em; }
 
-  /* Statistics Dashboard */
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 20px;
-    background: rgba(0,0,0,0.2);
-    border-bottom: 1px solid var(--border);
-  }
-  .stat-card {
-    background: var(--panel-light);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 8px;
-    text-align: center;
-    transition: var(--transition);
-  }
-  .stat-card:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .stat-value {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 24px; font-weight: 700; color: var(--text-main);
-  }
-  .stat-label {
-    font-size: 10px; color: var(--text-muted);
-    text-transform: uppercase; margin-top: 4px;
-  }
+  /* Stats row */
+  .stats-row { display: flex; padding: 14px 20px; gap: 12px; border-bottom: 1px solid var(--border); }
+  .stat-box { flex: 1; background: var(--panel2); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; transition: 0.3s; }
+  .stat-box:hover { border-color: var(--accent); }
+  .stat-val { font-family: 'IBM Plex Mono', monospace; font-size: 22px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .stat-lbl { font-size: 9px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
 
-  /* Driver Search */
-  .search-area { padding: 16px 20px; }
-  .search-input-group {
-    position: relative;
-    display: flex; align-items: center;
-    background: var(--panel-light);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 0 16px;
-  }
-  .search-input-group input {
-    background: transparent; border: none;
-    color: #fff; padding: 12px 0; width: 100%;
-    font-size: 14px;
-  }
-  .search-input-group input::placeholder { color: var(--text-muted); }
-
-  /* Driver List */
-  .driver-list-header {
-    padding: 0 24px 10px;
-    font-size: 11px; font-weight: 700; color: var(--text-muted);
-    text-transform: uppercase; letter-spacing: 1.5px;
-    display: flex; justify-content: space-between;
-  }
-  .live-indicator { color: var(--green); display: flex; align-items: center; gap: 6px; }
-  .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
-  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.7); } 70% { box-shadow: 0 0 0 10px rgba(16,185,129,0); } 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); } }
-
-  .list-viewport {
-    flex: 1; overflow-y: auto; padding: 0 16px 20px;
-  }
-  .list-viewport::-webkit-scrollbar { width: 5px; }
-  .list-viewport::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
-
-  /* Driver Card Styling */
+  /* Driver list */
+  .driver-list { flex: 1; overflow-y: auto; padding: 12px; }
   .driver-card {
-    background: var(--panel-light);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 16px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    transition: var(--transition);
-    display: flex; align-items: center; gap: 16px;
-    position: relative;
+    background: var(--panel2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 8px; cursor: pointer; transition: 0.2s;
+    display: flex; align-items: center; gap: 12px; position: relative;
   }
-  .driver-card::after {
-    content: ''; position: absolute; left: 0; top: 15%; height: 70%; width: 4px;
-    border-radius: 0 4px 4px 0; background: var(--text-muted);
-  }
-  .driver-card:hover { border-color: var(--accent); background: #1e293b; }
-  .driver-card.active { border-color: var(--accent); background: #0f172a; box-shadow: inset 0 0 15px rgba(0,212,255,0.1); }
-  .driver-card.active::after { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+  .driver-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--muted); }
+  .driver-card.active { border-color: var(--accent); background: #0f1e33; }
+  .driver-card.active::before { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+  
+  /* Status Colors */
+  .status-start_rit::before { background: var(--green); }
+  .status-sos::before { background: var(--red); animation: pulse_red 1s infinite; }
+  @keyframes pulse_red { 50% { opacity: 0.3; } }
 
-  .driver-card.status-start_rit::after { background: var(--green); }
-  .driver-card.status-sos::after { background: var(--red); animation: sos-blink 1s infinite; }
-  @keyframes sos-blink { 50% { opacity: 0; } }
+  .driver-avatar {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: linear-gradient(135deg, #1e3a5f, #0a1e35); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700; color: var(--accent);
+  }
 
-  .avatar-circle {
-    width: 48px; height: 48px;
-    background: linear-gradient(135deg, #334155, #0f172a);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    display: flex; align-items: center; justify-content: center;
-    font-weight: 700; color: var(--accent); font-family: 'IBM Plex Mono', monospace;
-  }
-  .driver-info-text { flex: 1; overflow: hidden; }
-  .driver-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .driver-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  /* Route panel */
+  #route-panel { border-top: 1px solid var(--border); background: #0a1520; max-height: 0; overflow: hidden; transition: 0.4s; }
+  #route-panel.open { max-height: 200px; padding: 16px 20px; }
+  .route-stat-val { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 700; color: var(--accent); }
+  .route-btn { flex: 1; padding: 8px; background: var(--panel2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); cursor: pointer; font-size: 11px; font-weight: 600; }
+  .route-btn.primary { background: var(--accent); color: #000; }
 
-  /* Route Panel */
-  #route-pane {
-    background: #020617;
-    border-top: 1px solid var(--border);
-    max-height: 0; overflow: hidden;
-    transition: max-height 0.5s ease;
+  /* ===== MAP ===== */
+  #map { flex: 1; height: 100vh; position: relative; }
+  .map-controls { position: absolute; right: 16px; bottom: 40px; z-index: 900; display: flex; flex-direction: column; gap: 8px; }
+  .ctrl-btn {
+    width: 40px; height: 40px; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text); cursor: pointer; display: flex; align-items: center;
+    justify-content: center; box-shadow: 0 2px 12px rgba(0,0,0,0.5); transition: 0.2s;
   }
-  #route-pane.show { max-height: 250px; padding: 20px; }
-  .route-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-  .route-val { font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 700; color: var(--accent); }
-  .route-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
-  .btn-group { display: flex; gap: 10px; }
-  .action-btn {
-    flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border);
-    background: var(--panel-light); color: #fff; cursor: pointer; font-size: 12px; font-weight: 600;
-  }
-  .action-btn.primary { background: var(--accent); color: #000; border: none; }
+  .ctrl-btn:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* ===== MAP SECTION ===== */
-  #map-container { flex: 1; position: relative; }
-  #map { height: 100%; width: 100%; }
-
-  .map-overlay-tools {
-    position: absolute; right: 20px; bottom: 40px;
-    z-index: 1000; display: flex; flex-direction: column; gap: 10px;
-  }
-  .tool-circle {
-    width: 46px; height: 46px; background: var(--panel);
-    border: 1px solid var(--border); border-radius: 12px;
-    color: #fff; font-size: 20px; cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: var(--transition);
-  }
-  .tool-circle:hover { border-color: var(--accent); color: var(--accent); }
-
-  /* LOADER */
-  #init-loader {
-    position: fixed; inset: 0; background: var(--bg);
-    z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
-  }
-  .spinner { width: 60px; height: 60px; border: 4px solid var(--panel-light); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+  #loading { position: absolute; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; }
 </style>
 </head>
 <body>
 
-<div id="init-loader">
-  <div class="spinner"></div>
-  <p style="margin-top: 20px; font-family: 'IBM Plex Mono', monospace; color: var(--accent); letter-spacing: 2px;">AUTHENTICATING WITH FIREBASE...</p>
+<div id="loading">
+  <div style="font-size: 48px; margin-bottom: 16px; animation: spin 2s linear infinite;">🛰️</div>
+  <div style="font-family: 'IBM Plex Mono', monospace; color: var(--accent); letter-spacing: 2px;">SYNCING WITH CAKIR REALTIME DB...</div>
 </div>
 
 <div id="sidebar">
-  <div class="brand-container">
-    <div class="brand-flex">
-      <div class="logo-box">🛰️</div>
-      <div class="brand-text">
-        <h1>CAKIR LOGISTICS</h1>
-        <div class="brand-status">Fleet Command Center</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="stat-value" id="count-total">0</div>
-      <div class="stat-label">Vloot</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value" id="count-drive" style="color: var(--green);">0</div>
-      <div class="stat-label">Rijdend</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-value" id="count-sos" style="color: var(--red);">0</div>
-      <div class="stat-label">SOS</div>
-    </div>
-  </div>
-
-  <div class="search-area">
-    <div class="search-input-group">
-      <input type="text" id="driver-search" placeholder="Zoek chauffeur op naam...">
-    </div>
-  </div>
-
-  <div class="driver-list-header">
-    <span>Voertuigen op de kaart</span>
-    <span class="live-indicator"><span class="dot"></span> LIVE DATA</span>
-  </div>
-
-  <div class="list-viewport" id="list-container">
-    </div>
-
-  <div id="route-pane">
-    <div class="route-grid">
+  <div class="brand">
+    <div class="brand-logo">
+      <div class="brand-icon">🚛</div>
       <div>
-        <div class="route-val" id="eta-time">-- min</div>
-        <div class="route-label">Snelste Reistijd</div>
-      </div>
-      <div>
-        <div class="route-val" id="eta-dist">-- km</div>
-        <div class="route-label">Totale Afstand</div>
+        <div class="brand-name">CAKIR LOGISTICS</div>
+        <div style="font-size: 10px; color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase;">Fleet Control Center</div>
       </div>
     </div>
-    <div class="btn-group">
-      <button class="action-btn" onclick="resetRoute()">✕ Annuleren</button>
-      <button class="action-btn primary" onclick="recenterMap()">🎯 Focus Chauffeur</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box"><div class="stat-val" id="stat-active">0</div><div class="stat-lbl">Totaal</div></div>
+    <div class="stat-box"><div class="stat-val" id="stat-rijdend" style="color:var(--green)">0</div><div class="stat-lbl">Rijdend</div></div>
+    <div class="stat-box"><div class="stat-val" id="stat-sos" style="color:var(--red)">0</div><div class="stat-lbl">SOS</div></div>
+  </div>
+
+  <div class="driver-list" id="driver-list"></div>
+
+  <div id="route-panel">
+    <div style="display: flex; gap: 16px; margin-bottom: 14px;">
+      <div style="flex: 1;"><div class="route-stat-val" id="route-time">--</div><div style="font-size: 10px; color: var(--muted);">Reistijd</div></div>
+      <div style="flex: 1;"><div class="route-stat-val" id="route-dist">--</div><div style="font-size: 10px; color: var(--muted);">Afstand</div></div>
+    </div>
+    <div style="display:flex; gap:8px;">
+      <button class="route-btn" onclick="clearRoute()">✕ Wissen</button>
+      <button class="route-btn primary" onclick="focusDriver()">🎯 Focus</button>
     </div>
   </div>
 </div>
 
-<div id="map-container">
-  <div id="map"></div>
-  <div class="map-overlay-tools">
-    <button class="tool-circle" onclick="toggleSat()" title="Satelliet">🛰️</button>
-    <button class="tool-circle" onclick="zoomIn()">+</button>
-    <button class="tool-circle" onclick="zoomOut()">−</button>
+<div id="map">
+  <div class="map-controls">
+    <button class="ctrl-btn" onclick="toggleTile()">🛰️</button>
+    <button class="ctrl-btn" onclick="goToMyLocation()">🎯</button>
+    <button class="ctrl-btn" onclick="map.setZoom(map.getZoom()+1)">+</button>
+    <button class="ctrl-btn" onclick="map.setZoom(map.getZoom()-1)">-</button>
   </div>
 </div>
 
@@ -298,118 +143,118 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // JOUW EIGEN CONFIGURATIE
+    // JOUW ECHTE FIREBASE CONFIGURATIE
     const firebaseConfig = {
-        apiKey: "AIzaSyB-...", 
         databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
-        projectId: "cakir-logistics-tracker"
+        projectId: "cakir-logistics-tracker-c4b6b"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // MAP INITIALIZATION
+    // MAP SETUP
     const map = L.map('map', { center: [51.0654, 4.0289], zoom: 11, zoomControl: false, attributionControl: false });
-    const darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
-    const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
+    const darkTile = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
+    const satTile = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
 
     const markers = {};
     const driverCache = {};
-    let activeDriverId = null;
-    let routingEngine = null;
+    let selectedId = null;
+    let routeControl = null;
 
-    // FIREBASE DATA LOOP
+    // FIREBASE SYNC (Tracking + Meldingen)
     onValue(ref(db, '/'), (snapshot) => {
-        const root = snapshot.val() || {};
-        const locations = root.tracking || {};
-        const states = root.meldingen || {};
-        const container = document.getElementById('list-container');
-        
-        let total = 0, driving = 0, emergency = 0;
-        container.innerHTML = "";
+        const data = snapshot.val() || {};
+        const tracking = data.tracking || {};
+        const meldingen = data.meldingen || {};
+        const list = document.getElementById('driver-list');
+        list.innerHTML = "";
 
-        for (let id in locations) {
+        let totaal = 0, rijdend = 0, sos = 0;
+
+        for (let id in tracking) {
             if (id === "1" || id === "Gast_User") continue;
-            total++;
+            totaal++;
+            const loc = tracking[id];
+            const info = meldingen[id] || { naam: "Chauffeur", status: "ONLINE" };
+            driverCache[id] = { lat: loc.latitude, lng: loc.longitude };
 
-            const pos = locations[id];
-            const meta = states[id] || { naam: "Chauffeur", status: "Actief" };
-            driverCache[id] = { lat: pos.latitude, lng: pos.longitude, name: meta.naam };
+            if (info.status === "START_RIT") rijdend++;
+            if (info.status === "SOS") sos++;
 
-            if (meta.status === "START_RIT") driving++;
-            if (meta.status === "SOS") emergency++;
-
-            // Marker Management
-            const color = meta.status === "SOS" ? "#ef4444" : (meta.status === "START_RIT" ? "#10b981" : "#f59e0b");
+            // Marker Update
+            const color = info.status === "SOS" ? "#ff4444" : (info.status === "START_RIT" ? "#00e676" : "#ffea00");
             const icon = L.divIcon({
-                html: `<div style="background:${color}; width:32px; height:32px; border-radius:10px; border:2px solid white; box-shadow:0 0 15px ${color}88; display:flex; align-items:center; justify-content:center; color:black; font-weight:bold; font-size:10px;">TRK</div>`,
+                html: `<div style="background:${color}; width:32px; height:32px; border-radius:10px; border:2px solid white; box-shadow:0 0 15px ${color}88; display:flex; align-items:center; justify-content:center; color:black; font-weight:bold; font-size:9px;">TRK</div>`,
                 className: ''
             });
 
             if (markers[id]) {
-                markers[id].setLatLng([pos.latitude, pos.longitude]).setIcon(icon);
+                markers[id].setLatLng([loc.latitude, loc.longitude]).setIcon(icon);
             } else {
-                markers[id] = L.marker([pos.latitude, pos.longitude], { icon }).addTo(map).bindPopup(`<b>${meta.naam}</b>`);
+                markers[id] = L.marker([loc.latitude, loc.longitude], { icon }).addTo(map).bindPopup(`<b>${info.naam}</b>`);
             }
 
-            // Create Sidebar Card
+            // Card Update in Sidebar
             const card = document.createElement('div');
-            card.className = `driver-card status-${meta.status.toLowerCase()} ${activeDriverId === id ? 'active' : ''}`;
+            card.className = `driver-card status-${info.status.toLowerCase()}${selectedId === id ? ' active' : ''}`;
             card.innerHTML = `
-                <div class="avatar-circle">${meta.naam.substring(0,2).toUpperCase()}</div>
-                <div class="driver-info-text">
-                    <div class="driver-name">${meta.naam}</div>
-                    <div class="driver-sub">Huidige status: ${meta.status}</div>
+                <div class="driver-avatar">${info.naam.substring(0,2).toUpperCase()}</div>
+                <div style="flex:1">
+                    <div style="font-weight:600; font-size:14px;">${info.naam}</div>
+                    <div style="font-size:11px; color:var(--muted);">${info.status}</div>
                 </div>`;
             card.onclick = () => {
-                activeDriverId = id;
-                map.flyTo([pos.latitude, pos.longitude], 15);
+                selectedId = id;
+                map.flyTo([loc.latitude, loc.longitude], 15);
                 document.querySelectorAll('.driver-card').forEach(c => c.classList.remove('active'));
                 card.classList.add('active');
             };
-            container.appendChild(card);
+            list.appendChild(card);
         }
 
-        // Global Stats Update
-        document.getElementById('count-total').innerText = total;
-        document.getElementById('count-drive').innerText = driving;
-        document.getElementById('count-sos').innerText = emergency;
-        
-        // Remove Loader
-        document.getElementById('init-loader').style.opacity = '0';
-        setTimeout(() => document.getElementById('init-loader').style.display = 'none', 600);
+        document.getElementById('stat-active').innerText = totaal;
+        document.getElementById('stat-rijdend').innerText = rijdend;
+        document.getElementById('stat-sos').innerText = sos;
+        document.getElementById('loading').style.display = 'none';
     });
 
-    // ROUTING SYSTEM
+    // ROUTE CALCULATOR
     map.on('click', (e) => {
-        if (!activeDriverId) return;
-        const startPoint = driverCache[activeDriverId];
-        
-        if (routingEngine) map.removeControl(routingEngine);
+        if (!selectedId) return;
+        const start = driverCache[selectedId];
+        if (routeControl) map.removeControl(routeControl);
 
-        routingEngine = L.Routing.control({
-            waypoints: [L.latLng(startPoint.lat, startPoint.lng), L.latLng(e.latlng.lat, e.latlng.lng)],
-            lineOptions: { styles: [{ color: '#00d4ff', weight: 6, opacity: 0.8 }] },
+        routeControl = L.Routing.control({
+            waypoints: [L.latLng(start.lat, start.lng), L.latLng(e.latlng.lat, e.latlng.lng)],
+            lineOptions: { styles: [{ color: '#00d4ff', weight: 6, opacity: 0.9 }] },
             createMarker: () => null
         }).addTo(map);
 
-        routingEngine.on('routesfound', (ev) => {
-            const summary = ev.routes[0].summary;
-            document.getElementById('eta-time').textContent = Math.round(summary.totalTime / 60) + " min";
-            document.getElementById('eta-dist').textContent = (summary.totalDistance / 1000).toFixed(1) + " km";
-            document.getElementById('route-pane').classList.add('show');
+        routeControl.on('routesfound', (ev) => {
+            const r = ev.routes[0].summary;
+            document.getElementById('route-time').textContent = Math.round(r.totalTime / 60) + "m";
+            document.getElementById('route-dist').textContent = (r.totalDistance / 1000).toFixed(1) + "km";
+            document.getElementById('route-panel').classList.add('open');
         });
     });
 
-    // GLOBAL ACTIONS
-    window.toggleSat = () => {
-        if (map.hasLayer(darkLayer)) { map.removeLayer(darkLayer); satLayer.addTo(map); }
-        else { map.removeLayer(satLayer); darkLayer.addTo(map); }
+    window.toggleTile = () => {
+        if (map.hasLayer(darkTile)) { map.removeLayer(darkTile); satTile.addTo(map); }
+        else { map.removeLayer(satTile); darkTile.addTo(map); }
     };
-    window.resetRoute = () => { if (routingEngine) map.removeControl(routingEngine); document.getElementById('route-pane').classList.remove('show'); };
-    window.recenterMap = () => { if (activeDriverId) map.flyTo([driverCache[activeDriverId].lat, driverCache[activeDriverId].lng], 15); };
-    window.zoomIn = () => map.setZoom(map.getZoom() + 1);
-    window.zoomOut = () => map.setZoom(map.getZoom() - 1);
+
+    window.goToMyLocation = () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(pos => {
+                map.flyTo([pos.coords.latitude, pos.coords.longitude], 15);
+                L.marker([pos.coords.latitude, pos.coords.longitude]).addTo(map).bindPopup("Jij bent hier").openPopup();
+            }, () => alert("Toegang tot locatie geweigerd."));
+        }
+    };
+
+    window.clearRoute = () => { if (routeControl) map.removeControl(routeControl); document.getElementById('route-panel').classList.remove('open'); };
+    window.focusDriver = () => { if (selectedId) map.flyTo([driverCache[selectedId].lat, driverCache[selectedId].lng], 15); };
 
 </script>
 </body>
