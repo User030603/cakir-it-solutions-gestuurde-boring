@@ -3,56 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cakir Logistics | Pro Route Planner</title>
+    <title>Cakir Logistics | Live Traffic & Fleet</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    
     <style>
         :root { --primary: #002d5b; --accent: #007bff; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; background: #f8f9fa; overflow: hidden; }
-        #map { height: 100vh; width: 100%; }
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        #map { height: 100vh; width: 100%; background: #ebe7de; }
         
         .sidebar {
             position: absolute; top: 0; left: 0; z-index: 1000;
-            width: 380px; height: 100vh; background: white;
-            box-shadow: 2px 0 15px rgba(0,0,0,0.2); display: flex; flex-direction: column;
+            width: 360px; height: 100vh; background: white;
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1); display: flex; flex-direction: column;
         }
 
         .header { padding: 20px; background: var(--primary); color: white; }
-        
-        /* De Zoekbox Stijl */
-        .search-container { padding: 20px; background: #fff; border-bottom: 2px solid #eee; }
-        .search-box { 
-            width: 100%; padding: 12px; border: 2px solid var(--accent); 
-            border-radius: 8px; font-size: 14px; outline: none;
-        }
+        .info-bar { padding: 15px; background: #fff3cd; color: #856404; font-size: 13px; border-bottom: 1px solid #ffeeba; }
 
         .driver-list { flex: 1; overflow-y: auto; padding: 10px; }
         .driver-card {
-            background: white; padding: 15px; border-radius: 10px;
-            margin-bottom: 10px; border: 1px solid #eee; cursor: pointer; transition: 0.3s;
+            background: #fff; padding: 15px; border-radius: 8px;
+            margin-bottom: 10px; border: 1px solid #eee; cursor: pointer;
         }
-        .driver-card.selected { border-left: 6px solid var(--accent); background: #e7f1ff; }
+        .driver-card.selected { border: 2px solid var(--accent); background: #f0f7ff; }
 
-        .eta-badge { 
-            margin-top: 10px; padding: 8px; background: #28a745; color: white; 
-            border-radius: 5px; font-weight: bold; font-size: 12px; display: none;
+        .status-dot { height: 100px; width: 10px; display: inline-block; border-radius: 50%; margin-right: 5px; }
+        
+        /* Knop voor eigen locatie */
+        .loc-btn {
+            position: absolute; bottom: 20px; right: 20px; z-index: 1000;
+            background: white; border: none; padding: 12px; border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2); cursor: pointer; font-size: 20px;
+        }
+
+        .eta-info { 
+            margin-top: 10px; padding: 10px; background: #e8f5e9; 
+            border-radius: 6px; color: #2e7d32; font-weight: bold; font-size: 13px;
         }
     </style>
 </head>
 <body>
 
+    <button class="loc-btn" onclick="window.findMyLocation()" title="Mijn Locatie">🎯</button>
+
     <div class="sidebar">
         <div class="header">
-            <h2 style="margin:0;">Fleet Dispatcher</h2>
-            <div style="font-size: 12px; opacity: 0.8;">Cakir Logistics - Week 7 Pro</div>
+            <h2 style="margin:0;">Fleet Control</h2>
+            <div style="font-size: 12px; opacity: 0.8;">Real-time Traffic & Dispatching</div>
         </div>
 
-        <div class="search-container">
-            <label style="font-weight: bold; font-size: 12px; color: #666;">BESTEMMING INVOEREN (Maps-stijl):</label>
-            <input type="text" id="address-input" class="search-box" placeholder="Typ een adres of stad...">
-            <p style="font-size: 11px; color: #888; margin-top: 5px;">Klik op een chauffeur en typ daarna het adres.</p>
+        <div class="info-bar" id="instruction">
+            <b>1.</b> Kies een chauffeur.<br><b>2.</b> Klik op de kaart voor route & reistijd.
         </div>
 
         <div id="driver-list" class="driver-list"></div>
@@ -61,8 +62,6 @@
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-    
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
@@ -75,16 +74,62 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const map = L.map('map', { zoomControl: false }).setView([51.0654, 4.0289], 11);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 
-        const geocoder = L.Control.Geocoder.nominatim();
+        // KAART INITIALISATIE
+        const map = L.map('map', { zoomControl: false }).setView([51.0654, 4.0289], 10);
+        
+        // Standaard kaart
+        const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // LIVE TRAFFIC LAYER (Hybrid)
+        const trafficLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m,traffic&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            opacity: 0.7
+        }).addTo(map);
+
         const markers = {};
-        let routeLayer = null;
+        const driverCoords = {};
         let selectedDriverId = null;
-        let driverCoords = {};
+        let routeLayer = null;
 
-        // CHAUFFEUR SELECTEREN
+        // EIGEN LOCATIE OPVRAGEN
+        window.findMyLocation = () => {
+            map.locate({setView: true, maxZoom: 15});
+        };
+
+        map.on('locationfound', (e) => {
+            L.circle(e.latlng, e.accuracy).addTo(map);
+            L.marker(e.latlng).addTo(map).bindPopup("Jij bent hier").openPopup();
+        });
+
+        // ROUTE STARTEN BIJ KLIK
+        map.on('click', async (e) => {
+            if (!selectedDriverId) return;
+
+            const { lat: dLat, lng: dLon } = e.latlng;
+            const { lat: sLat, lon: sLon } = driverCoords[selectedDriverId];
+
+            const url = `https://router.project-osrm.org/route/v1/driving/${sLon},${sLat};${dLon},${dLat}?overview=full`;
+
+            const res = await fetch(url);
+            const data = await res.json();
+            const route = data.routes[0];
+
+            if (routeLayer) map.removeLayer(routeLayer);
+            routeLayer = L.polyline(L.GeoJSON.coordsToLatLngs(L.GeoJSON.utils.decodePolyline(route.geometry, 5)), {
+                color: '#007bff', weight: 7, opacity: 0.8
+            }).addTo(map);
+
+            const min = Math.round(route.duration / 60);
+            const km = (route.distance / 1000).toFixed(1);
+            
+            document.getElementById(`eta-${selectedDriverId}`).innerHTML = 
+                `⏱️ Reistijd: ~${min} min (${km} km)<br><span style="color:#d32f2f; font-size:11px;">* Check de rode lijnen voor file!</span>`;
+            
+            map.fitBounds(routeLayer.getBounds(), { padding: [50, 50] });
+        });
+
         window.selectDriver = (id, lat, lon) => {
             selectedDriverId = id;
             map.flyTo([lat, lon], 14);
@@ -92,46 +137,7 @@
             document.getElementById(`card-${id}`).classList.add('selected');
         };
 
-        // ADRES ZOEKEN & ROUTE MAKEN
-        const input = document.getElementById('address-input');
-        input.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter') {
-                if (!selectedDriverId) return alert("Selecteer eerst een chauffeur!");
-                
-                const address = input.value;
-                geocoder.geocode(address, (results) => {
-                    if (results.length > 0) {
-                        const dest = results[0].center;
-                        calculateRoute(dest.lat, dest.lng);
-                    } else {
-                        alert("Adres niet gevonden!");
-                    }
-                });
-            }
-        });
-
-        async function calculateRoute(dLat, dLon) {
-            const { lat: sLat, lon: sLon } = driverCoords[selectedDriverId];
-            const url = `https://router.project-osrm.org/route/v1/driving/${sLon},${sLat};${dLon},${dLat}?overview=full&geometries=geojson`;
-
-            const response = await fetch(url);
-            const data = await response.json();
-            const route = data.routes[0];
-
-            if (routeLayer) map.removeLayer(routeLayer);
-            routeLayer = L.geoJSON(route.geometry, { style: { color: '#007bff', weight: 6 } }).addTo(map);
-
-            const duration = Math.round(route.duration / 60);
-            const distance = (route.distance / 1000).toFixed(1);
-            
-            const etaBadge = document.getElementById(`eta-${selectedDriverId}`);
-            etaBadge.style.display = "block";
-            etaBadge.innerHTML = `⏱️ ${duration} min (${distance} km)`;
-
-            map.fitBounds(routeLayer.getBounds(), { padding: [50, 50] });
-        }
-
-        // FIREBASE DATA (Namen & Locaties)
+        // FIREBASE SYNC (Namen + Locatie)
         onValue(ref(db, '/'), (snapshot) => {
             const data = snapshot.val() || {};
             const tracking = data.tracking || {};
@@ -142,20 +148,21 @@
             for (let id in tracking) {
                 if (id === "1" || id === "Gast_User") continue;
                 const loc = tracking[id];
-                const info = meldingen[id] || { naam: "Laden...", status: "Actief" };
+                const info = meldingen[id] || { naam: "Chauffeur", status: "Onderweg" };
                 driverCoords[id] = { lat: loc.latitude, lon: loc.longitude };
 
                 if (!markers[id]) markers[id] = L.marker([loc.latitude, loc.longitude]).addTo(map);
-                markers[id].setLatLng([loc.latitude, loc.longitude]).bindPopup(info.naam);
+                markers[id].setLatLng([loc.latitude, loc.longitude]).bindPopup(`<b>${info.naam}</b><br>Status: ${info.status}`);
 
                 list.innerHTML += `
                     <div class="driver-card" id="card-${id}" onclick="selectDriver('${id}', ${loc.latitude}, ${loc.longitude})">
-                        <strong style="font-size:16px;">${info.naam}</strong>
-                        <div style="font-size:12px; color:#777;">Status: ${info.status}</div>
-                        <div class="eta-badge" id="eta-${id}"></div>
+                        <strong style="font-size:16px; color:#002d5b;">${info.naam}</strong>
+                        <div style="font-size:12px; color:#666; margin-top:4px;">Huidige status: <i>${info.status}</i></div>
+                        <div id="eta-${id}" class="eta-info" style="${selectedDriverId === id ? '' : 'display:none'}">Klik op kaart voor ETA</div>
                     </div>`;
             }
         });
+
     </script>
 </body>
 </html>
