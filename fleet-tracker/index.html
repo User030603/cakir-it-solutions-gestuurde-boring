@@ -1,232 +1,416 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cakir Logistics | Open-Source Fleet Control</title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root { --google-blue: #1a73e8; --google-grey: #70757a; --border-color: #dadce0; }
-        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Roboto', sans-serif; background: #e5e3df; overflow: hidden; }
-        #map { height: 100vh; width: 100%; z-index: 1; cursor: crosshair; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cakir Logistics | Live Fleet Command</title>
 
-        /* --- GOOGLE STYLE FLOATING SIDEBAR --- */
-        #side-panel {
-            position: absolute; top: 12px; left: 12px; z-index: 1000;
-            width: 390px; max-height: 95vh; display: flex; flex-direction: column;
-            pointer-events: none;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css"/>
 
-        .google-card {
-            pointer-events: auto; background: white; border-radius: 8px;
-            box-shadow: 0 1px 6px rgba(32,33,36,0.28); margin-bottom: 8px;
-            overflow: hidden; border: 1px solid var(--border-color);
-        }
+<style>
+  /* ===== CSS VARIABLES & RESET ===== */
+  :root {
+    --bg: #080b13;
+    --panel: #0f172a;
+    --panel-light: #1e293b;
+    --border: #334155;
+    --accent: #00d4ff;
+    --accent-glow: rgba(0, 212, 255, 0.3);
+    --green: #10b981;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --sidebar-width: 380px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-        /* Zoekbalk */
-        .search-container { display: flex; align-items: center; padding: 0 16px; min-height: 48px; }
-        .search-icon { color: var(--google-grey); margin-right: 12px; font-size: 20px; }
-        .search-container input {
-            border: none; outline: none; flex: 1; font-size: 16px; padding: 12px 0; color: #202124;
-        }
+  * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+  body { 
+    font-family: 'IBM Plex Sans', sans-serif; 
+    background: var(--bg); 
+    color: var(--text-main); 
+    height: 100vh; 
+    overflow: hidden; 
+    display: flex; 
+  }
 
-        /* Chauffeur Lijst */
-        .driver-list-wrapper { flex: 1; display: flex; flex-direction: column; min-height: 0; }
-        .list-title { padding: 12px 16px; font-size: 12px; font-weight: 500; color: var(--google-grey); text-transform: uppercase; letter-spacing: .5px; }
-        .driver-scroll { overflow-y: auto; max-height: 350px; }
-        
-        .driver-item {
-            display: flex; align-items: center; padding: 12px 16px;
-            cursor: pointer; border-bottom: 1px solid #f1f3f4; transition: 0.2s;
-        }
-        .driver-item:hover { background: #f8f9fa; }
-        .driver-item.selected { background: #e8f0fe; }
+  /* ===== SIDEBAR STYLING ===== */
+  #sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--panel);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+  }
 
-        .avatar { width: 36px; height: 36px; border-radius: 50%; background: #e8eaed; display: flex; align-items: center; justify-content: center; margin-right: 12px; color: #5f6368; font-weight: bold; }
-        .d-name { font-size: 14px; font-weight: 500; color: #202124; }
-        .d-status { font-size: 12px; color: var(--google-grey); }
+  /* Header Section */
+  .brand-container {
+    padding: 24px;
+    background: linear-gradient(180deg, rgba(15,23,42,1) 0%, rgba(8,11,19,1) 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .brand-flex { display: flex; align-items: center; gap: 14px; }
+  .logo-box {
+    width: 44px; height: 44px;
+    background: var(--accent);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+  .brand-text h1 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 18px; font-weight: 700; color: #fff;
+    letter-spacing: 1px;
+  }
+  .brand-status {
+    font-size: 10px; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 3px; font-weight: 600;
+  }
 
-        /* Route/Directions Panel (Blauwe balk onderaan de kaart van Google) */
-        .directions-panel {
-            background: var(--google-blue); color: white; padding: 16px;
-            display: none; transition: 0.3s ease-in-out;
-        }
-        .mode-selector { display: flex; gap: 15px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.3); padding-bottom: 8px; }
-        .mode-btn { background: none; border: none; color: white; opacity: 0.7; cursor: pointer; font-size: 12px; padding: 4px; }
-        .mode-btn.active { opacity: 1; border-bottom: 2px solid white; font-weight: bold; }
-        .eta-main { font-size: 22px; font-weight: bold; }
-        .eta-sub { font-size: 13px; opacity: 0.9; margin-top: 4px; }
+  /* Statistics Dashboard */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 20px;
+    background: rgba(0,0,0,0.2);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-card {
+    background: var(--panel-light);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 8px;
+    text-align: center;
+    transition: var(--transition);
+  }
+  .stat-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .stat-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 24px; font-weight: 700; color: var(--text-main);
+  }
+  .stat-label {
+    font-size: 10px; color: var(--text-muted);
+    text-transform: uppercase; margin-top: 4px;
+  }
 
-        /* Floating Buttons Rechtsonder */
-        .map-controls { position: absolute; bottom: 20px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 8px; }
-        .fab {
-            width: 40px; height: 40px; background: white; border-radius: 4px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.3); border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; color: #5f6368; font-size: 20px;
-        }
-        .fab:hover { background: #f1f3f4; }
-        .fab.traffic-on { color: var(--google-blue); }
-    </style>
+  /* Driver Search */
+  .search-area { padding: 16px 20px; }
+  .search-input-group {
+    position: relative;
+    display: flex; align-items: center;
+    background: var(--panel-light);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0 16px;
+  }
+  .search-input-group input {
+    background: transparent; border: none;
+    color: #fff; padding: 12px 0; width: 100%;
+    font-size: 14px;
+  }
+  .search-input-group input::placeholder { color: var(--text-muted); }
+
+  /* Driver List */
+  .driver-list-header {
+    padding: 0 24px 10px;
+    font-size: 11px; font-weight: 700; color: var(--text-muted);
+    text-transform: uppercase; letter-spacing: 1.5px;
+    display: flex; justify-content: space-between;
+  }
+  .live-indicator { color: var(--green); display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; background: var(--green); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.7); } 70% { box-shadow: 0 0 0 10px rgba(16,185,129,0); } 100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); } }
+
+  .list-viewport {
+    flex: 1; overflow-y: auto; padding: 0 16px 20px;
+  }
+  .list-viewport::-webkit-scrollbar { width: 5px; }
+  .list-viewport::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+
+  /* Driver Card Styling */
+  .driver-card {
+    background: var(--panel-light);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex; align-items: center; gap: 16px;
+    position: relative;
+  }
+  .driver-card::after {
+    content: ''; position: absolute; left: 0; top: 15%; height: 70%; width: 4px;
+    border-radius: 0 4px 4px 0; background: var(--text-muted);
+  }
+  .driver-card:hover { border-color: var(--accent); background: #1e293b; }
+  .driver-card.active { border-color: var(--accent); background: #0f172a; box-shadow: inset 0 0 15px rgba(0,212,255,0.1); }
+  .driver-card.active::after { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+
+  .driver-card.status-start_rit::after { background: var(--green); }
+  .driver-card.status-sos::after { background: var(--red); animation: sos-blink 1s infinite; }
+  @keyframes sos-blink { 50% { opacity: 0; } }
+
+  .avatar-circle {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, #334155, #0f172a);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: var(--accent); font-family: 'IBM Plex Mono', monospace;
+  }
+  .driver-info-text { flex: 1; overflow: hidden; }
+  .driver-name { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .driver-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+  /* Route Panel */
+  #route-pane {
+    background: #020617;
+    border-top: 1px solid var(--border);
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+  #route-pane.show { max-height: 250px; padding: 20px; }
+  .route-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
+  .route-val { font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 700; color: var(--accent); }
+  .route-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+  .btn-group { display: flex; gap: 10px; }
+  .action-btn {
+    flex: 1; padding: 10px; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--panel-light); color: #fff; cursor: pointer; font-size: 12px; font-weight: 600;
+  }
+  .action-btn.primary { background: var(--accent); color: #000; border: none; }
+
+  /* ===== MAP SECTION ===== */
+  #map-container { flex: 1; position: relative; }
+  #map { height: 100%; width: 100%; }
+
+  .map-overlay-tools {
+    position: absolute; right: 20px; bottom: 40px;
+    z-index: 1000; display: flex; flex-direction: column; gap: 10px;
+  }
+  .tool-circle {
+    width: 46px; height: 46px; background: var(--panel);
+    border: 1px solid var(--border); border-radius: 12px;
+    color: #fff; font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4); transition: var(--transition);
+  }
+  .tool-circle:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* LOADER */
+  #init-loader {
+    position: fixed; inset: 0; background: var(--bg);
+    z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .spinner { width: 60px; height: 60px; border: 4px solid var(--panel-light); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
 </head>
 <body>
 
-    <div id="side-panel">
-        <div class="google-card search-container">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="target-search" placeholder="Zoek boorlocatie of adres..." autocomplete="off">
-        </div>
+<div id="init-loader">
+  <div class="spinner"></div>
+  <p style="margin-top: 20px; font-family: 'IBM Plex Mono', monospace; color: var(--accent); letter-spacing: 2px;">AUTHENTICATING WITH FIREBASE...</p>
+</div>
 
-        <div class="google-card driver-list-wrapper">
-            <div class="list-title">Actieve Vloot</div>
-            <div class="driver-scroll" id="driver-list">
-                </div>
+<div id="sidebar">
+  <div class="brand-container">
+    <div class="brand-flex">
+      <div class="logo-box">🛰️</div>
+      <div class="brand-text">
+        <h1>CAKIR LOGISTICS</h1>
+        <div class="brand-status">Fleet Command Center</div>
+      </div>
+    </div>
+  </div>
 
-            <div id="route-output" class="directions-panel">
-                <div class="mode-selector">
-                    <button class="mode-btn active" onclick="changeMode('driving')">🚗 Auto</button>
-                    <button class="mode-btn" onclick="changeMode('cycling')">🚲 Fiets</button>
-                    <button class="mode-btn" onclick="changeMode('walking')">🚶 Voet</button>
-                </div>
-                <div class="eta-main" id="val-time">-- min</div>
-                <div id="val-dist" class="eta-sub">Berekenen...</div>
-            </div>
-        </div>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-value" id="count-total">0</div>
+      <div class="stat-label">Vloot</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="count-drive" style="color: var(--green);">0</div>
+      <div class="stat-label">Rijdend</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-value" id="count-sos" style="color: var(--red);">0</div>
+      <div class="stat-label">SOS</div>
+    </div>
+  </div>
+
+  <div class="search-area">
+    <div class="search-input-group">
+      <input type="text" id="driver-search" placeholder="Zoek chauffeur op naam...">
+    </div>
+  </div>
+
+  <div class="driver-list-header">
+    <span>Voertuigen op de kaart</span>
+    <span class="live-indicator"><span class="dot"></span> LIVE DATA</span>
+  </div>
+
+  <div class="list-viewport" id="list-container">
     </div>
 
-    <div class="map-controls">
-        <button class="fab" onclick="map.locate({setView: true, maxZoom: 15})">🎯</button>
-        <button class="fab" onclick="window.toggleTraffic()" id="traffic-toggle">🚦</button>
-        <button class="fab" onclick="map.setZoom(map.getZoom() + 1)">+</button>
-        <button class="fab" onclick="map.setZoom(map.getZoom() - 1)">-</button>
+  <div id="route-pane">
+    <div class="route-grid">
+      <div>
+        <div class="route-val" id="eta-time">-- min</div>
+        <div class="route-label">Snelste Reistijd</div>
+      </div>
+      <div>
+        <div class="route-val" id="eta-dist">-- km</div>
+        <div class="route-label">Totale Afstand</div>
+      </div>
     </div>
+    <div class="btn-group">
+      <button class="action-btn" onclick="resetRoute()">✕ Annuleren</button>
+      <button class="action-btn primary" onclick="recenterMap()">🎯 Focus Chauffeur</button>
+    </div>
+  </div>
+</div>
 
-    <div id="map"></div>
+<div id="map-container">
+  <div id="map"></div>
+  <div class="map-overlay-tools">
+    <button class="tool-circle" onclick="toggleSat()" title="Satelliet">🛰️</button>
+    <button class="tool-circle" onclick="zoomIn()">+</button>
+    <button class="tool-circle" onclick="zoomOut()">−</button>
+  </div>
+</div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
-    
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
 
-        // CONFIG (Zelfde als voorheen)
-        const firebaseConfig = {
-            apiKey: "JOUW_KEY",
-            databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
-            projectId: "cakir-logistics-tracker"
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // KAART: CARTO DB POSITRON (Lijkt sprekend op Google Maps licht-thema)
-        const map = L.map('map', { zoomControl: false, attributionControl: false }).setView([51.0654, 4.0289], 10);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+    // JOUW EIGEN CONFIGURATIE
+    const firebaseConfig = {
+        apiKey: "AIzaSyB-...", 
+        databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
+        projectId: "cakir-logistics-tracker"
+    };
 
-        // TRAFFIC LAYER (Google Hybrid Traffic via gratis proxy)
-        const trafficLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m,traffic&x={x}&y={y}&z={z}', {
-            maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], opacity: 0
-        }).addTo(map);
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 
-        window.toggleTraffic = () => {
-            const op = trafficLayer.options.opacity === 0 ? 0.7 : 0;
-            trafficLayer.setOpacity(op);
-            document.getElementById('traffic-toggle').classList.toggle('traffic-on', op > 0);
-        };
+    // MAP INITIALIZATION
+    const map = L.map('map', { center: [51.0654, 4.0289], zoom: 11, zoomControl: false, attributionControl: false });
+    const darkLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png').addTo(map);
+    const satLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}');
 
-        const geocoder = L.Control.Geocoder.nominatim();
-        const markers = {};
-        const driverPos = {};
-        let selectedId = null;
-        let routeLine = null;
-        let currentDest = null;
-        let transportMode = 'driving';
+    const markers = {};
+    const driverCache = {};
+    let activeDriverId = null;
+    let routingEngine = null;
 
-        // SELECTEREN
-        window.focusDriver = (id, lat, lon) => {
-            selectedId = id;
-            map.flyTo([lat, lon], 14);
-            document.querySelectorAll('.driver-item').forEach(i => i.classList.remove('selected'));
-            document.getElementById(`item-${id}`).classList.add('selected');
-        };
+    // FIREBASE DATA LOOP
+    onValue(ref(db, '/'), (snapshot) => {
+        const root = snapshot.val() || {};
+        const locations = root.tracking || {};
+        const states = root.meldingen || {};
+        const container = document.getElementById('list-container');
+        
+        let total = 0, driving = 0, emergency = 0;
+        container.innerHTML = "";
 
-        // ROUTE LOGICA
-        window.changeMode = (mode) => {
-            transportMode = mode;
-            document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            if (currentDest) calculateRoute(currentDest.lat, currentDest.lng);
-        };
+        for (let id in locations) {
+            if (id === "1" || id === "Gast_User") continue;
+            total++;
 
-        map.on('click', (e) => {
-            if (!selectedId) return alert("Kies eerst een chauffeur!");
-            currentDest = e.latlng;
-            calculateRoute(e.latlng.lat, e.latlng.lng);
-        });
+            const pos = locations[id];
+            const meta = states[id] || { naam: "Chauffeur", status: "Actief" };
+            driverCache[id] = { lat: pos.latitude, lng: pos.longitude, name: meta.naam };
 
-        async function calculateRoute(dLat, dLon) {
-            const start = driverPos[selectedId];
-            // OSRM heeft verschillende profielen: driving, cycling, walking
-            const url = `https://router.project-osrm.org/route/v1/${transportMode}/${start.lon},${start.lat};${dLon},${dLat}?overview=full&geometries=geojson`;
+            if (meta.status === "START_RIT") driving++;
+            if (meta.status === "SOS") emergency++;
 
-            const res = await fetch(url);
-            const data = await res.json();
-            const route = data.routes[0];
+            // Marker Management
+            const color = meta.status === "SOS" ? "#ef4444" : (meta.status === "START_RIT" ? "#10b981" : "#f59e0b");
+            const icon = L.divIcon({
+                html: `<div style="background:${color}; width:32px; height:32px; border-radius:10px; border:2px solid white; box-shadow:0 0 15px ${color}88; display:flex; align-items:center; justify-content:center; color:black; font-weight:bold; font-size:10px;">TRK</div>`,
+                className: ''
+            });
 
-            if (routeLine) map.removeLayer(routeLine);
-            routeLine = L.geoJSON(route.geometry, { style: { color: '#1a73e8', weight: 6, opacity: 0.8 } }).addTo(map);
+            if (markers[id]) {
+                markers[id].setLatLng([pos.latitude, pos.longitude]).setIcon(icon);
+            } else {
+                markers[id] = L.marker([pos.latitude, pos.longitude], { icon }).addTo(map).bindPopup(`<b>${meta.naam}</b>`);
+            }
 
-            // UI Update Blauwe Balk
-            const panel = document.getElementById('route-output');
-            panel.style.display = 'block';
-            document.getElementById('val-time').innerText = Math.round(route.duration / 60) + " min";
-            document.getElementById('val-dist').innerText = `${(route.distance / 1000).toFixed(1)} km via de snelste route`;
-
-            map.fitBounds(routeLine.getBounds(), { padding: [100, 100] });
+            // Create Sidebar Card
+            const card = document.createElement('div');
+            card.className = `driver-card status-${meta.status.toLowerCase()} ${activeDriverId === id ? 'active' : ''}`;
+            card.innerHTML = `
+                <div class="avatar-circle">${meta.naam.substring(0,2).toUpperCase()}</div>
+                <div class="driver-info-text">
+                    <div class="driver-name">${meta.naam}</div>
+                    <div class="driver-sub">Huidige status: ${meta.status}</div>
+                </div>`;
+            card.onclick = () => {
+                activeDriverId = id;
+                map.flyTo([pos.latitude, pos.longitude], 15);
+                document.querySelectorAll('.driver-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+            };
+            container.appendChild(card);
         }
 
-        // FIREBASE SYNC
-        onValue(ref(db, '/'), (snapshot) => {
-            const data = snapshot.val() || {};
-            const tracking = data.tracking || {};
-            const meldingen = data.meldingen || {};
-            const list = document.getElementById('driver-list');
-            list.innerHTML = "";
+        // Global Stats Update
+        document.getElementById('count-total').innerText = total;
+        document.getElementById('count-drive').innerText = driving;
+        document.getElementById('count-sos').innerText = emergency;
+        
+        // Remove Loader
+        document.getElementById('init-loader').style.opacity = '0';
+        setTimeout(() => document.getElementById('init-loader').style.display = 'none', 600);
+    });
 
-            for (let id in tracking) {
-                if (id === "1" || id === "Gast_User") continue;
-                const loc = tracking[id];
-                const info = meldingen[id] || { naam: "Chauffeur", status: "ONLINE" };
-                driverPos[id] = { lat: loc.latitude, lon: loc.longitude };
+    // ROUTING SYSTEM
+    map.on('click', (e) => {
+        if (!activeDriverId) return;
+        const startPoint = driverCache[activeDriverId];
+        
+        if (routingEngine) map.removeControl(routingEngine);
 
-                if (!markers[id]) markers[id] = L.marker([loc.latitude, loc.longitude]).addTo(map);
-                markers[id].setLatLng([loc.latitude, loc.longitude]).bindPopup(info.naam);
+        routingEngine = L.Routing.control({
+            waypoints: [L.latLng(startPoint.lat, startPoint.lng), L.latLng(e.latlng.lat, e.latlng.lng)],
+            lineOptions: { styles: [{ color: '#00d4ff', weight: 6, opacity: 0.8 }] },
+            createMarker: () => null
+        }).addTo(map);
 
-                list.innerHTML += `
-                    <div class="driver-item" id="item-${id}" onclick="focusDriver('${id}', ${loc.latitude}, ${loc.longitude})">
-                        <div class="avatar">${info.naam.substring(0, 1).toUpperCase()}</div>
-                        <div style="flex:1">
-                            <div class="d-name">${info.naam}</div>
-                            <div class="d-status">${info.status}</div>
-                        </div>
-                    </div>`;
-            }
+        routingEngine.on('routesfound', (ev) => {
+            const summary = ev.routes[0].summary;
+            document.getElementById('eta-time').textContent = Math.round(summary.totalTime / 60) + " min";
+            document.getElementById('eta-dist').textContent = (summary.totalDistance / 1000).toFixed(1) + " km";
+            document.getElementById('route-pane').classList.add('show');
         });
+    });
 
-        // ZOEKBALK ENTER
-        document.getElementById('target-search').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                geocoder.geocode(e.target.value, (res) => {
-                    if (res.length > 0) {
-                        const target = res[0].center;
-                        calculateRoute(target.lat, target.lng);
-                    }
-                });
-            }
-        });
-    </script>
+    // GLOBAL ACTIONS
+    window.toggleSat = () => {
+        if (map.hasLayer(darkLayer)) { map.removeLayer(darkLayer); satLayer.addTo(map); }
+        else { map.removeLayer(satLayer); darkLayer.addTo(map); }
+    };
+    window.resetRoute = () => { if (routingEngine) map.removeControl(routingEngine); document.getElementById('route-pane').classList.remove('show'); };
+    window.recenterMap = () => { if (activeDriverId) map.flyTo([driverCache[activeDriverId].lat, driverCache[activeDriverId].lng], 15); };
+    window.zoomIn = () => map.setZoom(map.getZoom() + 1);
+    window.zoomOut = () => map.setZoom(map.getZoom() - 1);
+
+</script>
 </body>
 </html>
