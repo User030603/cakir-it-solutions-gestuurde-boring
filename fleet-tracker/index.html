@@ -3,148 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cakir Logistics | Enterprise Fleet Control</title>
+    <title>Cakir Logistics | Open Source Fleet Control</title>
     
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --google-blue: #4285F4;
-            --google-red: #EA4335;
-            --google-yellow: #FBBC05;
-            --google-green: #34A853;
-            --sidebar-width: 400px;
+            --google-blue: #1a73e8;
+            --google-red: #d93025;
+            --bg-light: #f8f9fa;
         }
 
-        body, html { 
-            margin: 0; padding: 0; height: 100%; 
-            font-family: 'Roboto', sans-serif; background: #f1f3f4; 
-            overflow: hidden; 
+        body, html { margin: 0; padding: 0; height: 100%; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; overflow: hidden; }
+        #map { height: 100vh; width: 100%; z-index: 1; background: #e5e3df; }
+
+        /* Floating Search & Sidebar Overlay */
+        #google-ui-container {
+            position: absolute; top: 12px; left: 12px; z-index: 1000;
+            width: 390px; max-height: 95vh; display: flex; flex-direction: column;
+            pointer-events: none;
         }
 
-        /* De Zwevende Google Maps Sidebar */
-        #ui-layer {
-            position: absolute; top: 0; left: 0; z-index: 1000;
-            width: var(--sidebar-width); height: 100vh;
-            pointer-events: none; /* Zorgt dat je door lege plekken op de kaart kunt klikken */
-            display: flex; flex-direction: column; padding: 12px; box-sizing: border-box;
+        .google-panel {
+            pointer-events: auto; background: white; border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3); margin-bottom: 12px;
+            overflow: hidden;
         }
 
-        .glass-panel {
-            pointer-events: auto;
-            background: white; border-radius: 8px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-            margin-bottom: 12px;
+        /* De Zoekbalk */
+        .search-box-wrapper { display: flex; align-items: center; padding: 2px 16px; min-height: 48px; }
+        .search-box-wrapper input {
+            border: none; outline: none; flex: 1; font-size: 16px; color: #202124; padding: 10px 0;
         }
+        .search-icon { color: #70757a; margin-right: 15px; font-size: 18px; }
 
-        /* Zoekbalk met Autocomplete Look */
-        .search-section { padding: 8px 16px; display: flex; align-items: center; min-height: 48px; }
-        .search-section input {
-            border: none; outline: none; width: 100%; font-size: 16px; color: #3c4043;
-        }
-        .search-icon { color: #70757a; margin-right: 15px; font-size: 20px; }
-
-        /* Chauffeur Dashboard binnen de sidebar */
-        .fleet-section { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-        .fleet-header { 
-            padding: 16px; border-bottom: 1px solid #e8eaed; 
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .fleet-header h2 { margin: 0; font-size: 18px; color: var(--google-blue); }
-
-        .driver-list { overflow-y: auto; flex: 1; }
-        .driver-card {
-            padding: 16px; border-bottom: 1px solid #f1f3f4;
-            cursor: pointer; transition: background 0.2s;
-            display: flex; align-items: flex-start; gap: 12px;
-        }
-        .driver-card:hover { background: #f8f9fa; }
-        .driver-card.selected { background: #e8f0fe; border-left: 4px solid var(--google-blue); }
-
-        .driver-avatar {
-            width: 40px; height: 40px; border-radius: 50%;
-            background: #e8eaed; display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: #5f6368; font-size: 14px;
-        }
-
-        .driver-details { flex: 1; }
-        .driver-name { font-weight: 500; font-size: 15px; color: #202124; }
-        .driver-meta { font-size: 12px; color: #70757a; margin-top: 4px; }
+        /* Chauffeur Lijst (Scrollbaar) */
+        .fleet-tray { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+        .list-header { padding: 16px; border-bottom: 1px solid #eee; font-weight: 500; color: var(--google-blue); font-size: 14px; }
+        .driver-list { overflow-y: auto; max-height: 400px; }
         
-        .status-pill {
-            font-size: 10px; padding: 2px 8px; border-radius: 12px;
-            text-transform: uppercase; font-weight: bold; margin-left: auto;
+        .driver-item {
+            display: flex; padding: 16px; border-bottom: 1px solid #f1f3f4;
+            cursor: pointer; transition: background 0.2s; align-items: center;
         }
+        .driver-item:hover { background: #f1f3f4; }
+        .driver-item.selected { background: #e8f0fe; }
 
-        /* Route & Traffic Informatie */
-        .route-info-panel {
+        .driver-icon { width: 40px; height: 40px; border-radius: 50%; background: #e8eaed; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold; color: #5f6368; }
+        .driver-name { font-size: 15px; font-weight: 500; color: #3c4043; }
+        .driver-status { font-size: 12px; color: #70757a; margin-top: 2px; }
+
+        /* Route Informatie */
+        .eta-panel {
             padding: 16px; background: var(--google-blue); color: white;
-            border-radius: 0 0 8px 8px; display: none;
+            display: none; border-top: 1px solid rgba(255,255,255,0.2);
         }
-        .eta-text { font-size: 20px; font-weight: 700; }
-        .dist-text { font-size: 14px; opacity: 0.9; }
+        .eta-time { font-size: 24px; font-weight: bold; }
+        .eta-details { font-size: 14px; opacity: 0.9; }
 
-        /* Kaart Bediening */
-        #map { height: 100vh; width: 100%; position: absolute; top: 0; left: 0; z-index: 1; }
-        .map-controls {
-            position: absolute; bottom: 24px; right: 16px; z-index: 1000;
-            display: flex; flex-direction: column; gap: 8px;
+        /* Floating Buttons (Rechtsonder) */
+        .map-fab-container { position: absolute; bottom: 30px; right: 20px; z-index: 1000; display: flex; flex-direction: column; gap: 10px; }
+        .fab {
+            width: 40px; height: 40px; background: white; border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.3); border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; font-size: 20px; color: #5f6368;
         }
-        .control-btn {
-            width: 40px; height: 40px; background: white; border-radius: 4px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.3); border: none;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 18px; color: #5f6368;
-        }
-        .control-btn:hover { background: #f1f3f4; }
-
-        /* Traffic Legenda */
-        .traffic-legend {
-            position: absolute; bottom: 24px; left: calc(var(--sidebar-width) + 24px);
-            z-index: 1000; background: white; padding: 8px 12px;
-            border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-            font-size: 12px; display: flex; gap: 10px; align-items: center;
-        }
+        .fab:hover { background: #f8f9fa; }
     </style>
 </head>
 <body>
 
-    <div id="ui-layer">
-        <div class="glass-panel search-section">
-            <span class="search-icon">📍</span>
-            <input type="text" id="address-search" placeholder="Typ bestemming (boorlocatie, stad, adres)..." autocomplete="off">
+    <div id="google-ui-container">
+        <div class="google-panel search-box-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="map-search" placeholder="Zoek een adres of bestemming..." autocomplete="off">
         </div>
 
-        <div class="glass-panel fleet-section">
-            <div class="fleet-header">
-                <h2>Cakir IT Solutions</h2>
-                <div id="active-count" style="font-size: 12px; color: #70757a;">0 Actief</div>
-            </div>
-            
+        <div class="google-panel fleet-tray">
+            <div class="list-header">Cakir IT Solutions Fleet Management</div>
             <div class="driver-list" id="driver-list">
                 </div>
-
-            <div id="route-panel" class="route-info-panel">
-                <div class="eta-text" id="res-time">-- min</div>
-                <div class="dist-text" id="res-dist">Berekenen van afstand...</div>
+            <div id="eta-container" class="eta-panel">
+                <div class="eta-time" id="eta-time">-- min</div>
+                <div class="eta-details" id="eta-dist">Route berekenen...</div>
             </div>
         </div>
     </div>
 
-    <div class="map-controls">
-        <button class="control-btn" onclick="map.setZoom(map.getZoom()+1)">+</button>
-        <button class="control-btn" onclick="map.setZoom(map.getZoom()-1)">-</button>
-        <button class="control-btn" onclick="toggleTraffic()">🚦</button>
-        <button class="control-btn" onclick="useMyLocation()">🎯</button>
-    </div>
-
-    <div class="traffic-legend">
-        <b>Verkeer:</b>
-        <span style="color:#34A853">● Snel</span>
-        <span style="color:#FBBC05">● Traag</span>
-        <span style="color:#EA4335">● File</span>
+    <div class="map-fab-container">
+        <button class="fab" onclick="map.locate({setView: true, maxZoom: 16})" title="Mijn Locatie">🎯</button>
+        <button class="fab" onclick="toggleTraffic()" id="traffic-btn" title="Verkeer Tonen">🚦</button>
+        <button class="fab" onclick="map.setZoom(map.getZoom() + 1)">+</button>
+        <button class="fab" onclick="map.setZoom(map.getZoom() - 1)">-</button>
     </div>
 
     <div id="map"></div>
@@ -156,145 +107,112 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // CONFIGURATIE
+        // FIREBASE SETUP
         const firebaseConfig = {
             apiKey: "JOUW_KEY",
             databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
             projectId: "cakir-logistics-tracker"
         };
-
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        
+
         // KAART SETUP
         const map = L.map('map', { zoomControl: false, attributionControl: false }).setView([51.0654, 4.0289], 10);
         
-        // Google Kaart Lagen
-        const googleBase = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-            maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3']
-        }).addTo(map);
-
-        const googleTraffic = L.tileLayer('http://{s}.google.com/vt/lyrs=m,traffic&x={x}&y={y}&z={z}', {
+        // Google-stijl Open Source kaartlaag
+        const osmHot = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png').addTo(map);
+        
+        // Traffic Layer (OpenSource alternatief)
+        const trafficLayer = L.tileLayer('https://{s}.google.com/vt/lyrs=m,traffic&x={x}&y={y}&z={z}', {
             maxZoom: 20, subdomains:['mt0','mt1','mt2','mt3'], opacity: 0
         }).addTo(map);
 
-        let trafficVisible = false;
+        let trafficOn = false;
         window.toggleTraffic = () => {
-            trafficVisible = !trafficVisible;
-            googleTraffic.setOpacity(trafficVisible ? 0.8 : 0);
-        };
-
-        window.useMyLocation = () => {
-            map.locate({setView: true, maxZoom: 15});
+            trafficOn = !trafficOn;
+            trafficLayer.setOpacity(trafficOn ? 0.7 : 0);
+            document.getElementById('traffic-btn').style.color = trafficOn ? '#1a73e8' : '#5f6368';
         };
 
         const geocoder = L.Control.Geocoder.nominatim();
         const markers = {};
-        const driverData = {};
-        let selectedId = null;
-        let routeLine = null;
+        const driverPoints = {};
+        let activeDriverId = null;
+        let routePath = null;
 
-        // SELECTIE LOGICA
-        window.focusDriver = (id) => {
-            selectedId = id;
-            const data = driverData[id];
-            map.flyTo([data.lat, data.lon], 15);
-            
-            // UI Update
-            document.querySelectorAll('.driver-card').forEach(c => c.classList.remove('selected'));
-            document.getElementById(`card-${id}`).classList.add('selected');
+        // SELECTIE EN FOCUS
+        window.selectDriver = (id, lat, lon) => {
+            activeDriverId = id;
+            map.flyTo([lat, lon], 15);
+            document.querySelectorAll('.driver-item').forEach(el => el.classList.remove('selected'));
+            document.getElementById(`item-${id}`).classList.add('selected');
         };
 
-        // ROUTE PLANNING (ENTER IN ZOEKBALK)
-        document.getElementById('address-search').addEventListener('keypress', (e) => {
+        // ROUTE PLANNING (Maps-stijl Autocomplete)
+        const searchInput = document.getElementById('map-search');
+        searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
-                if (!selectedId) return alert("Klik eerst op een chauffeur in de lijst!");
+                if (!activeDriverId) return alert("Selecteer eerst een chauffeur in de lijst!");
                 
-                const val = e.target.value;
-                geocoder.geocode(val, (results) => {
-                    if (results && results.length > 0) {
-                        const dest = results[0].center;
-                        calculateRoute(dest.lat, dest.lng);
+                geocoder.geocode(searchInput.value, (results) => {
+                    if (results.length > 0) {
+                        const target = results[0].center;
+                        drawRoute(target.lat, target.lng);
                     }
                 });
             }
         });
 
-        async function calculateRoute(dLat, dLon) {
-            const start = driverData[selectedId];
+        async function drawRoute(dLat, dLon) {
+            const start = driverPoints[activeDriverId];
             const url = `https://router.project-osrm.org/route/v1/driving/${start.lon},${start.lat};${dLon},${dLat}?overview=full&geometries=geojson`;
 
             const res = await fetch(url);
             const data = await res.json();
-            
-            if (data.routes && data.routes[0]) {
-                const route = data.routes[0];
-                
-                if (routeLine) map.removeLayer(routeLine);
-                routeLine = L.geoJSON(route.geometry, {
-                    style: { color: '#4285F4', weight: 6, opacity: 0.8 }
-                }).addTo(map);
+            const route = data.routes[0];
 
-                // Update Infopaneel
-                const mins = Math.round(route.duration / 60);
-                const km = (route.distance / 1000).toFixed(1);
-                
-                const panel = document.getElementById('route-panel');
-                panel.style.display = "block";
-                document.getElementById('res-time').innerText = mins + " min";
-                document.getElementById('res-dist').innerText = `Afstand: ${km} km via snelste weg`;
-                
-                map.fitBounds(routeLine.getBounds(), { padding: [100, 100] });
-            }
+            if (routePath) map.removeLayer(routePath);
+            routePath = L.geoJSON(route.geometry, { style: { color: '#1a73e8', weight: 6, opacity: 0.8 } }).addTo(map);
+
+            // Update de Blauwe ETA balk
+            const container = document.getElementById('eta-container');
+            container.style.display = "block";
+            document.getElementById('eta-time').innerText = Math.round(route.duration / 60) + " min";
+            document.getElementById('eta-dist').innerText = `Snelste route: ${(route.distance / 1000).toFixed(1)} km`;
+
+            map.fitBounds(routePath.getBounds(), { padding: [100, 100] });
         }
 
-        // FIREBASE DATA LOOP
+        // FIREBASE LIVE UPDATES
         onValue(ref(db, '/'), (snapshot) => {
             const data = snapshot.val() || {};
             const tracking = data.tracking || {};
             const meldingen = data.meldingen || {};
             const list = document.getElementById('driver-list');
-            
-            let activeCount = 0;
             list.innerHTML = "";
 
             for (let id in tracking) {
                 if (id === "1" || id === "Gast_User") continue;
-                activeCount++;
-
                 const loc = tracking[id];
-                const info = meldingen[id] || { naam: "Chauffeur", status: "Beschikbaar", timestamp: Date.now() };
-                driverData[id] = { lat: loc.latitude, lon: loc.longitude };
+                const info = meldingen[id] || { naam: "Chauffeur", status: "Actief", timestamp: Date.now() };
+                driverPoints[id] = { lat: loc.latitude, lon: loc.longitude };
 
-                // Marker beheer
-                if (markers[id]) {
-                    markers[id].setLatLng([loc.latitude, loc.longitude]);
-                } else {
-                    markers[id] = L.marker([loc.latitude, loc.longitude]).addTo(map)
-                        .bindPopup(`<b>${info.naam}</b><br>${info.status}`);
-                }
+                // Update Marker op kaart
+                if (!markers[id]) markers[id] = L.marker([loc.latitude, loc.longitude]).addTo(map);
+                markers[id].setLatLng([loc.latitude, loc.longitude]).bindPopup(`<b>${info.naam}</b>`);
 
-                // UI Card genereren
-                const isSelected = selectedId === id ? 'selected' : '';
-                const initialen = info.naam.substring(0, 2).toUpperCase();
-                const verstreken = Math.floor((Date.now() - info.timestamp) / 60000);
-
+                // Update Lijst item
+                const verstreken = Math.round((Date.now() - info.timestamp) / 60000);
                 list.innerHTML += `
-                    <div class="driver-card ${isSelected}" id="card-${id}" onclick="focusDriver('${id}')">
-                        <div class="driver-avatar">${initialen}</div>
-                        <div class="driver-details">
+                    <div class="driver-item" id="item-${id}" onclick="selectDriver('${id}', ${loc.latitude}, ${loc.longitude})">
+                        <div class="driver-icon">${info.naam.substring(0, 1)}</div>
+                        <div style="flex:1;">
                             <div class="driver-name">${info.naam}</div>
-                            <div class="driver-meta">Sinds ${verstreken} min in status: ${info.status}</div>
-                            <div class="driver-meta">📍 ${loc.latitude.toFixed(4)}, ${loc.longitude.toFixed(4)}</div>
-                        </div>
-                        <div class="status-pill" style="background: ${info.status === 'SOS' ? '#EA4335' : '#34A853'}; color:white;">
-                            ${info.status}
+                            <div class="driver-status">Status: ${info.status} (${verstreken} min geleden)</div>
                         </div>
                     </div>`;
             }
-            document.getElementById('active-count').innerText = activeCount + " Voertuigen";
         });
-
     </script>
 </body>
 </html>
