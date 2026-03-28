@@ -426,14 +426,18 @@
 
 <script>
 // ════════════════════════════════════════════════════
-//  ⚠️   Firebase Verbinding (GEFIXTE VERSIE)
+//  ✅  Firebase Verbinding (ENTERPRISE VERSIE V22)
 // ════════════════════════════════════════════════════
 firebase.initializeApp({
-  apiKey: "AIzaSyD2d53796d357351ee04df84", 
+  apiKey: "AIzaSyAK0MeCe1YAtHMNgyYXrvKyh4zvfj5cBgo", 
   authDomain: "cakir-logistics-tracker-c4b6b.firebaseapp.com",
-  databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
-  projectId: "cakir-logistics-tracker-c4b6b"
+  databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "cakir-logistics-tracker-c4b6b",
+  storageBucket: "cakir-logistics-tracker-c4b6b.firebasestorage.app",
+  messagingSenderId: "312186012365",
+  appId: "1:312186012365:web:1aa8c57db0d2785404df84"
 });
+
 var auth = firebase.auth();
 var db   = firebase.database();
 
@@ -441,8 +445,8 @@ var db   = firebase.database();
 var DEPOT = { lat:51.0654, lng:4.0289, naam:'Werkplaats Zele' };
 
 // ── STATE ─────────────────────────────────────────────
-var currentUser     = null;  // Firebase user object
-var currentUserData = null;  // { naam, rol, firebaseId }
+var currentUser     = null;
+var currentUserData = null;
 var myLocation      = null;
 var myMarker        = null;
 var myCircle        = null;
@@ -462,7 +466,7 @@ var ROUTE_LABELS    = [
   {label:'🔀 Alt. 2',      tag:'tag-alt',  tagText:'Alternatief'}
 ];
 
-// ── MAP ───────────────────────────────────────────────
+// ── MAP INITIALISATIE ─────────────────────────────────
 var map = L.map('map',{center:[51.0654,4.0289],zoom:11,zoomControl:false,attributionControl:false});
 L.control.attribution({prefix:'© OpenStreetMap | Cakir Logistics',position:'bottomright'}).addTo(map);
 
@@ -491,49 +495,39 @@ function toggleTraffic(){
   hint(trafficOn?'🚦 Traffic aan':'🚦 Traffic uit',3000);
 }
 
-// ── HINT ──────────────────────────────────────────────
-var hintTimer=null;
 function hint(msg,ms){
   var el=document.getElementById('hint-bar');
   el.textContent=msg; el.style.opacity='1';
   clearTimeout(hintTimer);
   if(ms) hintTimer=setTimeout(function(){el.style.opacity='0';},ms);
 }
+var hintTimer=null;
 
-// ── FIREBASE AUTH ─────────────────────────────────────
+// ── FIREBASE AUTH (GEFIXED) ───────────────────────────
 auth.onAuthStateChanged(function(user) {
   var loader = document.getElementById('loading');
   if(loader) { loader.style.opacity = '0'; setTimeout(function(){ loader.remove(); }, 500); }
 
   if (user) {
     currentUser = user;
-    // We kijken in de database of jij de superadmin bent
     db.ref('/users/' + user.uid).once('value', function(snap) {
       var data = snap.val();
       if (data) {
-        // We halen je rol op (bijv. superadmin)
-        var userRole = (data.rol || 'chauffeur').toString().trim().toLowerCase();
+        // Haalt onzichtbare spaties weg en leest perfect jouw 'superadmin' rol
         currentUserData = {
           naam: data.naam || user.email,
-          rol: userRole,
+          rol: (data.rol || 'chauffeur').toString().trim().toLowerCase(), 
           firebaseId: data.firebaseId || null
         };
-        
-        // Update de tekst in de balk bovenin
-        document.getElementById('bu-name').textContent = currentUserData.naam.split(' ')[0];
-        document.getElementById('bu-role').textContent = userRole.toUpperCase();
-        
-        // Laat de extra knoppen zien als je admin bent
-        if (userRole === 'superadmin' || userRole === 'admin') {
-          document.getElementById('admin-tools').style.display = 'flex';
-          if (userRole === 'superadmin') document.getElementById('btn-users').style.display = 'flex';
-        }
+      } else {
+        currentUserData = { naam: user.email, rol: 'chauffeur', firebaseId: null };
       }
-      document.getElementById('login-screen').classList.add('hidden');
-      startFirebaseListener(); // Start het ophalen van de vrachtwagens
-      startGeolocation();      // Start jouw eigen locatie
+      // Nu roept hij de correcte functie aan!
+      onLoginSuccess();
     });
   } else {
+    currentUser = null;
+    currentUserData = null;
     document.getElementById('login-screen').classList.remove('hidden');
   }
 });
@@ -576,7 +570,6 @@ function translateAuthError(code){
 function doLogout(){
   if(dbListener){ db.ref('/').off('value',dbListener); dbListener=null; }
   auth.signOut();
-  // Reset UI
   Object.keys(markers).forEach(function(k){map.removeLayer(markers[k]);});
   markers={};driverData={};
   document.getElementById('driver-list').innerHTML='';
@@ -598,7 +591,7 @@ function onLoginSuccess() {
   document.getElementById('bu-name').textContent = currentUserData.naam.split(' ')[0];
   document.getElementById('bu-role').textContent = rol.toUpperCase();
 
-  // Controleer of de gebruiker admin rechten heeft
+  // Onderscheid tussen Admin en Chauffeur
   if (rol === 'superadmin' || rol === 'admin') {
     document.getElementById('admin-tools').style.display = 'flex';
     document.getElementById('search-wrap').style.display = 'block';
@@ -607,7 +600,6 @@ function onLoginSuccess() {
       document.getElementById('btn-users').style.display = 'flex';
     }
   } else {
-    // Layout voor chauffeurs
     document.getElementById('admin-tools').style.display = 'none';
     document.getElementById('depot-info').style.display = 'block';
     document.getElementById('search-wrap').style.display = 'none';
@@ -650,7 +642,6 @@ function startGeolocation(){
       bar.className='found';txt.textContent='Locatie gevonden (±'+acc+'m)';
       document.getElementById('btn-loc').classList.add('on');
 
-      // Chauffeur: zoom op eigen locatie + depot
       if(currentUserData&&currentUserData.rol==='chauffeur'){
         var bounds=L.latLngBounds([myLocation,[DEPOT.lat,DEPOT.lng]]);
         map.fitBounds(bounds,{padding:[60,60]});
@@ -695,7 +686,7 @@ function badge(s){
 // ── FIREBASE LISTENER ─────────────────────────────────
 function startFirebaseListener(){
   var rol=currentUserData.rol;
-  var myFirebaseId=currentUserData.firebaseId; // eigen tracking ID voor chauffeur
+  var myFirebaseId=currentUserData.firebaseId; 
 
   dbListener=function(snap){
     var root=snap.val()||{};
@@ -735,7 +726,6 @@ function startFirebaseListener(){
       card.className='driver-card '+sc+(selectedId===id?' active':'')+(isOwn?' own-card':'');
       card.id='card-'+id;
 
-      // Chauffeur ziet geen Route knop naar zichzelf
       var routeBtn=rol!=='chauffeur'?'<button class="route-btn" onclick="event.stopPropagation();routeToDriver(\''+id+'\')">🏠 Route</button>':'';
 
       card.innerHTML=
@@ -757,7 +747,6 @@ function startFirebaseListener(){
   db.ref('/').on('value',dbListener);
 }
 
-// ── SELECT DRIVER ─────────────────────────────────────
 function selectDriver(id){
   selectedId=id;
   Object.keys(markers).forEach(function(k){
@@ -770,7 +759,7 @@ function selectDriver(id){
   if(d) map.flyTo([d.lat,d.lng],15,{duration:1.2});
 }
 
-// ── ROUTE ─────────────────────────────────────────────
+// ── ROUTE MACHINE ─────────────────────────────────────
 function routeToDriver(id){
   selectDriver(id);
   var d=driverData[id];if(!d) return;
@@ -894,7 +883,7 @@ function focusDriver(){
   map.flyTo([driverData[selectedId].lat,driverData[selectedId].lng],15,{duration:1.2});
 }
 
-// ── QR ────────────────────────────────────────────────
+// ── QR MODAL ──────────────────────────────────────────
 var qrDone=false;
 function openQR(){
   document.getElementById('qr-modal').classList.add('open');
@@ -908,7 +897,7 @@ function openQR(){
 }
 function closeQR(){document.getElementById('qr-modal').classList.remove('open');}
 
-// ── USER BEHEER (superadmin) ──────────────────────────
+// ── USER BEHEER MODAL ─────────────────────────────────
 function openUserModal(){
   document.getElementById('user-modal').classList.add('open');
   loadUsers();
@@ -946,7 +935,6 @@ function addUser(){
   if(!naam||!email||!pass){msg.style.color='var(--red)';msg.textContent='⛔ Vul naam, e-mail en wachtwoord in.';return;}
   msg.style.color='var(--muted)';msg.textContent='🔄 Aanmaken...';
 
-  // Maak Firebase Auth account aan via REST (secondary app)
   var secondaryApp=firebase.initializeApp(firebase.app().options,'secondary_'+Date.now());
   secondaryApp.auth().createUserWithEmailAndPassword(email,pass)
     .then(function(cred){
@@ -971,7 +959,6 @@ function addUser(){
     });
 }
 
-// ── ZOEKEN ────────────────────────────────────────────
 document.getElementById('search-input').addEventListener('input',function(){
   var f=this.value.toLowerCase();
   document.querySelectorAll('.driver-card').forEach(function(c){
@@ -980,5 +967,3 @@ document.getElementById('search-input').addEventListener('input',function(){
   });
 });
 </script>
-</body>
-</html>
