@@ -429,7 +429,7 @@
 //  ⚠️  Vervang JOUW_API_KEY_HIER
 // ════════════════════════════════════════════════════
 firebase.initializeApp({
-  apiKey: "AIzaSyD2d53796d357351ee04df84", // Gefixeerd op basis van jouw project info
+  apiKey: "AIzaSyD2d53796d357351ee04df84", 
   authDomain: "cakir-logistics-tracker-c4b6b.firebaseapp.com",
   databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
   projectId: "cakir-logistics-tracker-c4b6b"
@@ -507,18 +507,16 @@ auth.onAuthStateChanged(function(user) {
 
   if (user) {
     currentUser = user;
-    // We checken direct jouw specifieke node in de database
     db.ref('/users/' + user.uid).once('value', function(snap) {
       var data = snap.val();
       if (data) {
-        // We zorgen dat 'superadmin' altijd correct wordt gelezen, zelfs met spaties in de DB
+        // .trim() verwijdert onzichtbare spaties zoals in je JSON export
         currentUserData = {
           naam: data.naam || user.email,
-          rol: (data.rol || 'chauffeur').trim().toLowerCase(), 
+          rol: (data.rol || 'chauffeur').toString().trim().toLowerCase(), 
           firebaseId: data.firebaseId || null
         };
       } else {
-        // Fallback voor nieuwe gebruikers
         currentUserData = { naam: user.email, rol: 'chauffeur', firebaseId: null };
       }
       onLoginSuccess();
@@ -529,7 +527,6 @@ auth.onAuthStateChanged(function(user) {
     document.getElementById('login-screen').classList.remove('hidden');
   }
 });
-
 function doLogin(){
   var email=document.getElementById('login-email').value.trim();
   var pw   =document.getElementById('login-pw').value;
@@ -590,7 +587,7 @@ function onLoginSuccess() {
   document.getElementById('bu-name').textContent = currentUserData.naam.split(' ')[0];
   document.getElementById('bu-role').textContent = rol.toUpperCase();
 
-  // Gefixeerde weergave voor Admin/Superadmin
+  // Controleer of de gebruiker admin rechten heeft
   if (rol === 'superadmin' || rol === 'admin') {
     document.getElementById('admin-tools').style.display = 'flex';
     document.getElementById('search-wrap').style.display = 'block';
@@ -602,6 +599,7 @@ function onLoginSuccess() {
     // Layout voor chauffeurs
     document.getElementById('admin-tools').style.display = 'none';
     document.getElementById('depot-info').style.display = 'block';
+    document.getElementById('search-wrap').style.display = 'none';
   }
 
   startGeolocation();
