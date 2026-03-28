@@ -426,10 +426,10 @@
 
 <script>
 // ════════════════════════════════════════════════════
-//  ⚠️  Vervang JOUW_API_KEY_HIER
+//  ⚠️   Firebase Verbinding (V21 - Web App Versie)
 // ════════════════════════════════════════════════════
 firebase.initializeApp({
-  apiKey: "AIzaSyD2d53796d357351ee04df84", 
+  apiKey: "PLAK_HIER_DE_CODE_DIE_JE_NET_GEKOPIEERD_HEBT", 
   authDomain: "cakir-logistics-tracker-c4b6b.firebaseapp.com",
   databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
   projectId: "cakir-logistics-tracker-c4b6b"
@@ -507,26 +507,37 @@ auth.onAuthStateChanged(function(user) {
 
   if (user) {
     currentUser = user;
+    // We kijken in de database of jij de superadmin bent
     db.ref('/users/' + user.uid).once('value', function(snap) {
       var data = snap.val();
       if (data) {
-        // .trim() verwijdert onzichtbare spaties zoals in je JSON export
+        // We halen je rol op (bijv. superadmin)
+        var userRole = (data.rol || 'chauffeur').toString().trim().toLowerCase();
         currentUserData = {
           naam: data.naam || user.email,
-          rol: (data.rol || 'chauffeur').toString().trim().toLowerCase(), 
+          rol: userRole,
           firebaseId: data.firebaseId || null
         };
-      } else {
-        currentUserData = { naam: user.email, rol: 'chauffeur', firebaseId: null };
+        
+        // Update de tekst in de balk bovenin
+        document.getElementById('bu-name').textContent = currentUserData.naam.split(' ')[0];
+        document.getElementById('bu-role').textContent = userRole.toUpperCase();
+        
+        // Laat de extra knoppen zien als je admin bent
+        if (userRole === 'superadmin' || userRole === 'admin') {
+          document.getElementById('admin-tools').style.display = 'flex';
+          if (userRole === 'superadmin') document.getElementById('btn-users').style.display = 'flex';
+        }
       }
-      onLoginSuccess();
+      document.getElementById('login-screen').classList.add('hidden');
+      startFirebaseListener(); // Start het ophalen van de vrachtwagens
+      startGeolocation();      // Start jouw eigen locatie
     });
   } else {
-    currentUser = null;
-    currentUserData = null;
     document.getElementById('login-screen').classList.remove('hidden');
   }
 });
+
 function doLogin(){
   var email=document.getElementById('login-email').value.trim();
   var pw   =document.getElementById('login-pw').value;
