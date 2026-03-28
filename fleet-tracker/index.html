@@ -17,6 +17,92 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:'IBM Plex Sans',sans-serif; background:var(--bg); color:var(--text); height:100vh; overflow:hidden; display:flex; }
 
+  /* ══════════════════════════════════════
+     LOGIN OVERLAY
+  ══════════════════════════════════════ */
+  #login-overlay {
+    position:fixed; inset:0; z-index:99999;
+    background:var(--bg);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column;
+  }
+  #login-overlay.hidden { display:none; }
+
+  .login-box {
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:40px 44px;
+    width:380px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.8), 0 0 40px rgba(0,212,255,0.08);
+    text-align:center;
+  }
+  .login-logo {
+    width:60px; height:60px; background:var(--accent); border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:28px; margin:0 auto 20px;
+    box-shadow:0 0 30px rgba(0,212,255,0.5);
+  }
+  .login-title {
+    font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:700;
+    color:white; margin-bottom:4px; letter-spacing:0.05em;
+  }
+  .login-sub { font-size:11px; color:var(--muted); letter-spacing:2px; margin-bottom:28px; }
+  .login-label { font-size:11px; color:var(--muted); text-align:left; margin-bottom:6px; font-family:'IBM Plex Mono',monospace; letter-spacing:0.1em; }
+  .login-input {
+    width:100%; padding:12px 16px; background:var(--panel2);
+    border:1px solid var(--border); border-radius:8px;
+    color:var(--text); font-size:15px; font-family:'IBM Plex Sans',sans-serif;
+    outline:none; transition:border-color 0.2s; margin-bottom:16px;
+    letter-spacing:0.1em;
+  }
+  .login-input:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(0,212,255,0.1); }
+  .login-btn {
+    width:100%; padding:13px; background:var(--accent); color:#000;
+    border:none; border-radius:8px; font-size:14px; font-weight:700;
+    cursor:pointer; font-family:'IBM Plex Mono',monospace; letter-spacing:0.08em;
+    transition:all 0.2s;
+  }
+  .login-btn:hover { background:#00b8e0; box-shadow:0 0 20px rgba(0,212,255,0.4); }
+  .login-error {
+    margin-top:12px; padding:10px; background:rgba(255,68,68,0.12);
+    border:1px solid rgba(255,68,68,0.3); border-radius:6px;
+    color:var(--red); font-size:12px; font-family:'IBM Plex Mono',monospace;
+    display:none;
+  }
+  .login-error.show { display:block; }
+  .login-shake { animation:shake 0.4s ease; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)}
+    40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)}
+  }
+
+  /* ══════════════════════════════════════
+     QR MODAL
+  ══════════════════════════════════════ */
+  #qr-modal {
+    position:fixed; inset:0; z-index:50000;
+    background:rgba(0,0,0,0.8); backdrop-filter:blur(6px);
+    display:none; align-items:center; justify-content:center;
+  }
+  #qr-modal.open { display:flex; }
+  .qr-box {
+    background:var(--panel); border:1px solid var(--border); border-radius:16px;
+    padding:32px; width:320px; text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,0.8);
+    animation:popIn 0.3s ease;
+  }
+  @keyframes popIn { from{transform:scale(0.85);opacity:0} to{transform:scale(1);opacity:1} }
+  .qr-title { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:700; color:var(--accent); letter-spacing:0.1em; margin-bottom:6px; }
+  .qr-sub   { font-size:11px; color:var(--muted); margin-bottom:20px; }
+  #qr-canvas { border-radius:10px; background:white; padding:12px; display:block; margin:0 auto 16px; }
+  .qr-code-text { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--muted); background:var(--panel2); border:1px solid var(--border); border-radius:6px; padding:6px 10px; margin-bottom:16px; }
+  .qr-close { width:100%; padding:10px; background:var(--panel2); border:1px solid var(--border); border-radius:7px; color:var(--text); font-size:12px; cursor:pointer; font-family:'IBM Plex Mono',monospace; transition:all 0.2s; }
+  .qr-close:hover { border-color:var(--accent); color:var(--accent); }
+
+  /* ══════════════════════════════════════
+     SIDEBAR
+  ══════════════════════════════════════ */
   #sidebar { width:var(--sidebar); min-width:var(--sidebar); height:100vh; background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:1000; box-shadow:10px 0 40px rgba(0,0,0,0.6); }
 
   .brand { padding:20px; background:linear-gradient(135deg,#0f1d30,#0b1525); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
@@ -29,6 +115,19 @@
   .stat-val { font-family:'IBM Plex Mono',monospace; font-size:22px; font-weight:700; color:var(--accent); }
   .stat-lbl { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-top:3px; }
 
+  /* QR knop onder stats */
+  .qr-btn-wrap { padding:10px 16px; border-bottom:1px solid var(--border); }
+  .qr-gen-btn {
+    width:100%; padding:9px; background:var(--panel2);
+    border:1px solid var(--border); border-radius:8px;
+    color:var(--accent); font-size:11px; font-weight:700;
+    cursor:pointer; font-family:'IBM Plex Mono',monospace;
+    letter-spacing:0.08em; transition:all 0.2s; display:flex;
+    align-items:center; justify-content:center; gap:8px;
+  }
+  .qr-gen-btn:hover { border-color:var(--accent); background:#0f1e33; box-shadow:0 0 12px rgba(0,212,255,0.2); }
+
+  /* Locatie balk */
   #loc-bar { padding:9px 16px; border-bottom:1px solid var(--border); font-size:11px; font-family:'IBM Plex Mono',monospace; display:flex; align-items:center; gap:8px; min-height:36px; transition:color 0.4s; }
   #loc-bar .dot { width:8px; height:8px; border-radius:50%; background:var(--muted); flex-shrink:0; transition:all 0.3s; }
   #loc-bar.found  { color:var(--green); }
@@ -56,8 +155,9 @@
   .driver-card.active { border-color:var(--accent); background:#0f1e33; }
   .driver-card.s-start_rit::before, .driver-card.s-rijden::before { background:var(--green); box-shadow:0 0 8px var(--green); }
   .driver-card.s-standby::before, .driver-card.s-wachten::before { background:var(--yellow); }
-  .driver-card.s-sos::before { background:var(--red); box-shadow:0 0 12px var(--red); animation:blink 0.8s infinite; }
+  .driver-card.s-sos::before { background:var(--red); box-shadow:0 0 16px var(--red); animation:sos-glow 0.8s infinite; }
   .driver-card.s-pauze::before { background:var(--yellow); }
+  @keyframes sos-glow { 0%,100%{box-shadow:0 0 16px var(--red)} 50%{box-shadow:0 0 4px var(--red)} }
 
   .d-avatar { width:38px; height:38px; border-radius:9px; background:linear-gradient(135deg,#1e3a5f,#0a1e35); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:13px; color:var(--accent); flex-shrink:0; }
   .d-info { flex:1; min-width:0; }
@@ -79,13 +179,9 @@
 
   .r-title { font-size:10px; text-transform:uppercase; letter-spacing:0.15em; color:var(--muted); font-family:'IBM Plex Mono',monospace; margin-bottom:10px; }
 
-  /* Route alternatieven tabs */
+  /* Route alternatieven */
   #route-tabs { display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
-  .route-tab {
-    flex:1; min-width:80px; padding:8px 6px; border-radius:8px;
-    border:1px solid var(--border); background:var(--panel2);
-    cursor:pointer; transition:all 0.2s; text-align:center;
-  }
+  .route-tab { flex:1; min-width:80px; padding:8px 6px; border-radius:8px; border:1px solid var(--border); background:var(--panel2); cursor:pointer; transition:all 0.2s; text-align:center; }
   .route-tab:hover { border-color:var(--accent); }
   .route-tab.active { border-color:var(--accent); background:#0f1e33; }
   .route-tab.active .rt-label { color:var(--accent); }
@@ -94,21 +190,19 @@
   .rt-dist  { font-size:10px; color:var(--muted); margin-top:2px; }
   .rt-tag   { font-size:9px; padding:2px 6px; border-radius:3px; margin-top:4px; display:inline-block; font-family:'IBM Plex Mono',monospace; }
   .tag-fast { background:rgba(0,230,118,0.15); color:var(--green); }
-  .tag-alt  { background:rgba(255,234,0,0.12); color:var(--yellow); }
-  .tag-eco  { background:rgba(0,212,255,0.12); color:var(--accent); }
+  .tag-alt  { background:rgba(255,234,0,0.12);  color:var(--yellow); }
+  .tag-eco  { background:rgba(0,212,255,0.12);  color:var(--accent); }
 
-  /* Geselecteerde route stats */
   .r-stats { display:flex; gap:16px; margin-bottom:14px; padding:12px; background:var(--panel2); border-radius:8px; border:1px solid var(--border); }
   .r-val { font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:700; color:var(--accent); }
   .r-lbl { font-size:10px; color:var(--muted); margin-top:2px; }
-
   .r-actions { display:flex; gap:8px; margin-bottom:14px; }
   .r-btn { flex:1; padding:7px; background:var(--panel2); border:1px solid var(--border); border-radius:6px; color:var(--text); font-size:12px; cursor:pointer; font-family:'IBM Plex Sans',sans-serif; transition:all 0.2s; }
   .r-btn:hover { border-color:var(--accent); color:var(--accent); }
   .r-btn.primary { background:var(--accent); color:#000; border-color:var(--accent); font-weight:700; }
 
   /* Instructies */
-  .instr-title { font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); font-family:'IBM Plex Mono',monospace; margin-bottom:8px; padding-top:4px; border-top:1px solid var(--border); padding-top:12px; }
+  .instr-title { font-size:10px; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); font-family:'IBM Plex Mono',monospace; margin-bottom:8px; border-top:1px solid var(--border); padding-top:12px; }
   .instr-item { display:flex; align-items:flex-start; gap:10px; padding:8px 10px; border-radius:7px; margin-bottom:5px; background:var(--panel2); border:1px solid var(--border); font-size:12px; line-height:1.4; }
   .instr-icon { font-size:15px; flex-shrink:0; width:20px; text-align:center; }
   .instr-text { flex:1; color:var(--text); }
@@ -117,7 +211,6 @@
   /* MAP */
   #map { flex:1; height:100vh; position:relative; }
 
-  /* Layer bar */
   #layer-bar {
     position:absolute; top:14px; left:50%; transform:translateX(-50%);
     z-index:900; display:flex; gap:4px;
@@ -137,13 +230,27 @@
   .ctrl-btn:hover { border-color:var(--accent); color:var(--accent); }
   .ctrl-btn.on { border-color:var(--accent); color:var(--accent); box-shadow:0 0 10px rgba(0,212,255,0.3); }
 
+  /* SOS puls op kaart */
+  .sos-pulse-ring {
+    width:50px; height:50px; border-radius:50%;
+    border:3px solid var(--red);
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    animation:sos-ring 1.2s ease-out infinite;
+    pointer-events:none;
+  }
+  @keyframes sos-ring {
+    0%   { width:20px; height:20px; opacity:1;   border-width:3px; }
+    100% { width:54px; height:54px; opacity:0;   border-width:1px; }
+  }
+
   .leaflet-container { background:#0b0f1a !important; }
   .leaflet-routing-container { display:none !important; }
   .leaflet-popup-content-wrapper { background:var(--panel) !important; color:var(--text) !important; border:1px solid var(--border) !important; border-radius:10px !important; box-shadow:0 4px 24px rgba(0,0,0,0.6) !important; }
   .leaflet-popup-tip { background:var(--panel) !important; }
   .leaflet-popup-content { margin:14px 16px !important; font-family:'IBM Plex Sans',sans-serif; font-size:13px; }
 
-  #loading { position:fixed; inset:0; background:var(--bg); z-index:9999; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity 0.6s; }
+  #loading { position:fixed; inset:0; background:var(--bg); z-index:99998; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity 0.6s; }
 
   @keyframes spin  { to { transform:rotate(360deg); } }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
@@ -152,11 +259,38 @@
 </head>
 <body>
 
+<!-- ══ LOADING ══ -->
 <div id="loading">
   <div style="font-size:50px;animation:spin 2s linear infinite;">🛰️</div>
   <p style="margin-top:20px;font-family:'IBM Plex Mono';color:var(--accent);letter-spacing:0.1em;">CAKIR LOGISTICS: BOOTING...</p>
 </div>
 
+<!-- ══ ADMIN LOGIN OVERLAY ══ -->
+<div id="login-overlay">
+  <div class="login-box" id="login-box">
+    <div class="login-logo">🔐</div>
+    <div class="login-title">CAKIR LOGISTICS</div>
+    <div class="login-sub">FLEET COMMAND — ADMIN ACCESS</div>
+    <div class="login-label">WACHTWOORD</div>
+    <input class="login-input" type="password" id="login-pw" placeholder="••••••••••"
+      onkeydown="if(event.key==='Enter') doLogin()">
+    <button class="login-btn" onclick="doLogin()">🔓 INLOGGEN</button>
+    <div class="login-error" id="login-err">⛔ Onjuist wachtwoord — probeer opnieuw</div>
+  </div>
+</div>
+
+<!-- ══ QR MODAL ══ -->
+<div id="qr-modal">
+  <div class="qr-box">
+    <div class="qr-title">🔑 CHAUFFEUR LOGIN QR</div>
+    <div class="qr-sub">Laat chauffeurs deze code scannen om in te loggen</div>
+    <canvas id="qr-canvas"></canvas>
+    <div class="qr-code-text">CAKIR_AUTH_2026</div>
+    <button class="qr-close" onclick="closeQR()">✕ Sluiten</button>
+  </div>
+</div>
+
+<!-- ══ SIDEBAR ══ -->
 <div id="sidebar">
   <div class="brand">
     <div class="brand-icon">🚛</div>
@@ -170,6 +304,13 @@
     <div class="stat"><div class="stat-val" id="s-total">0</div><div class="stat-lbl">Vloot</div></div>
     <div class="stat"><div class="stat-val" id="s-rij" style="color:var(--green)">0</div><div class="stat-lbl">Rijdend</div></div>
     <div class="stat"><div class="stat-val" id="s-sos" style="color:var(--red)">0</div><div class="stat-lbl">SOS</div></div>
+  </div>
+
+  <!-- QR Knop -->
+  <div class="qr-btn-wrap">
+    <button class="qr-gen-btn" onclick="openQR()">
+      <span>🔑</span><span>GENEREER LOGIN QR</span>
+    </button>
   </div>
 
   <div id="loc-bar" class="searching">
@@ -193,27 +334,22 @@
 
   <div id="route-panel">
     <div class="r-title">📍 Route — Jij → Chauffeur</div>
-
-    <!-- Alternatieve routes tabs -->
     <div id="route-tabs"></div>
-
-    <!-- Geselecteerde route info -->
     <div class="r-stats">
       <div><div class="r-val" id="r-time">--</div><div class="r-lbl">Reistijd</div></div>
       <div><div class="r-val" id="r-dist">--</div><div class="r-lbl">Afstand</div></div>
       <div><div class="r-val" id="r-eta">--:--</div><div class="r-lbl">Aankomst</div></div>
     </div>
-
     <div class="r-actions">
       <button class="r-btn" onclick="clearRoute()">✕ Wissen</button>
       <button class="r-btn primary" onclick="focusDriver()">🎯 Focus</button>
     </div>
-
     <div class="instr-title">🗺️ Stap-voor-stap instructies</div>
     <div id="instr-list"></div>
   </div>
 </div>
 
+<!-- ══ MAP ══ -->
 <div id="map">
   <div id="layer-bar">
     <button class="layer-btn on" id="lb-dark"    onclick="setLayer('dark')">⚫ Dark</button>
@@ -222,12 +358,9 @@
     <div class="layer-sep"></div>
     <button class="layer-btn"   id="lb-sat"     onclick="setLayer('sat')">🛰️ Satelliet</button>
     <div class="layer-sep"></div>
-    <!-- Traffic = gratis overlay zonder externe API key -->
     <button class="layer-btn"   id="lb-traffic" onclick="toggleTraffic()">🚦 Traffic</button>
   </div>
-
-  <div id="hint-bar">Verbinden met Firebase...</div>
-
+  <div id="hint-bar">Inloggen vereist...</div>
   <div class="map-tools">
     <button class="ctrl-btn" id="btn-loc" onclick="centerMyLoc()">🎯</button>
     <button class="ctrl-btn" onclick="map.setZoom(map.getZoom()+1)">+</button>
@@ -235,8 +368,10 @@
   </div>
 </div>
 
+<!-- Scripts -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -244,33 +379,100 @@
 // ════════════════════════════════════════════════════
 //  ⚠️  Vervang JOUW_API_KEY_HIER met je Firebase key
 // ════════════════════════════════════════════════════
-firebase.initializeApp({
-  apiKey:      "https://console.firebase.google.com/u/0/project/cakir-logistics-tracker-c4b6b/database/cakir-logistics-tracker-c4b6b-default-rtdb/data/~2F",
+var FIREBASE_CONFIG = {
+  apiKey:      "JOUW_API_KEY_HIER",
   databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app/",
   projectId:   "cakir-logistics-tracker-c4b6b"
-});
-const db = firebase.database();
+};
 
-// ── MAP ──────────────────────────────────────────────
-const map = L.map('map', { center:[51.0654,4.0289], zoom:11, zoomControl:false, attributionControl:false });
+var ADMIN_PASSWORD = "Cakir2026";
+var db = null;
+
+// ── ADMIN LOGIN ──────────────────────────────────────
+function doLogin() {
+  var pw  = document.getElementById('login-pw').value;
+  var err = document.getElementById('login-err');
+  var box = document.getElementById('login-box');
+
+  if (pw === ADMIN_PASSWORD) {
+    // Correct wachtwoord
+    err.classList.remove('show');
+    var overlay = document.getElementById('login-overlay');
+    overlay.style.opacity = '0';
+    overlay.style.transition = 'opacity 0.5s';
+    setTimeout(function(){ overlay.classList.add('hidden'); }, 500);
+
+    // Nu pas Firebase starten
+    initFirebase();
+    startGeolocation();
+    hint('✅ Welkom — verbinden met Firebase...', 0);
+  } else {
+    // Fout wachtwoord
+    err.classList.add('show');
+    box.classList.remove('login-shake');
+    void box.offsetWidth; // reflow voor animatie reset
+    box.classList.add('login-shake');
+    document.getElementById('login-pw').value = '';
+    document.getElementById('login-pw').focus();
+  }
+}
+
+// ── QR MODAL ─────────────────────────────────────────
+var qrGenerated = false;
+
+function openQR() {
+  document.getElementById('qr-modal').classList.add('open');
+  if (!qrGenerated) {
+    // Genereer QR code met qrcode.js
+    var canvas = document.getElementById('qr-canvas');
+    QRCode.toCanvas(canvas, 'CAKIR_AUTH_2026', {
+      width: 200,
+      margin: 1,
+      color: { dark:'#000000', light:'#ffffff' },
+      errorCorrectionLevel: 'H'
+    }, function(err) {
+      if (err) {
+        // Fallback: gebruik img tag methode
+        canvas.style.display = 'none';
+        var img = document.createElement('img');
+        img.src = 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=CAKIR_AUTH_2026&bgcolor=ffffff&color=000000';
+        img.style.borderRadius = '10px';
+        img.style.display = 'block';
+        img.style.margin = '0 auto 16px';
+        canvas.parentNode.insertBefore(img, canvas.nextSibling);
+      }
+    });
+    qrGenerated = true;
+  }
+}
+
+function closeQR() {
+  document.getElementById('qr-modal').classList.remove('open');
+}
+
+// Klik buiten modal = sluiten
+document.getElementById('qr-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeQR();
+});
+
+// ── MAP SETUP ─────────────────────────────────────────
+var map = L.map('map', { center:[51.0654,4.0289], zoom:11, zoomControl:false, attributionControl:false });
 L.control.attribution({ prefix:'© OpenStreetMap | Cakir Logistics', position:'bottomright' }).addTo(map);
 
-// Basislagen — 100% gratis, geen API key, geen referer blokkering
-const BASE = {
+var BASE = {
   dark:  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',            { maxZoom:20 }),
   light: L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom:20 }),
   sat:   L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom:20 })
 };
 
-// Traffic overlay — 100% gratis via OpenStreetMap-based tile
-// Toont wegen in kleur bovenop elke basislaag (geen Google/Stadia key nodig)
-const TRAFFIC_OVERLAY = L.tileLayer(
+// Traffic overlay — CartoDB labels bovenop elke laag, geen externe API key
+var TRAFFIC_OVERLAY = L.tileLayer(
   'https://{s}.basemaps.cartocdn.com/rastertiles/voyager_only_labels/{z}/{x}/{y}{r}.png',
   { maxZoom:20, opacity:0.7, zIndex:500 }
 );
 
-let currentLayer = 'dark';
-let trafficOn    = false;
+var currentLayer = 'dark';
+var trafficOn    = false;
 BASE.dark.addTo(map);
 
 function setLayer(name) {
@@ -288,7 +490,7 @@ function toggleTraffic() {
   if (trafficOn) TRAFFIC_OVERLAY.addTo(map);
   else map.removeLayer(TRAFFIC_OVERLAY);
   document.getElementById('lb-traffic').classList.toggle('on', trafficOn);
-  hint(trafficOn ? '🚦 Traffic labels aan' : '🚦 Traffic labels uit', 3000);
+  hint(trafficOn ? '🚦 Traffic aan' : '🚦 Traffic uit', 3000);
 }
 
 // ── STATE ─────────────────────────────────────────────
@@ -297,395 +499,353 @@ var myMarker      = null;
 var myCircle      = null;
 var selectedId    = null;
 var routeControl  = null;
-var allRoutes     = [];      // opgeslagen alternatieve routes
-var activeRouteIdx = 0;      // welke route is actief
-var routeLines    = [];      // polylines op kaart per route
-const markers     = {};
-const driverData  = {};
+var allRoutes     = [];
+var activeRouteIdx = 0;
+var routeLines    = [];
+var markers       = {};
+var driverData    = {};
 
-// Route kleuren per alternatief
-var ROUTE_COLORS = ['#00d4ff', '#00e676', '#ffea00', '#ff9800'];
+var ROUTE_COLORS = ['#00d4ff','#00e676','#ffea00','#ff9800'];
 var ROUTE_LABELS = [
-  { label:'⚡ Snelste',  tag:'tag-fast', tagText:'Snelste' },
-  { label:'🌿 Zuinigst', tag:'tag-eco',  tagText:'Minste diesel' },
-  { label:'🔀 Alternatief', tag:'tag-alt', tagText:'Alternatief' },
-  { label:'🔀 Alt. 2',   tag:'tag-alt',  tagText:'Alternatief' }
+  { label:'⚡ Snelste',     tag:'tag-fast', tagText:'Snelste' },
+  { label:'🌿 Zuinigst',    tag:'tag-eco',  tagText:'Min. diesel' },
+  { label:'🔀 Alternatief', tag:'tag-alt',  tagText:'Alternatief' },
+  { label:'🔀 Alt. 2',      tag:'tag-alt',  tagText:'Alternatief' }
 ];
 
 // ── HINT ──────────────────────────────────────────────
 var hintTimer = null;
 function hint(msg, ms) {
   var el = document.getElementById('hint-bar');
-  el.textContent = msg;
-  el.style.opacity = '1';
+  el.textContent = msg; el.style.opacity = '1';
   clearTimeout(hintTimer);
-  if (ms) hintTimer = setTimeout(function(){ el.style.opacity = '0'; }, ms);
+  if (ms) hintTimer = setTimeout(function(){ el.style.opacity='0'; }, ms);
 }
 
 // ── GEOLOCATION ───────────────────────────────────────
 function startGeolocation() {
   var bar = document.getElementById('loc-bar');
   var txt = document.getElementById('loc-txt');
-  if (!navigator.geolocation) {
-    bar.className = 'error'; txt.textContent = 'Geolocatie niet beschikbaar.'; return;
-  }
-  bar.className = 'searching'; txt.textContent = 'Locatie ophalen...';
+  if (!navigator.geolocation) { bar.className='error'; txt.textContent='Geolocatie niet beschikbaar.'; return; }
+  bar.className='searching'; txt.textContent='Locatie ophalen...';
   navigator.geolocation.getCurrentPosition(
     function(pos) {
-      var lat = pos.coords.latitude, lng = pos.coords.longitude;
-      var acc = Math.round(pos.coords.accuracy);
-      myLocation = [lat, lng];
-      var myIcon = L.divIcon({
-        html: '<div style="width:18px;height:18px;background:#00d4ff;border-radius:50%;border:3px solid white;box-shadow:0 0 0 6px rgba(0,212,255,0.2),0 0 20px rgba(0,212,255,0.7);"></div>',
-        iconSize:[18,18], iconAnchor:[9,9], className:''
+      var lat=pos.coords.latitude, lng=pos.coords.longitude, acc=Math.round(pos.coords.accuracy);
+      myLocation=[lat,lng];
+      var myIcon=L.divIcon({
+        html:'<div style="width:18px;height:18px;background:#00d4ff;border-radius:50%;border:3px solid white;box-shadow:0 0 0 6px rgba(0,212,255,0.2),0 0 20px rgba(0,212,255,0.7);"></div>',
+        iconSize:[18,18],iconAnchor:[9,9],className:''
       });
       if (myMarker) myMarker.setLatLng(myLocation);
-      else myMarker = L.marker(myLocation, { icon:myIcon, zIndexOffset:500 }).addTo(map)
-        .bindPopup('<b style="color:#00d4ff">📍 Jouw locatie</b><br><small>±' + acc + 'm</small>');
+      else myMarker=L.marker(myLocation,{icon:myIcon,zIndexOffset:500}).addTo(map)
+        .bindPopup('<b style="color:#00d4ff">📍 Jouw locatie</b><br><small>±'+acc+'m</small>');
       if (myCircle) map.removeLayer(myCircle);
-      myCircle = L.circle(myLocation, { radius:acc, color:'#00d4ff', fillColor:'#00d4ff', fillOpacity:0.07, weight:1 }).addTo(map);
-      bar.className = 'found';
-      txt.textContent = 'Locatie gevonden (±' + acc + 'm)';
+      myCircle=L.circle(myLocation,{radius:acc,color:'#00d4ff',fillColor:'#00d4ff',fillOpacity:0.07,weight:1}).addTo(map);
+      bar.className='found'; txt.textContent='Locatie gevonden (±'+acc+'m)';
       document.getElementById('btn-loc').classList.add('on');
       hint('✅ Locatie gevonden — klik 🏠 Route naast een chauffeur', 6000);
     },
     function(err) {
-      bar.className = 'error';
-      if (err.code === 1) txt.textContent = '⛔ Geweigerd — klik 🔒 adresbalk → Locatie → Toestaan → herlaad';
-      else if (err.code === 2) txt.textContent = '⚠️ GPS niet beschikbaar';
-      else txt.textContent = '⚠️ Timeout — herlaad pagina';
+      bar.className='error';
+      if (err.code===1) txt.textContent='⛔ Geweigerd — klik 🔒 adresbalk → Locatie → Toestaan → herlaad';
+      else if (err.code===2) txt.textContent='⚠️ GPS niet beschikbaar';
+      else txt.textContent='⚠️ Timeout — herlaad pagina';
       hint('⛔ Locatie geblokkeerd — klik 🔒 adresbalk → Locatie → Toestaan', 0);
     },
-    { enableHighAccuracy:true, timeout:12000, maximumAge:0 }
+    {enableHighAccuracy:true,timeout:12000,maximumAge:0}
   );
 }
 
 function centerMyLoc() {
-  if (myLocation) { map.flyTo(myLocation, 16, { duration:1.2 }); if (myMarker) myMarker.openPopup(); }
+  if (myLocation) { map.flyTo(myLocation,16,{duration:1.2}); if(myMarker) myMarker.openPopup(); }
   else startGeolocation();
 }
 
-// ── ICONS ─────────────────────────────────────────────
+// ── SOS PULSERENDE MARKER ─────────────────────────────
 function truckIcon(status, selected) {
-  var color = status === 'SOS' ? '#ff4444'
-    : (status === 'START_RIT' || status === 'rijden') ? '#00e676'
+  var isSOS = status === 'SOS';
+  var color = isSOS ? '#ff4444'
+    : (status==='START_RIT'||status==='rijden') ? '#00e676'
     : '#ffea00';
   var sz = selected ? 44 : 34;
+
+  // SOS krijgt extra pulserende ring
+  var sosRing = isSOS
+    ? '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:'+sz+'px;height:'+sz+'px;border-radius:50%;border:2px solid #ff4444;animation:sos-ring 1.2s ease-out infinite;pointer-events:none;"></div>'
+    : '';
+
   return L.divIcon({
-    html: '<div style="width:' + sz + 'px;height:' + sz + 'px;background:' + color + ';border-radius:' + (selected?'11px':'50%') + ';border:2px solid white;box-shadow:0 0 ' + (selected?16:8) + 'px ' + color + '99;display:flex;align-items:center;justify-content:center;font-size:' + (selected?19:14) + 'px;">🚛</div>'
-         + '<div style="background:#111827;color:' + color + ';border-radius:3px;padding:1px 5px;font-size:9px;font-family:monospace;font-weight:bold;text-align:center;margin-top:2px;white-space:nowrap;">' + status + '</div>',
+    html: '<div style="position:relative;display:inline-block;">'
+        + sosRing
+        + '<div style="width:'+sz+'px;height:'+sz+'px;background:'+color+';border-radius:'+(selected?'11px':'50%')+';border:2px solid white;box-shadow:0 0 '+(isSOS?'20px #ff4444':(selected?'16px':' 8px')+' '+color+'99')+';display:flex;align-items:center;justify-content:center;font-size:'+(selected?19:14)+'px;position:relative;z-index:2;">🚛</div>'
+        + '</div>'
+        + '<div style="background:#111827;color:'+color+';border-radius:3px;padding:1px 5px;font-size:9px;font-family:monospace;font-weight:bold;text-align:center;margin-top:2px;white-space:nowrap;">'+status+'</div>',
     iconSize:[sz, sz+14], iconAnchor:[sz/2, sz/2], className:''
   });
 }
 
 function badge(status) {
-  var cls = (status === 'SOS' || status === 'pauze') ? 'sb-red'
-    : (status === 'START_RIT' || status === 'rijden') ? 'sb-green'
+  var cls = (status==='SOS'||status==='pauze') ? 'sb-red'
+    : (status==='START_RIT'||status==='rijden') ? 'sb-green'
     : 'sb-yellow';
-  return '<span class="s-badge ' + cls + '">' + status + '</span>';
+  return '<span class="s-badge '+cls+'">'+status+'</span>';
 }
 
 // ── SELECT DRIVER ─────────────────────────────────────
 function selectDriver(id) {
   selectedId = id;
-  Object.keys(markers).forEach(function(k) {
-    if (driverData[k]) markers[k].setIcon(truckIcon(driverData[k].status, k === id));
+  Object.keys(markers).forEach(function(k){
+    if(driverData[k]) markers[k].setIcon(truckIcon(driverData[k].status, k===id));
   });
   document.querySelectorAll('.driver-card').forEach(function(c){ c.classList.remove('active'); });
-  var card = document.getElementById('card-' + id);
-  if (card) { card.classList.add('active'); card.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
-  var d = driverData[id];
-  if (d) map.flyTo([d.lat, d.lng], 15, { duration:1.2 });
+  var card = document.getElementById('card-'+id);
+  if(card){card.classList.add('active');card.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  var d=driverData[id];
+  if(d) map.flyTo([d.lat,d.lng],15,{duration:1.2});
 }
 
 // ── INSTRUCTIE ICONEN ─────────────────────────────────
 function instrIcon(type) {
-  var t = (type || '').toLowerCase();
-  if (t === 'sharp left')   return '↰';
-  if (t === 'sharp right')  return '↱';
-  if (t === 'left')         return '⬅️';
-  if (t === 'right')        return '➡️';
-  if (t === 'slight left')  return '↖️';
-  if (t === 'slight right') return '↗️';
-  if (t.indexOf('roundabout') !== -1) return '🔄';
-  if (t === 'u-turn')       return '↩️';
-  if (t === 'destination arrived') return '🏁';
-  if (t === 'waypoint reached')    return '📍';
-  if (t === 'straight')     return '⬆️';
-  if (t === 'depart')       return '🚀';
+  var t = (type||'').toLowerCase();
+  if (t==='sharp left')    return '↰';
+  if (t==='sharp right')   return '↱';
+  if (t==='left')          return '⬅️';
+  if (t==='right')         return '➡️';
+  if (t==='slight left')   return '↖️';
+  if (t==='slight right')  return '↗️';
+  if (t.indexOf('roundabout')!==-1) return '🔄';
+  if (t==='u-turn')        return '↩️';
+  if (t.indexOf('destination')!==-1) return '🏁';
+  if (t==='straight')      return '⬆️';
+  if (t==='depart')        return '🚀';
   return '▶️';
 }
 
-function formatDist(m) {
-  return m >= 1000 ? (m / 1000).toFixed(1) + ' km' : Math.round(m) + ' m';
-}
+function formatDist(m) { return m>=1000?(m/1000).toFixed(1)+' km':Math.round(m)+' m'; }
+function formatTime(s) { var m=Math.round(s/60); return m<60?m+' min':Math.floor(m/60)+'u '+(m%60)+'m'; }
 
-function formatTime(secs) {
-  var m = Math.round(secs / 60);
-  return m < 60 ? m + ' min' : Math.floor(m/60) + 'u ' + (m%60) + 'm';
-}
-
-// ── TOON ALTERNATIEVE ROUTES TABS ─────────────────────
+// ── ROUTE TABS ────────────────────────────────────────
 function renderRouteTabs(routes) {
   var tabs = document.getElementById('route-tabs');
   tabs.innerHTML = '';
-
-  // Sorteer: eerste = snelste (minste tijd)
-  // tweede = zuinigste (kortste afstand = minste diesel)
-  // rest = alternatieven
-  routes.sort(function(a, b) { return a.summary.totalTime - b.summary.totalTime; });
-
   routes.forEach(function(route, i) {
-    var info  = ROUTE_LABELS[i] || ROUTE_LABELS[2];
-    var km    = (route.summary.totalDistance / 1000).toFixed(1);
-    var time  = formatTime(route.summary.totalTime);
-    var tab   = document.createElement('div');
-    tab.className = 'route-tab' + (i === 0 ? ' active' : '');
-    tab.id = 'tab-' + i;
+    var info = ROUTE_LABELS[i]||ROUTE_LABELS[2];
+    var tab  = document.createElement('div');
+    tab.className = 'route-tab'+(i===0?' active':'');
+    tab.id = 'tab-'+i;
     tab.innerHTML =
-      '<div class="rt-label">' + info.label + '</div>' +
-      '<div class="rt-time">' + time + '</div>' +
-      '<div class="rt-dist">' + km + ' km</div>' +
-      '<div class="rt-tag ' + info.tag + '">' + info.tagText + '</div>';
-    tab.onclick = (function(idx){ return function(){ activateRoute(idx); }; })(i);
+      '<div class="rt-label">'+info.label+'</div>'+
+      '<div class="rt-time">'+formatTime(route.summary.totalTime)+'</div>'+
+      '<div class="rt-dist">'+(route.summary.totalDistance/1000).toFixed(1)+' km</div>'+
+      '<div class="rt-tag '+info.tag+'">'+info.tagText+'</div>';
+    tab.onclick=(function(idx){return function(){activateRoute(idx);};})(i);
     tabs.appendChild(tab);
   });
 }
 
-// ── ACTIVEER EEN SPECIFIEKE ROUTE ─────────────────────
 function activateRoute(idx) {
   activeRouteIdx = idx;
-
-  // Tabs updaten
-  document.querySelectorAll('.route-tab').forEach(function(t, i) {
-    t.classList.toggle('active', i === idx);
+  document.querySelectorAll('.route-tab').forEach(function(t,i){ t.classList.toggle('active',i===idx); });
+  routeLines.forEach(function(poly,i){
+    if(i===idx) { poly.setStyle({color:ROUTE_COLORS[0],weight:6,opacity:0.95}); poly.bringToFront(); }
+    else poly.setStyle({color:ROUTE_COLORS[i+1]||'#888',weight:3,opacity:0.4});
   });
-
-  // Lijnen op kaart updaten (actief = dik + kleur, anderen = dun + transparant)
-  routeLines.forEach(function(poly, i) {
-    if (i === idx) {
-      poly.setStyle({ color: ROUTE_COLORS[0], weight:6, opacity:0.95 });
-      poly.bringToFront();
-    } else {
-      poly.setStyle({ color: ROUTE_COLORS[i+1] || '#888', weight:3, opacity:0.4 });
-    }
-  });
-
-  // Stats updaten
-  var route = allRoutes[idx];
-  var km    = (route.summary.totalDistance / 1000).toFixed(1);
-  var mins  = Math.round(route.summary.totalTime / 60);
-  var eta   = new Date(Date.now() + route.summary.totalTime * 1000).toTimeString().slice(0,5);
-  document.getElementById('r-time').textContent = mins < 60 ? mins + ' min' : Math.floor(mins/60) + 'u ' + (mins%60) + 'm';
-  document.getElementById('r-dist').textContent = km + ' km';
-  document.getElementById('r-eta').textContent  = eta;
-
-  // Instructies updaten
-  renderInstructions(route.instructions || []);
-
-  hint('✅ Route ' + (idx+1) + ': ' + km + ' km · ' + mins + ' min · aankomst ' + eta, 6000);
+  var route=allRoutes[idx];
+  var km=(route.summary.totalDistance/1000).toFixed(1);
+  var mins=Math.round(route.summary.totalTime/60);
+  var eta=new Date(Date.now()+route.summary.totalTime*1000).toTimeString().slice(0,5);
+  document.getElementById('r-time').textContent=mins<60?mins+' min':Math.floor(mins/60)+'u '+(mins%60)+'m';
+  document.getElementById('r-dist').textContent=km+' km';
+  document.getElementById('r-eta').textContent=eta;
+  renderInstructions(route.instructions||[]);
+  hint('✅ Route '+(idx+1)+': '+km+' km · '+mins+' min · aankomst '+eta, 6000);
 }
 
 function renderInstructions(steps) {
-  var box = document.getElementById('instr-list');
-  box.innerHTML = '';
-  if (!steps.length) {
-    box.innerHTML = '<div style="color:var(--muted);font-size:12px;padding:4px 0;">Geen instructies.</div>';
-    return;
-  }
-  steps.forEach(function(step) {
-    var div = document.createElement('div');
-    div.className = 'instr-item';
-    div.innerHTML =
-      '<div class="instr-icon">' + instrIcon(step.type) + '</div>' +
-      '<div style="flex:1;">' +
-        '<div class="instr-text">' + step.text + '</div>' +
-        (step.distance > 0 ? '<div class="instr-dist">' + formatDist(step.distance) + '</div>' : '') +
+  var box=document.getElementById('instr-list');
+  box.innerHTML='';
+  if(!steps.length){ box.innerHTML='<div style="color:var(--muted);font-size:12px;padding:4px 0;">Geen instructies.</div>'; return; }
+  steps.forEach(function(step){
+    var div=document.createElement('div');
+    div.className='instr-item';
+    div.innerHTML=
+      '<div class="instr-icon">'+instrIcon(step.type)+'</div>'+
+      '<div style="flex:1;">'+
+        '<div class="instr-text">'+step.text+'</div>'+
+        (step.distance>0?'<div class="instr-dist">'+formatDist(step.distance)+'</div>':'')+
       '</div>';
     box.appendChild(div);
   });
 }
 
-// ── ROUTE: JIJ → CHAUFFEUR (met alternatieven) ────────
+// ── ROUTE BEREKENING ──────────────────────────────────
 function routeToDriver(id) {
   selectDriver(id);
-  var d = driverData[id];
-  if (!d) return;
-  if (!myLocation) {
+  var d=driverData[id];
+  if(!d) return;
+  if(!myLocation){
     hint('🎯 Locatie ophalen...', 0);
     navigator.geolocation.getCurrentPosition(
-      function(pos) {
-        myLocation = [pos.coords.latitude, pos.coords.longitude];
-        buildRoute(myLocation, [d.lat, d.lng], d.naam);
-      },
-      function() { hint('⛔ Locatie niet beschikbaar. Klik 🔒 adresbalk → Locatie → Toestaan.', 0); },
-      { enableHighAccuracy:true, timeout:10000, maximumAge:0 }
+      function(pos){ myLocation=[pos.coords.latitude,pos.coords.longitude]; buildRoute(myLocation,[d.lat,d.lng],d.naam); },
+      function(){ hint('⛔ Locatie niet beschikbaar — klik 🔒 adresbalk → Locatie → Toestaan', 0); },
+      {enableHighAccuracy:true,timeout:10000,maximumAge:0}
     );
     return;
   }
-  buildRoute(myLocation, [d.lat, d.lng], d.naam);
+  buildRoute(myLocation,[d.lat,d.lng],d.naam);
 }
 
 function buildRoute(from, to, naam) {
-  // Verwijder bestaande route
-  if (routeControl) { map.removeControl(routeControl); routeControl = null; }
-  routeLines.forEach(function(p){ map.removeLayer(p); });
-  routeLines = [];
-  allRoutes  = [];
-  document.getElementById('route-tabs').innerHTML = '';
-  document.getElementById('instr-list').innerHTML = '<div style="color:var(--muted);font-size:12px;padding:4px 0;">Berekenen...</div>';
-  hint('🔄 Routes berekenen naar ' + naam + '...', 0);
+  if(routeControl){map.removeControl(routeControl);routeControl=null;}
+  routeLines.forEach(function(p){map.removeLayer(p);});
+  routeLines=[]; allRoutes=[];
+  document.getElementById('route-tabs').innerHTML='';
+  document.getElementById('instr-list').innerHTML='<div style="color:var(--muted);font-size:12px;padding:4px 0;">Berekenen...</div>';
+  hint('🔄 Routes berekenen naar '+naam+'...', 0);
 
-  routeControl = L.Routing.control({
-    waypoints: [ L.latLng(from[0], from[1]), L.latLng(to[0], to[1]) ],
-    router: L.Routing.osrmv1({
-      serviceUrl: 'https://router.project-osrm.org/route/v1',
-      profile: 'driving'
-    }),
-    routeWhileDragging: false,
-    showAlternatives: true,      // ← vraag meerdere routes op
-    alternatives: true,
-    lineOptions: { styles:[] },  // wij tekenen zelf de lijnen
-    createMarker: function(i, wp) {
-      return L.marker(wp.latLng, {
-        icon: L.divIcon({
-          html: '<div style="width:16px;height:16px;background:' + (i===0?'#00d4ff':'#ff4444') + ';border-radius:50%;border:2px solid white;box-shadow:0 0 10px ' + (i===0?'#00d4ff':'#ff4444') + ';display:flex;align-items:center;justify-content:center;font-size:9px;">' + (i===0?'🏠':'🚛') + '</div>',
-          iconSize:[16,16], iconAnchor:[8,8], className:''
-        })
-      });
+  routeControl=L.Routing.control({
+    waypoints:[L.latLng(from[0],from[1]),L.latLng(to[0],to[1])],
+    router:L.Routing.osrmv1({serviceUrl:'https://router.project-osrm.org/route/v1',profile:'driving'}),
+    routeWhileDragging:false, showAlternatives:true, alternatives:true,
+    lineOptions:{styles:[]},
+    createMarker:function(i,wp){
+      return L.marker(wp.latLng,{icon:L.divIcon({
+        html:'<div style="width:16px;height:16px;background:'+(i===0?'#00d4ff':'#ff4444')+';border-radius:50%;border:2px solid white;box-shadow:0 0 10px '+(i===0?'#00d4ff':'#ff4444')+';display:flex;align-items:center;justify-content:center;font-size:9px;">'+(i===0?'🏠':'🚛')+'</div>',
+        iconSize:[16,16],iconAnchor:[8,8],className:''
+      })});
     }
   }).addTo(map);
 
-  routeControl.on('routesfound', function(ev) {
-    var routes = ev.routes;
-    allRoutes  = routes;
-
-    // Teken alle routes op kaart als polylines
-    // Sorteer op tijd zodat snelste = index 0
-    routes.sort(function(a,b){ return a.summary.totalTime - b.summary.totalTime; });
-
-    routes.forEach(function(route, i) {
-      var coords = route.coordinates;
-      var poly = L.polyline(coords, {
-        color:   i === 0 ? ROUTE_COLORS[0] : (ROUTE_COLORS[i+1] || '#888'),
-        weight:  i === 0 ? 6 : 3,
-        opacity: i === 0 ? 0.95 : 0.4
+  routeControl.on('routesfound',function(ev){
+    var routes=ev.routes;
+    routes.sort(function(a,b){return a.summary.totalTime-b.summary.totalTime;});
+    allRoutes=routes;
+    routes.forEach(function(route,i){
+      var poly=L.polyline(route.coordinates,{
+        color:i===0?ROUTE_COLORS[0]:(ROUTE_COLORS[i+1]||'#888'),
+        weight:i===0?6:3, opacity:i===0?0.95:0.4
       }).addTo(map);
-      // Klik op alternatieve lijn = activeer die route
-      poly.on('click', (function(idx){ return function(){ activateRoute(idx); }; })(i));
+      poly.on('click',(function(idx){return function(){activateRoute(idx);};})(i));
       routeLines.push(poly);
     });
-
-    // Render tabs en activeer snelste
     renderRouteTabs(routes);
     activateRoute(0);
     document.getElementById('route-panel').classList.add('open');
-
-    // Zoom op alle routes samen
-    if (routeLines.length > 0) {
-      var group = L.featureGroup(routeLines);
-      map.fitBounds(group.getBounds().pad(0.15));
-    }
-
-    hint('✅ ' + routes.length + ' route' + (routes.length>1?'s':'') + ' gevonden — kies de beste', 6000);
+    if(routeLines.length>0) map.fitBounds(L.featureGroup(routeLines).getBounds().pad(0.15));
+    hint('✅ '+routes.length+' route'+(routes.length>1?'s':'')+' gevonden — kies de beste', 6000);
   });
 
-  routeControl.on('routingerror', function() {
+  routeControl.on('routingerror',function(){
     hint('⚠️ Route mislukt — controleer internetverbinding', 6000);
-    document.getElementById('instr-list').innerHTML = '<div style="color:var(--red);font-size:12px;">Route berekening mislukt.</div>';
+    document.getElementById('instr-list').innerHTML='<div style="color:var(--red);font-size:12px;">Route berekening mislukt.</div>';
   });
 }
 
 function clearRoute() {
-  if (routeControl) { map.removeControl(routeControl); routeControl = null; }
-  routeLines.forEach(function(p){ map.removeLayer(p); });
-  routeLines = []; allRoutes = [];
+  if(routeControl){map.removeControl(routeControl);routeControl=null;}
+  routeLines.forEach(function(p){map.removeLayer(p);});
+  routeLines=[];allRoutes=[];
   document.getElementById('route-panel').classList.remove('open');
-  document.getElementById('route-tabs').innerHTML = '';
-  document.getElementById('instr-list').innerHTML = '';
-  hint('Route gewist', 3000);
+  document.getElementById('route-tabs').innerHTML='';
+  document.getElementById('instr-list').innerHTML='';
+  hint('Route gewist',3000);
 }
 
 function focusDriver() {
-  if (!selectedId || !driverData[selectedId]) return;
-  map.flyTo([driverData[selectedId].lat, driverData[selectedId].lng], 15, { duration:1.2 });
+  if(!selectedId||!driverData[selectedId]) return;
+  map.flyTo([driverData[selectedId].lat,driverData[selectedId].lng],15,{duration:1.2});
 }
 
-// ── FIREBASE ──────────────────────────────────────────
-db.ref('/').on('value', function(snap) {
-  var root      = snap.val() || {};
-  var tracking  = root.tracking  || {};
-  var meldingen = root.meldingen || {};
-  var list      = document.getElementById('driver-list');
-  var filter    = document.getElementById('search-input').value.toLowerCase();
+// ── FIREBASE (start pas na login) ─────────────────────
+function initFirebase() {
+  if(!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+  db = firebase.database();
 
-  list.innerHTML = '';
-  var totaal = 0, rijdend = 0, sos = 0;
+  db.ref('/').on('value', function(snap) {
+    var root     =snap.val()||{};
+    var tracking =root.tracking ||{};
+    var meldingen=root.meldingen||{};
+    var list     =document.getElementById('driver-list');
+    var filter   =document.getElementById('search-input').value.toLowerCase();
 
-  for (var id in tracking) {
-    if (id === '1' || id === 'Gast_User') continue;
-    var pos  = tracking[id];
-    var meta = meldingen[id] || { naam:'Chauffeur', status:'STANDBY' };
+    list.innerHTML='';
+    var totaal=0,rijdend=0,sos=0;
 
-    driverData[id] = { lat:pos.latitude, lng:pos.longitude, naam:meta.naam, status:meta.status };
-    totaal++;
-    if (meta.status === 'START_RIT' || meta.status === 'rijden') rijdend++;
-    if (meta.status === 'SOS') sos++;
+    for(var id in tracking){
+      if(id==='1'||id==='Gast_User') continue;
+      var pos =tracking[id];
+      var meta=meldingen[id]||{naam:'Chauffeur',status:'STANDBY'};
+      driverData[id]={lat:pos.latitude,lng:pos.longitude,naam:meta.naam,status:meta.status};
+      totaal++;
+      if(meta.status==='START_RIT'||meta.status==='rijden') rijdend++;
+      if(meta.status==='SOS') sos++;
 
-    if (markers[id]) {
-      markers[id].setLatLng([pos.latitude, pos.longitude]);
-      markers[id].setIcon(truckIcon(meta.status, id === selectedId));
-    } else {
-      markers[id] = L.marker([pos.latitude, pos.longitude], { icon:truckIcon(meta.status, false) })
-        .addTo(map)
-        .bindPopup('<b>' + meta.naam + '</b><br><small>' + meta.status + '</small>');
-      markers[id].on('click', (function(i){ return function(){ selectDriver(i); }; })(id));
+      if(markers[id]){
+        markers[id].setLatLng([pos.latitude,pos.longitude]);
+        markers[id].setIcon(truckIcon(meta.status,id===selectedId));
+      } else {
+        markers[id]=L.marker([pos.latitude,pos.longitude],{icon:truckIcon(meta.status,false)})
+          .addTo(map)
+          .bindPopup('<b>'+meta.naam+'</b><br><small>'+meta.status+'</small>');
+        markers[id].on('click',(function(i){return function(){selectDriver(i);};})(id));
+      }
+
+      if(filter&&meta.naam.toLowerCase().indexOf(filter)===-1) continue;
+      var statusClass='s-'+meta.status.toLowerCase().replace(/\s+/g,'_');
+      var card=document.createElement('div');
+      card.className='driver-card '+statusClass+(selectedId===id?' active':'');
+      card.id='card-'+id;
+      card.innerHTML=
+        '<div class="d-avatar">'+meta.naam.substring(0,2).toUpperCase()+'</div>'+
+        '<div class="d-info">'+
+          '<div class="d-name">'+meta.naam+'</div>'+
+          '<div class="d-meta">'+badge(meta.status)+'</div>'+
+        '</div>'+
+        '<button class="route-btn" onclick="event.stopPropagation();routeToDriver(\''+id+'\')">🏠 Route</button>';
+      card.onclick=(function(i){return function(){selectDriver(i);};})(id);
+      list.appendChild(card);
     }
 
-    if (filter && meta.naam.toLowerCase().indexOf(filter) === -1) continue;
+    document.getElementById('s-total').textContent=totaal;
+    document.getElementById('s-rij').textContent=rijdend;
+    document.getElementById('s-sos').textContent=sos;
 
-    var statusClass = 's-' + meta.status.toLowerCase().replace(/\s+/g,'_');
-    var card = document.createElement('div');
-    card.className = 'driver-card ' + statusClass + (selectedId === id ? ' active' : '');
-    card.id = 'card-' + id;
-    card.innerHTML =
-      '<div class="d-avatar">' + meta.naam.substring(0,2).toUpperCase() + '</div>' +
-      '<div class="d-info">' +
-        '<div class="d-name">' + meta.naam + '</div>' +
-        '<div class="d-meta">' + badge(meta.status) + '</div>' +
-      '</div>' +
-      '<button class="route-btn" onclick="event.stopPropagation();routeToDriver(\'' + id + '\')">🏠 Route</button>';
-    card.onclick = (function(i){ return function(){ selectDriver(i); }; })(id);
-    list.appendChild(card);
-  }
+    // Verberg loading
+    var loader=document.getElementById('loading');
+    if(loader){loader.style.opacity='0';setTimeout(function(){loader.remove();},600);}
 
-  document.getElementById('s-total').textContent = totaal;
-  document.getElementById('s-rij').textContent   = rijdend;
-  document.getElementById('s-sos').textContent   = sos;
-
-  var loader = document.getElementById('loading');
-  if (loader) { loader.style.opacity = '0'; setTimeout(function(){ loader.remove(); }, 600); }
-
-  if (totaal === 0) {
-    list.innerHTML = '<div style="padding:24px 16px;text-align:center;color:var(--muted);font-size:13px;line-height:1.8;">Geen chauffeurs gevonden.<br><small>Controleer Firebase apiKey.</small></div>';
-    hint('⚠️ Geen data — controleer apiKey', 0);
-  } else {
-    hint('✅ ' + totaal + ' voertuig' + (totaal>1?'en':'') + ' live — klik 🏠 Route', 7000);
-  }
-});
+    if(totaal===0){
+      list.innerHTML='<div style="padding:24px 16px;text-align:center;color:var(--muted);font-size:13px;line-height:1.8;">Geen chauffeurs gevonden.<br><small>Controleer Firebase apiKey.</small></div>';
+      hint('⚠️ Geen data — controleer apiKey',0);
+    } else {
+      hint('✅ '+totaal+' voertuig'+(totaal>1?'en':'')+' live — klik 🏠 Route',7000);
+    }
+  });
+}
 
 // ── ZOEKEN ────────────────────────────────────────────
-document.getElementById('search-input').addEventListener('input', function() {
-  var filter = this.value.toLowerCase();
-  document.querySelectorAll('.driver-card').forEach(function(c) {
-    var name = c.querySelector('.d-name') ? c.querySelector('.d-name').textContent.toLowerCase() : '';
-    c.style.display = name.indexOf(filter) !== -1 ? '' : 'none';
+document.getElementById('search-input').addEventListener('input',function(){
+  var filter=this.value.toLowerCase();
+  document.querySelectorAll('.driver-card').forEach(function(c){
+    var name=c.querySelector('.d-name')?c.querySelector('.d-name').textContent.toLowerCase():'';
+    c.style.display=name.indexOf(filter)!==-1?'':'none';
   });
 });
 
-// ── START ─────────────────────────────────────────────
-startGeolocation();
-hint('🔄 Verbinden met Firebase...', 0);
+// Enter = login
+document.getElementById('login-pw').addEventListener('keydown',function(e){
+  if(e.key==='Enter') doLogin();
+});
+
+// Focus op wachtwoord veld zodra pagina laadt
+window.addEventListener('load', function(){
+  var loader=document.getElementById('loading');
+  loader.style.opacity='0';
+  setTimeout(function(){
+    loader.remove();
+    document.getElementById('login-pw').focus();
+  }, 1000);
+});
 </script>
 </body>
 </html>
