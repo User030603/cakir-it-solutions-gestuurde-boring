@@ -3,211 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cakir IT-Solutions | Infrastructure & Solutions Numériques</title>
-  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
-  <link rel="apple-touch-icon" href="../assets/images/favicon.png">
-  <link rel="stylesheet" href="../style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>Cakir IT-Solutions | Infrastructure et Systèmes Intelligents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
-
-<nav class="navbar">
-  <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
-
-  <input type="checkbox" id="nav-toggle" class="nav-toggle">
-  <label for="nav-toggle" class="hamburger"><i class="fa-solid fa-bars"></i></label>
-
-  <ul class="nav-links">
-    <label for="nav-toggle" class="close-btn"><i class="fa-solid fa-xmark"></i></label>
-
-    <li><a href="#home">Accueil</a></li>
-    <li><a href="#about">À Propos</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#projects">Projets</a></li>
-    <li><a href="#contact" class="btn-nav-contact">Contact</a></li>
-
-    <li class="language-wrapper">
-      <a href="../" class="lang-link">EN</a>
-      <span>|</span>
-      <a href="../nl/" class="lang-link">NL</a>
-      <span>|</span>
-      <a href="../tr/" class="lang-link">TR</a>
-      <span>|</span>
-      <a href="../fr/" class="lang-link active">FR</a>
-    </li>
-  </ul>
-
-  <label for="nav-toggle" class="nav-overlay"></label>
-</nav>
-
-<header id="home" class="hero">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <span class="badge">EST. 2018 • ZELE</span>
-    <h1>Des Travaux d’Infrastructure aux <br><span class="highlight">Solutions Numériques</span></h1>
-    <p>
-      Cakir IT-Solutions est une entreprise basée en Belgique qui réunit les services d’infrastructure, de forage dirigé, de support technique sur le terrain et de solutions numériques.
-      Nous combinons des années d’expérience opérationnelle avec des logiciels modernes, des systèmes de suivi et le développement web professionnel.
-    </p>
-    <div class="hero-btns">
-      <a href="#services" class="btn btn-primary">Découvrir Nos Services</a>
-      <a href="#contact" class="btn btn-outline">Nous Contacter</a>
-    </div>
+<a class="skip-link" href="#main-content">Aller au contenu</a>
+<header class="site-header">
+  <div class="container navbar">
+    <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="hamburger" aria-label="Open menu"><i class="fa-solid fa-bars"></i></label>
+    <nav class="nav-panel" aria-label="Primary">
+      <label for="nav-toggle" class="close-btn" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></label>
+      <a href="#home" class="active">Accueil</a>
+      <a href="#about">A propos</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projets</a>
+      <a href="../partners/index.html">Partners</a>
+      <a href="#contact" class="btn-nav-contact">Contact</a>
+      <div class="language-wrapper">
+        <a href="../index.html" class="lang-link">EN</a><span>/</span>
+        <a href="../nl/index.html" class="lang-link">NL</a><span>/</span>
+        <a href="../tr/index.html" class="lang-link">TR</a><span>/</span>
+        <a href="../fr/index.html" class="lang-link active">FR</a>
+      </div>
+    </nav>
+    <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
   </div>
 </header>
-
-<section id="about" class="section-padding">
-  <div class="container">
-    <h2 class="section-title">Qui Sommes-Nous</h2>
-    <div class="about-grid">
-      <div class="about-text">
-        <h3>Expérience Terrain et Vision Numérique</h3>
-        <p>
-          Dirigée par Özcan Cakir, Cakir IT-Solutions opère depuis Zele en Belgique et rassemble sous une même structure les travaux d’infrastructure et les services de transformation numérique.
-          Depuis 2018, nous intervenons dans le forage dirigé horizontal, les installations techniques, la coordination de terrain et le support opérationnel.
-        </p>
-        <p>
-          Notre expertise ne se limite pas au terrain. Grâce à notre division IT, nous développons des sites web d’entreprise, des outils internes, des systèmes de suivi et des solutions logicielles pour les structures opérationnelles.
-          Depuis la Belgique, nous travaillons avec des connexions professionnelles aux Pays-Bas et en Allemagne, tout en développant notre portefeuille clients en Turquie.
-        </p>
-      </div>
-
-      <div class="about-stats">
-        <div class="stat-box">
-          <i class="fa-solid fa-trowel-bricks"></i>
-          <span>Infrastructure & Forage</span>
-          <p>Une solide expérience de terrain, de coordination opérationnelle et d’exécution.</p>
-        </div>
-        <div class="stat-box">
-          <i class="fa-solid fa-code"></i>
-          <span>IT & Logiciels</span>
-          <p>Sites d’entreprise, outils internes, systèmes numériques et logiciels sur mesure.</p>
-        </div>
-        <div class="stat-box">
-          <i class="fa-solid fa-users"></i>
-          <span>Réseau International</span>
-          <p>Une base en Belgique avec des connexions actives aux Pays-Bas, en Allemagne et en Turquie.</p>
-        </div>
+<main id="main-content">
+  <section class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <span class="badge">EST. 2018 • ZELE • EXPANSION RÉSEAU</span>
+      <h1>Exécution infrastructure avec <span class="highlight">systèmes modernes et présentation renforcée</span></h1>
+      <p>Cakir IT-Solutions réunit opérations terrain, coordination de forage, systèmes d’affichage, outils logistiques et interfaces numériques multilingues dans une structure d’entreprise plus professionnelle.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">Voir les projets</a>
+        <a href="#contact" class="btn btn-outline">Démarrer un projet</a>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="services" class="services-section section-padding">
-  <div class="container">
-    <h2 class="section-title">Nos Services</h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="icon"><i class="fa-solid fa-road"></i></div>
-        <h3>Forage Dirigé</h3>
-        <p>
-          Nous accompagnons les projets télécom, fibre, énergie et infrastructure avec des opérations de forage dirigé précises et bien organisées.
-          Notre approche repose sur la discipline terrain, la coordination pratique et une exécution fiable.
-        </p>
-      </div>
-
-      <div class="service-card">
-        <div class="icon"><i class="fa-solid fa-bolt"></i></div>
-        <h3>Installations Techniques</h3>
-        <p>
-          Nous intervenons sur les poteaux d’éclairage, les passages de câbles, la préparation de chantier, les montages techniques et la coordination opérationnelle.
-          Nos services s’adaptent à la taille et aux besoins de chaque projet.
-        </p>
-      </div>
-
-      <div class="service-card highlight-card">
-        <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
-        <h3>IT & Solutions Logicielles</h3>
-        <p>
-          Nous développons des sites web d’entreprise, des tableaux de bord, des outils Android, des systèmes de suivi et des solutions numériques sur mesure.
-          Notre objectif est de rendre les opérations quotidiennes plus claires, plus rapides et mieux contrôlées.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="projects" class="section-padding bg-light">
-  <div class="container">
-    <h2 class="section-title">Réalisations Sélectionnées</h2>
-    <div class="projects-grid">
-      <div class="project-item">
-        <div class="project-info">
-          <h4>Solution Mobile de Suivi et Météo</h4>
-          <p>
-            Nous avons travaillé sur une solution mobile destinée aux équipes logistiques et terrain, combinant suivi en temps réel, visibilité opérationnelle et planification liée aux conditions météo.
-          </p>
-          <div class="tags">
-            <span>Kotlin</span>
-            <span>Firebase</span>
-            <span>Google Maps API</span>
-          </div>
+  </section>
+  <section class="section-padding reveal" id="about">
+    <div class="container">
+      <h2 class="section-title">Qui Sommes-Nous</h2>
+      <div class="about-grid">
+        <article class="about-text">
+          <h3>Né de la réalité terrain puis élargi vers des solutions numériques modernes</h3>
+          <p>L’entreprise a grandi grâce à de vraies opérations, au support infrastructure, aux environnements d’installation et à la coordination technique transfrontalière.</p>
+          <p>Cette base pratique soutient aujourd’hui une couche numérique plus large avec écrans intelligents, interfaces logistiques, écrans d’information de marque et outils logiciels opérationnels.</p>
+          <p>Cela crée un profil d’entreprise à la fois technique, moderne et non générique.</p>
+        </article>
+        <div class="about-stats">
+          <article class="stat-box"><i class="fa-solid fa-trowel-bricks"></i><span>Force Infrastructure</span><p>Support concret pour forage, tracés, préparation terrain et coordination des équipes.</p></article>
+          <article class="stat-box"><i class="fa-solid fa-display"></i><span>Systèmes d’Écrans Intelligents</span><p>Interfaces tablettes, panneaux publicitaires et systèmes de présentation numérique pour la communication en direct.</p></article>
+          <article class="stat-box"><i class="fa-solid fa-code-branch"></i><span>Logiciels Opérationnels</span><p>Tableaux de suivi, systèmes internes et outils métier pour le contrôle quotidien.</p></article>
         </div>
       </div>
-
-      <div class="project-item">
-        <div class="project-info">
-          <h4>Extension d’Infrastructure Fibre</h4>
-          <p>
-            Nous avons participé à des projets d’extension de réseaux fibre avec coordination terrain, support de forage et planification opérationnelle orientée infrastructure.
-          </p>
-          <div class="tags">
-            <span>Infrastructure</span>
-            <span>Forage</span>
-            <span>2024</span>
-          </div>
-        </div>
+      <div class="metrics-grid">
+        <article class="metric-card"><span class="metric-number">10+</span><p>Expérience opérationnelle combinée.</p></article>
+        <article class="metric-card"><span class="metric-number">4</span><p>Activités principales réunies dans une structure.</p></article>
+        <article class="metric-card"><span class="metric-number">24/7</span><p>Culture de planification pour une visibilité continue.</p></article>
+        <article class="metric-card highlight-card"><span class="metric-number">EU</span><p>Capacité de communication transfrontalière.</p></article>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="contact" class="contact-section">
-  <div class="container">
-    <h2 class="section-title">Contactez-Nous</h2>
-    <p class="contact-subtitle">
-      Contact direct pour la direction, les opérations terrain et les solutions logicielles.
-    </p>
-
-    <div class="contact-grid">
-      <div class="contact-card whatsapp-card">
-        <div class="icon"><i class="fa-solid fa-user-tie"></i></div>
-        <h3>Özcan Cakir</h3>
-        <p><strong>Fondateur</strong><br>Infrastructure, Opérations et Stratégie IT</p>
-        <a href="https://wa.me/32486240642" target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
-          <i class="fa-brands fa-whatsapp"></i> +32 486 24 06 42
-        </a>
-        <div style="margin-top: 20px;">
-          <a href="mailto:ozcancakir@it-solutions-cakir.be,cakirozcan03@gmail.com" class="contact-link">
-            <i class="fa-solid fa-envelope"></i> ozcancakir@it-solutions-cakir.be
-          </a>
-        </div>
-      </div>
-
-      <div class="contact-card">
-        <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
-        <h3>Bekir Fazıl Calik</h3>
-        <p><strong>Responsable IT & Logiciels</strong></p>
-        <a href="mailto:bekirfazil.calik@it-solutions-cakir.be" class="contact-link">bekirfazil.calik@it-solutions-cakir.be</a>
-      </div>
-
-      <div class="contact-card">
-        <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
-        <h3>Siège Social</h3>
-        <p>Venez nous rendre visite</p>
-        <span class="contact-text">Kruisstraat 55, 9240 Zele, Belgium</span>
+  </section>
+  <section class="section-padding services-section reveal" id="services">
+    <div class="container">
+      <h2 class="section-title">Nos Services</h2>
+      <div class="services-grid">
+        <article class="service-card"><div class="icon"><i class="fa-solid fa-road"></i></div><h3>Forage Dirigé et Support</h3><p>Planification, support de tracé, communication sous-traitants et aide à l’exécution terrain pour les travaux infrastructure.</p></article>
+        <article class="service-card"><div class="icon"><i class="fa-solid fa-tablet-screen-button"></i></div><h3>Interfaces Retail et Tablettes</h3><p>Tablettes magasin, systèmes d’information numériques et couches de présentation multilingues face client.</p></article>
+        <article class="service-card highlight-card"><div class="icon"><i class="fa-solid fa-satellite-dish"></i></div><h3>Panneaux en Direct et Médias Intelligents</h3><p>Tableaux de scores en direct, murs d’actualités, écrans publicitaires et supports de communication de marque.</p></article>
       </div>
     </div>
-  </div>
-</section>
-
-<footer class="main-footer">
-  <div class="container">
-    <p>&copy; 2026 <strong>Cakir IT-Solutions</strong>. Tous Droits Réservés.</p>
-    <p class="small-text">BE 0637.765.003 • RPR Dendermonde</p>
-  </div>
-</footer>
-
+  </section>
+  <section class="section-padding reveal" id="projects">
+    <div class="container">
+      <h2 class="section-title">Projets Sélectionnés</h2>
+      <p class="section-intro">Une image d’entreprise plus forte exige des références de portfolio perçues comme pratiques, premium et crédibles commercialement.</p>
+      <div class="projects-grid"><article class="project-item"><div class="project-info"><h4>SlimPano Smart Advertising Panels</h4><p>A flexible smart signage concept for custom advertising boards, in-store campaigns and multilingual display rotations on connected screens.</p><div class="tags"><span>Digital Signage</span><span>Advertising</span><span>Panels</span></div></div></article><article class="project-item"><div class="project-info"><h4>Live Sports Scores & News Wall</h4><p>A live content screen concept combining sports results, breaking news and sponsor placements for hospitality and public-facing environments.</p><div class="tags"><span>Live Data</span><span>Sports</span><span>News Feed</span></div></div></article><article class="project-item"><div class="project-info"><h4>Cakir Logistics Tracker</h4><p>A mobile-first operations tracker designed for route visibility, delivery updates, field assignments and status monitoring from one dashboard.</p><div class="tags"><span>Tracker App</span><span>Logistics</span><span>Dashboard</span></div></div></article><article class="project-item"><div class="project-info"><h4>Retail Information Tablets</h4><p>Store-side tablet interfaces for promotions, service updates, product information and lightweight multilingual presentation.</p><div class="tags"><span>Tablet UI</span><span>Retail</span><span>Multilingual</span></div></div></article><article class="project-item"><div class="project-info"><h4>Custom Business Display Boards</h4><p>Dedicated branded advertising boards and internal information screens for companies that want their own controlled visual communication layer.</p><div class="tags"><span>Custom Panels</span><span>Branding</span><span>Screens</span></div></div></article><article class="project-item"><div class="project-info"><h4>Network Expansion Field Support</h4><p>Operational support work around utility growth, local route expansion, site preparation and coordination in cross-border project environments.</p><div class="tags"><span>Infrastructure</span><span>Field Ops</span><span>Expansion</span></div></div></article></div>
+    </div>
+  </section>
+  <section class="section-padding services-section reveal" id="regions">
+    <div class="container">
+      <h2 class="section-title">Force Régionale</h2>
+      <p class="section-intro">Une position régionale claire rend le récit de l’entreprise plus sérieux, plus crédible et beaucoup plus fort.</p>
+      <div class="regions-grid"><article class="region-card"><h3>Belgium</h3><p>Operational base for planning, execution support, client communication and multi-sector technical projects.</p></article><article class="region-card"><h3>Netherlands</h3><p>Cross-border business contact environment for network growth, partner communication and installation opportunities.</p></article><article class="region-card"><h3>Germany</h3><p>Project-facing communication with field-oriented technical culture and infrastructure-related service partners.</p></article><article class="region-card"><h3>Türkiye</h3><p>Strong regional business relevance with increasing operational visibility and long-term relationship building.</p></article></div>
+    </div>
+  </section>
+  <section class="section-padding reveal" id="contact">
+    <div class="container">
+      <h2 class="section-title">Entrer en Contact</h2>
+      <p class="contact-subtitle">Contact direct pour management, opérations, logiciel et demandes liées aux écrans intelligents.</p>
+      <div class="contact-grid">
+        <article class="contact-card whatsapp-card"><div class="icon"><i class="fa-solid fa-user-tie"></i></div><h3>Contact Direction</h3><span class="contact-person-name">Cakir Ozcan</span><span class="contact-person-role">Fondateur / Responsable Opérations</span><p>Communication directe pour demandes de projets, coordination infrastructure et partenariats stratégiques.</p><a href="https://wa.me/32486240642" target="_blank" rel="noopener noreferrer" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></article>
+        <article class="contact-card"><div class="icon"><i class="fa-solid fa-user-gear"></i></div><h3>Contact IT et Logiciel</h3><span class="contact-person-name">Bekir Fazli Calik</span><span class="contact-person-role">Responsable Logiciels et Systèmes</span><p>Point de contact pour outils logistiques, systèmes d’affichage, logiciels internes et interfaces numériques multilingues.</p><a href="mailto:info@it-solutions-cakir.be" class="contact-link">info@it-solutions-cakir.be</a></article>
+        <article class="contact-card"><div class="icon"><i class="fa-solid fa-location-dot"></i></div><h3>Siège</h3><p>Kruisstraat 55, 9240 Zele, Belgique. Relié à des activités régionales plus larges en Europe et en Turquie.</p></article>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="main-footer"><div class="container"><p>© 2026 <strong>Cakir IT-Solutions</strong>. All rights reserved.</p><p class="small-text">Support infrastructure, systèmes métier intelligents, outils logistiques et solutions de communication pilotées par affichage.</p></div></footer>
 </body>
 </html>

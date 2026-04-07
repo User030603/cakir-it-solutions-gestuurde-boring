@@ -3,207 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cakir IT-Solutions | Infrastructure & Smart Software</title>
-  <link rel="icon" type="image/png" href="./assets/images/favicon.png">
-  <link rel="apple-touch-icon" href="./assets/images/favicon.png">
-  <link rel="stylesheet" href="./style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <title>Cakir IT-Solutions | Infrastructure & Smart Systems</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-
-<nav class="navbar">
-  <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
-
-  <input type="checkbox" id="nav-toggle" class="nav-toggle">
-  <label for="nav-toggle" class="hamburger"><i class="fa-solid fa-bars"></i></label>
-
-  <ul class="nav-links">
-    <label for="nav-toggle" class="close-btn"><i class="fa-solid fa-xmark"></i></label>
-
-    <li><a href="#home">Home</a></li>
-    <li><a href="#about">About</a></li>
-    <li><a href="#services">Services</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact" class="btn-nav-contact">Contact</a></li>
-
-    <li class="language-wrapper">
-      <a href="./" class="lang-link active">EN</a>
-      <span>|</span>
-      <a href="./nl/" class="lang-link">NL</a>
-      <span>|</span>
-      <a href="./tr/" class="lang-link">TR</a>
-      <span>|</span>
-      <a href="./fr/" class="lang-link">FR</a>
-    </li>
-  </ul>
-
-  <label for="nav-toggle" class="nav-overlay"></label>
-</nav>
-
-<header id="home" class="hero">
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <span class="badge">EST. 2018 • ZELE</span>
-    <h1>From Groundworks to <br><span class="highlight">Digital Solutions</span></h1>
-    <p>
-      Cakir IT-Solutions is a Belgium-based company delivering infrastructure, drilling, technical field operations and digital business solutions.
-      We combine years of hands-on site experience with modern software, tracking systems and corporate web development.
-    </p>
-    <div class="hero-btns">
-      <a href="#services" class="btn btn-primary">Explore Our Services</a>
-      <a href="#contact" class="btn btn-outline">Start a Conversation</a>
-    </div>
+<a class="skip-link" href="#main-content">Skip to content</a>
+<header class="site-header">
+  <div class="container navbar">
+    <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="hamburger" aria-label="Open menu"><i class="fa-solid fa-bars"></i></label>
+    <nav class="nav-panel" aria-label="Primary">
+      <label for="nav-toggle" class="close-btn" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></label>
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+      <a href="./partners/index.html">Partners</a>
+      <a href="#contact" class="btn-nav-contact">Contact</a>
+      <div class="language-wrapper">
+        <a href="./index.html" class="lang-link active">EN</a><span>/</span>
+        <a href="./nl/index.html" class="lang-link">NL</a><span>/</span>
+        <a href="./tr/index.html" class="lang-link">TR</a><span>/</span>
+        <a href="./fr/index.html" class="lang-link">FR</a>
+      </div>
+    </nav>
+    <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
   </div>
 </header>
-
-<section id="about" class="section-padding">
-  <div class="container">
-    <h2 class="section-title">Who We Are</h2>
-    <div class="about-grid">
-      <div class="about-text">
-        <h3>Infrastructure Strength with Digital Vision</h3>
-        <p>
-          Led by Özcan Cakir, Cakir IT-Solutions operates from Zele, Belgium and brings together infrastructure execution and digital transformation services under one roof.
-          Since 2018, we have been active in directional drilling, technical installations, field coordination and operational support.
-        </p>
-        <p>
-          Our expertise goes beyond field work. Through our IT division, we develop corporate websites, internal tools, tracking systems and software solutions tailored to operational businesses.
-          With a Belgium-based structure, we are connected to projects and collaborations in the Netherlands and Germany, while continuing to grow our customer network in Turkey.
-        </p>
-      </div>
-
-      <div class="about-stats">
-        <div class="stat-box">
-          <i class="fa-solid fa-trowel-bricks"></i>
-          <span>Infrastructure & Drilling</span>
-          <p>Years of operational experience in site work, drilling coordination and execution support.</p>
-        </div>
-        <div class="stat-box">
-          <i class="fa-solid fa-code"></i>
-          <span>IT & Software</span>
-          <p>Corporate websites, internal tools, business systems and custom software solutions.</p>
-        </div>
-        <div class="stat-box">
-          <i class="fa-solid fa-users"></i>
-          <span>International Network</span>
-          <p>Belgium-based operations with business links across the Netherlands, Germany and Turkey.</p>
-        </div>
+<main id="main-content">
+  <section class="hero" id="home">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <span class="badge">EST. 2018 • ZELE • NETWORK EXPANSION</span>
+      <h1>Infrastructure execution with <span class="highlight">modern systems and stronger presentation</span></h1>
+      <p>Cakir IT-Solutions combines field operations, drilling coordination, display systems, logistics tools and multilingual digital interfaces into a sharper and more professional company structure.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn btn-primary">Explore projects</a>
+        <a href="#contact" class="btn btn-outline">Start a project</a>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="services" class="services-section section-padding">
-  <div class="container">
-    <h2 class="section-title">Our Services</h2>
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="icon"><i class="fa-solid fa-road"></i></div>
-        <h3>Directional Drilling</h3>
-        <p>
-          We support telecom, fiber, energy and infrastructure projects with planned and high-precision directional drilling operations.
-          Our service structure is built on field discipline, practical coordination and reliable execution.
-        </p>
-      </div>
-
-      <div class="service-card">
-        <div class="icon"><i class="fa-solid fa-bolt"></i></div>
-        <h3>Technical Installations</h3>
-        <p>
-          We provide support for lighting poles, cable routes, field preparation, installation works and site-based technical coordination.
-        </p>
-      </div>
-
-      <div class="service-card highlight-card">
-        <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
-        <h3>Corporate IT & Software</h3>
-        <p>
-          We build company websites, business dashboards, Android-based tools, tracking systems and custom digital solutions for operational businesses.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="projects" class="section-padding bg-light">
-  <div class="container">
-    <h2 class="section-title">Selected Work</h2>
-    <div class="projects-grid">
-      <div class="project-item">
-        <div class="project-info">
-          <h4>Mobile Tracking & Weather App</h4>
-          <p>
-            A mobile solution designed for logistics and field teams, combining real-time location visibility, operational tracking and weather-based planning support.
-          </p>
-          <div class="tags">
-            <span>Kotlin</span>
-            <span>Firebase</span>
-            <span>Google Maps API</span>
-          </div>
+  </section>
+  <section class="section-padding reveal" id="about">
+    <div class="container">
+      <h2 class="section-title">Who We Are</h2>
+      <div class="about-grid">
+        <article class="about-text">
+          <h3>Built from field reality and expanded into modern digital solutions</h3>
+          <p>The company grew out of real operational work, infrastructure support, installation environments and technical coordination across borders.</p>
+          <p>That practical background now supports a broader digital layer with smart displays, logistics interfaces, branded information screens and operational software tools.</p>
+          <p>This creates a company profile that feels both technical and modern, not generic.</p>
+        </article>
+        <div class="about-stats">
+          <article class="stat-box"><i class="fa-solid fa-trowel-bricks"></i><span>Infrastructure Strength</span><p>Hands-on support in drilling, routing, utility preparation and field coordination.</p></article>
+          <article class="stat-box"><i class="fa-solid fa-display"></i><span>Smart Screen Systems</span><p>Tablet interfaces, ad panels and digital presentation systems for live communication.</p></article>
+          <article class="stat-box"><i class="fa-solid fa-code-branch"></i><span>Operational Software</span><p>Tracking dashboards, internal systems and business-facing tools for daily control.</p></article>
         </div>
       </div>
-
-      <div class="project-item">
-        <div class="project-info">
-          <h4>Fiber Expansion Operations</h4>
-          <p>
-            We contributed to local fiber network expansion projects with drilling coordination, field execution support and infrastructure-focused operational planning.
-          </p>
-          <div class="tags">
-            <span>Infrastructure</span>
-            <span>Drilling</span>
-            <span>2024</span>
-          </div>
-        </div>
+      <div class="metrics-grid">
+        <article class="metric-card"><span class="metric-number">10+</span><p>Years of combined operational experience.</p></article>
+        <article class="metric-card"><span class="metric-number">4</span><p>Core business directions in one structure.</p></article>
+        <article class="metric-card"><span class="metric-number">24/7</span><p>Planning mentality for continuous visibility.</p></article>
+        <article class="metric-card highlight-card"><span class="metric-number">EU</span><p>Cross-border communication capacity.</p></article>
       </div>
     </div>
-  </div>
-</section>
-
-<section id="contact" class="contact-section">
-  <div class="container">
-    <h2 class="section-title">Get In Touch</h2>
-    <p class="contact-subtitle">Contact us directly for management, field services and software solutions.</p>
-
-    <div class="contact-grid">
-      <div class="contact-card whatsapp-card">
-        <div class="icon"><i class="fa-solid fa-user-tie"></i></div>
-        <h3>Özcan Cakir</h3>
-        <p><strong>Founder</strong><br>Infrastructure, Operations and IT Strategy</p>
-        <a href="https://wa.me/32486240642" target="_blank" rel="noopener noreferrer" class="btn-whatsapp">
-          <i class="fa-brands fa-whatsapp"></i> +32 486 24 06 42
-        </a>
-        <div style="margin-top: 20px;">
-          <a href="mailto:ozcancakir@it-solutions-cakir.be,cakirozcan03@gmail.com" class="contact-link">
-            <i class="fa-solid fa-envelope"></i> ozcancakir@it-solutions-cakir.be
-          </a>
-        </div>
-      </div>
-
-      <div class="contact-card">
-        <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
-        <h3>Bekir Fazıl Calik</h3>
-        <p><strong>Head of IT & Software</strong></p>
-        <a href="mailto:bekirfazil.calik@it-solutions-cakir.be" class="contact-link">bekirfazil.calik@it-solutions-cakir.be</a>
-      </div>
-
-      <div class="contact-card">
-        <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
-        <h3>Head Office</h3>
-        <p>Visit our office</p>
-        <span class="contact-text">Kruisstraat 55, 9240 Zele, Belgium</span>
+  </section>
+  <section class="section-padding services-section reveal" id="services">
+    <div class="container">
+      <h2 class="section-title">Our Services</h2>
+      <div class="services-grid">
+        <article class="service-card"><div class="icon"><i class="fa-solid fa-road"></i></div><h3>Directional Drilling & Support</h3><p>Planning, route support, subcontractor communication and field execution assistance for infrastructure work.</p></article>
+        <article class="service-card"><div class="icon"><i class="fa-solid fa-tablet-screen-button"></i></div><h3>Retail & Tablet Interfaces</h3><p>Store-side tablets, digital info systems and multilingual customer-facing presentation layers.</p></article>
+        <article class="service-card highlight-card"><div class="icon"><i class="fa-solid fa-satellite-dish"></i></div><h3>Live Panels & Smart Media</h3><p>Live scoreboards, news walls, ad displays and branded communication screens.</p></article>
       </div>
     </div>
-  </div>
-</section>
-
-<footer class="main-footer">
-  <div class="container">
-    <p>&copy; 2026 <strong>Cakir IT-Solutions</strong>. All Rights Reserved.</p>
-    <p class="small-text">BE 0637.765.003 • RPR Dendermonde</p>
-  </div>
-</footer>
-
+  </section>
+  <section class="section-padding reveal" id="projects">
+    <div class="container">
+      <h2 class="section-title">Selected Projects</h2>
+      <p class="section-intro">A stronger company image needs portfolio examples that feel practical, premium and commercially believable.</p>
+      <div class="projects-grid"><article class="project-item"><div class="project-info"><h4>SlimPano Smart Advertising Panels</h4><p>A flexible smart signage concept for custom advertising boards, in-store campaigns and multilingual display rotations on connected screens.</p><div class="tags"><span>Digital Signage</span><span>Advertising</span><span>Panels</span></div></div></article><article class="project-item"><div class="project-info"><h4>Live Sports Scores & News Wall</h4><p>A live content screen concept combining sports results, breaking news and sponsor placements for hospitality and public-facing environments.</p><div class="tags"><span>Live Data</span><span>Sports</span><span>News Feed</span></div></div></article><article class="project-item"><div class="project-info"><h4>Cakir Logistics Tracker</h4><p>A mobile-first operations tracker designed for route visibility, delivery updates, field assignments and status monitoring from one dashboard.</p><div class="tags"><span>Tracker App</span><span>Logistics</span><span>Dashboard</span></div></div></article><article class="project-item"><div class="project-info"><h4>Retail Information Tablets</h4><p>Store-side tablet interfaces for promotions, service updates, product information and lightweight multilingual presentation.</p><div class="tags"><span>Tablet UI</span><span>Retail</span><span>Multilingual</span></div></div></article><article class="project-item"><div class="project-info"><h4>Custom Business Display Boards</h4><p>Dedicated branded advertising boards and internal information screens for companies that want their own controlled visual communication layer.</p><div class="tags"><span>Custom Panels</span><span>Branding</span><span>Screens</span></div></div></article><article class="project-item"><div class="project-info"><h4>Network Expansion Field Support</h4><p>Operational support work around utility growth, local route expansion, site preparation and coordination in cross-border project environments.</p><div class="tags"><span>Infrastructure</span><span>Field Ops</span><span>Expansion</span></div></div></article></div>
+    </div>
+  </section>
+  <section class="section-padding services-section reveal" id="regions">
+    <div class="container">
+      <h2 class="section-title">Regional Strength</h2>
+      <p class="section-intro">Regional positioning makes the company story more serious, more credible and much stronger in presentation.</p>
+      <div class="regions-grid"><article class="region-card"><h3>Belgium</h3><p>Operational base for planning, execution support, client communication and multi-sector technical projects.</p></article><article class="region-card"><h3>Netherlands</h3><p>Cross-border business contact environment for network growth, partner communication and installation opportunities.</p></article><article class="region-card"><h3>Germany</h3><p>Project-facing communication with field-oriented technical culture and infrastructure-related service partners.</p></article><article class="region-card"><h3>Türkiye</h3><p>Strong regional business relevance with increasing operational visibility and long-term relationship building.</p></article></div>
+    </div>
+  </section>
+  <section class="section-padding reveal" id="contact">
+    <div class="container">
+      <h2 class="section-title">Get In Touch</h2>
+      <p class="contact-subtitle">Direct contact for management, operations, software and smart display requests.</p>
+      <div class="contact-grid">
+        <article class="contact-card whatsapp-card"><div class="icon"><i class="fa-solid fa-user-tie"></i></div><h3>Management Contact</h3><span class="contact-person-name">Cakir Ozcan</span><span class="contact-person-role">Founder / Operations Lead</span><p>Direct communication for project requests, infrastructure coordination and strategic partnerships.</p><a href="https://wa.me/32486240642" target="_blank" rel="noopener noreferrer" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></article>
+        <article class="contact-card"><div class="icon"><i class="fa-solid fa-user-gear"></i></div><h3>IT & Software Contact</h3><span class="contact-person-name">Bekir Fazli Calik</span><span class="contact-person-role">Software & Systems Lead</span><p>Contact point for logistics tools, display systems, internal software and multilingual digital interfaces.</p><a href="mailto:info@it-solutions-cakir.be" class="contact-link">info@it-solutions-cakir.be</a></article>
+        <article class="contact-card"><div class="icon"><i class="fa-solid fa-location-dot"></i></div><h3>Head Office</h3><p>Kruisstraat 55, 9240 Zele, Belgium. Connected to wider regional work across Europe and Türkiye.</p></article>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="main-footer"><div class="container"><p>© 2026 <strong>Cakir IT-Solutions</strong>. All rights reserved.</p><p class="small-text">Infrastructure support, smart business systems, logistics tools and display-driven communication solutions.</p></div></footer>
 </body>
 </html>
