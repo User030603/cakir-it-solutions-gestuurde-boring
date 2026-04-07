@@ -1,15 +1,58 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cakir IT-Solutions | Altyapı ve Akıllı Yazılım</title>
+  <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+  <link rel="apple-touch-icon" href="../assets/images/favicon.png">
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
+
+  <input type="checkbox" id="nav-toggle" class="nav-toggle">
+  <label for="nav-toggle" class="hamburger"><i class="fa-solid fa-bars"></i></label>
+
+  <ul class="nav-links">
+    <label for="nav-toggle" class="close-btn"><i class="fa-solid fa-xmark"></i></label>
+
+    <li><a href="#home">Anasayfa</a></li>
+    <li><a href="#about">Hakkımızda</a></li>
+    <li><a href="#services">Hizmetler</a></li>
+    <li><a href="#projects">Projeler</a></li>
+    <li><a href="#contact" class="btn-nav-contact">İletişim</a></li>
+
+    <li class="language-wrapper">
+      <a href="../" class="lang-link">EN</a>
+      <span>|</span>
+      <a href="../nl/" class="lang-link">NL</a>
+      <span>|</span>
+      <a href="../tr/" class="lang-link active">TR</a>
+      <span>|</span>
+      <a href="../fr/" class="lang-link">FR</a>
+    </li>
+  </ul>
+
+  <label for="nav-toggle" class="nav-overlay"></label>
+</nav>
+
 <header id="home" class="hero">
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <span class="badge">EST. 2018 • ZELE</span>
     <h1>Altyapıdan <br><span class="highlight">Dijital Çözümlere</span></h1>
     <p>
-      Cakir IT-Solutions, Belçika merkezli altyapı, sondaj, teknik kurulum ve dijital çözüm hizmetleri sunan çok yönlü bir yapıdır.
-      Yıllara dayanan saha tecrübemizi modern yazılım, takip sistemleri ve kurumsal web çözümleriyle birleştiriyoruz.
+      Cakir IT-Solutions, Belçika merkezli altyapı, sondaj, teknik saha operasyonları ve dijital iş çözümleri sunan çok yönlü bir firmadır.
+      Yıllara dayanan saha tecrübemizi modern yazılım, takip sistemleri ve kurumsal web geliştirme ile birleştiriyoruz.
     </p>
     <div class="hero-btns">
       <a href="#services" class="btn btn-primary">Hizmetlerimizi İnceleyin</a>
-      <a href="#contact" class="btn btn-outline">Bizimle İletişime Geçin</a>
+      <a href="#contact" class="btn btn-outline">İletişime Geçin</a>
     </div>
   </div>
 </header>
@@ -19,17 +62,14 @@
     <h2 class="section-title">Biz Kimiz?</h2>
     <div class="about-grid">
       <div class="about-text">
-        <h3>Altyapı, Saha ve IT Gücünü Birleştiren Ekip</h3>
+        <h3>Altyapı Gücü ve Dijital Vizyon</h3>
         <p>
-          Cakir IT-Solutions, Özcan Çakır liderliğinde Belçika’nın Zele bölgesinde faaliyet gösteren, altyapı işleri ile dijital dönüşüm çözümlerini aynı çatı altında buluşturan bir firmadır. 
-          2018’den bu yana altyapı, yatay yönlendirilebilir sondaj, teknik kurulum ve saha organizasyonu alanlarında aktif olarak çalışıyoruz.
+          Özcan Çakır liderliğinde faaliyet gösteren Cakir IT-Solutions, Belçika'nın Zele bölgesinden altyapı uygulamaları ile dijital dönüşüm hizmetlerini tek çatı altında sunar.
+          2018’den bu yana yönlendirilebilir sondaj, teknik kurulum, saha koordinasyonu ve operasyon desteği alanlarında aktif olarak çalışıyoruz.
         </p>
         <p>
-          Operasyonel tecrübemiz yalnızca saha ile sınırlı değildir. IT bölümümüzde kurumsal web siteleri, takip sistemleri, iç operasyon yazılımları ve lojistik odaklı dijital çözümler geliştiriyoruz.
-          Belçika merkezli yapımızla Hollanda ve Almanya bağlantılı projelerde yer alıyor, Türkiye’de ise özellikle büyüyen müşteri ağımızla farklı sektörlere hizmet veriyoruz.
-        </p>
-        <p>
-          Hedefimiz; sahada güvenilir, dijitalde hızlı, projede ise sürdürülebilir bir çözüm ortağı olmaktır.
+          Uzmanlığımız saha ile sınırlı değildir. IT bölümümüzde kurumsal web siteleri, iç araçlar, takip sistemleri ve operasyonel işletmelere özel yazılım çözümleri geliştiriyoruz.
+          Belçika merkezli yapımızla Hollanda ve Almanya bağlantılı projelerde yer alıyor, Türkiye’de de müşteri ağımızı büyütmeye devam ediyoruz.
         </p>
       </div>
 
@@ -37,17 +77,17 @@
         <div class="stat-box">
           <i class="fa-solid fa-trowel-bricks"></i>
           <span>Altyapı ve Sondaj</span>
-          <p>Yıllara dayanan saha tecrübesi, ekip koordinasyonu ve operasyon yönetimi.</p>
+          <p>Saha çalışmaları, sondaj koordinasyonu ve uygulama desteğinde yıllara dayanan tecrübe.</p>
         </div>
         <div class="stat-box">
           <i class="fa-solid fa-code"></i>
           <span>IT ve Yazılım</span>
-          <p>Kurumsal web çözümleri, iç süreç araçları ve özel yazılım geliştirme.</p>
+          <p>Kurumsal web siteleri, iç araçlar, iş sistemleri ve özel yazılım çözümleri.</p>
         </div>
         <div class="stat-box">
           <i class="fa-solid fa-users"></i>
           <span>Uluslararası Ağ</span>
-          <p>Belçika merkezli yapı; Hollanda, Almanya ve Türkiye bağlantılı iş ağı.</p>
+          <p>Belçika merkezli operasyon yapısı, Hollanda, Almanya ve Türkiye bağlantıları.</p>
         </div>
       </div>
     </div>
@@ -60,28 +100,25 @@
     <div class="services-grid">
       <div class="service-card">
         <div class="icon"><i class="fa-solid fa-road"></i></div>
-        <h3>Yatay Yönlendirilebilir Sondaj</h3>
+        <h3>Yönlendirilebilir Sondaj</h3>
         <p>
-          Telekom, fiber, enerji ve altyapı hatları için planlı, kontrollü ve yüksek hassasiyetli sondaj hizmetleri sunuyoruz.
-          Saha organizasyonu, ekip yönetimi ve uygulama süreçlerinde deneyimli bir yapı ile çalışıyoruz.
+          Telekom, fiber, enerji ve altyapı projelerine planlı ve yüksek hassasiyetli sondaj operasyonlarıyla destek veriyoruz.
         </p>
       </div>
 
       <div class="service-card">
         <div class="icon"><i class="fa-solid fa-bolt"></i></div>
-        <h3>Teknik Kurulum ve Saha Uygulamaları</h3>
+        <h3>Teknik Kurulumlar</h3>
         <p>
-          Aydınlatma direkleri, kablo geçişleri, saha hazırlığı, teknik montaj ve ilgili operasyonel uygulamalarda kurumsal destek sağlıyoruz.
-          Proje bazlı ve ihtiyaca göre ölçeklenebilir çözümler geliştiriyoruz.
+          Aydınlatma direkleri, kablo güzergahları, saha hazırlığı, montaj işleri ve teknik koordinasyon alanlarında destek sağlıyoruz.
         </p>
       </div>
 
       <div class="service-card highlight-card">
         <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
-        <h3>Kurumsal IT ve Yazılım Çözümleri</h3>
+        <h3>Kurumsal IT ve Yazılım</h3>
         <p>
-          Şirketlere özel web siteleri, takip panelleri, Android tabanlı iş çözümleri, dijital yönetim araçları ve operasyon destek yazılımları geliştiriyoruz.
-          IT tarafında amacımız, işletmelerin günlük işleyişini daha verimli ve daha görünür hale getirmektir.
+          Şirket web siteleri, iş panelleri, Android tabanlı araçlar, takip sistemleri ve özel dijital çözümler geliştiriyoruz.
         </p>
       </div>
     </div>
@@ -90,13 +127,13 @@
 
 <section id="projects" class="section-padding bg-light">
   <div class="container">
-    <h2 class="section-title">Öne Çıkan Çalışmalar</h2>
+    <h2 class="section-title">Seçili Çalışmalar</h2>
     <div class="projects-grid">
       <div class="project-item">
         <div class="project-info">
           <h4>Mobil Takip ve Hava Durumu Uygulaması</h4>
           <p>
-            Lojistik ve saha operasyonlarında kullanılmak üzere gerçek zamanlı konum takibi, hava durumu bilgisi ve operasyon görünürlüğü sağlayan mobil çözüm yapısı üzerinde çalıştık.
+            Lojistik ve saha ekipleri için gerçek zamanlı konum görünürlüğü, operasyon takibi ve hava durumuna bağlı planlama desteği sunan mobil çözüm.
           </p>
           <div class="tags">
             <span>Kotlin</span>
@@ -108,9 +145,9 @@
 
       <div class="project-item">
         <div class="project-info">
-          <h4>Fiber Altyapı Genişletme Operasyonu</h4>
+          <h4>Fiber Genişletme Operasyonları</h4>
           <p>
-            Yerel fiber ağ genişletme projelerinde saha koordinasyonu, yönlendirilebilir sondaj yönetimi ve uygulama süreçlerinde aktif görev aldık.
+            Yerel fiber ağ genişletme projelerinde sondaj koordinasyonu, saha uygulama desteği ve altyapı odaklı operasyon planlaması sunduk.
           </p>
           <div class="tags">
             <span>Altyapı</span>
@@ -126,9 +163,7 @@
 <section id="contact" class="contact-section">
   <div class="container">
     <h2 class="section-title">İletişime Geçin</h2>
-    <p class="contact-subtitle">
-      Yönetim, saha operasyonları ve yazılım hizmetleri için doğrudan bizimle iletişim kurabilirsiniz.
-    </p>
+    <p class="contact-subtitle">Yönetim, saha hizmetleri ve yazılım çözümleri için bize doğrudan ulaşın.</p>
 
     <div class="contact-grid">
       <div class="contact-card whatsapp-card">
@@ -139,7 +174,7 @@
           <i class="fa-brands fa-whatsapp"></i> +32 486 24 06 42
         </a>
         <div style="margin-top: 20px;">
-          <a href="mailto:ozcancakir@it-solutions-cakir.be,cakirozcan03@gmail.com" class="contact-link" style="font-size: 0.95rem;">
+          <a href="mailto:ozcancakir@it-solutions-cakir.be,cakirozcan03@gmail.com" class="contact-link">
             <i class="fa-solid fa-envelope"></i> ozcancakir@it-solutions-cakir.be
           </a>
         </div>
@@ -149,9 +184,7 @@
         <div class="icon"><i class="fa-solid fa-laptop-code"></i></div>
         <h3>Bekir Fazıl Çalık</h3>
         <p><strong>IT ve Yazılım Sorumlusu</strong></p>
-        <a href="mailto:bekirfazil.calik@it-solutions-cakir.be" class="contact-link">
-          bekirfazil.calik@it-solutions-cakir.be
-        </a>
+        <a href="mailto:bekirfazil.calik@it-solutions-cakir.be" class="contact-link">bekirfazil.calik@it-solutions-cakir.be</a>
       </div>
 
       <div class="contact-card">
@@ -163,3 +196,13 @@
     </div>
   </div>
 </section>
+
+<footer class="main-footer">
+  <div class="container">
+    <p>&copy; 2026 <strong>Cakir IT-Solutions</strong>. Tüm Hakları Saklıdır.</p>
+    <p class="small-text">BE 0637.765.003 • RPR Dendermonde</p>
+  </div>
+</footer>
+
+</body>
+</html>
