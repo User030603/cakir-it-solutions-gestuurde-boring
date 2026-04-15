@@ -1007,30 +1007,62 @@ function stopBuilder(){
 
 function addBuilderStop(lat,lng){
   var idx = builderWaypoints.length;
-  // Nieuwe stop opslaan met extra velden
+  
+  // 1. Voeg tijdelijk toe met een laad-tekst
   builderWaypoints.push({
     lat: lat,
     lng: lng,
-    naam: (idx===0) ? 'Depot Zele' : '', 
+    naam: (idx===0) ? 'Depot Zele' : 'Adres ophalen...', 
     pakket_nr: '',
     tijd: ''
   });
-  
 
-  // Marker op kaart
-  var isFirst=(idx===0);
-  var markerIcon=L.divIcon({
+  // 2. Zet direct de marker op de kaart
+  var isFirst = (idx === 0);
+  var markerIcon = L.divIcon({
     html:'<div style="width:26px;height:26px;background:'+(isFirst?'#00d4ff':'#00e676')+';border-radius:50%;border:2px solid #111;color:#000;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;font-family:monospace;box-shadow:0 2px 10px rgba(0,0,0,0.5);">'+(idx+1)+'</div>',
     iconSize:[26,26],iconAnchor:[13,13],className:''
   });
-  var m=L.marker([lat,lng],{icon:markerIcon}).addTo(map);
-  var stopLabel=isFirst?'🟦 Start':(idx===1?'🏁 Stop '+idx:'📍 Stop '+idx);
-  m.bindPopup('<b>'+stopLabel+'</b><br><small>'+lat.toFixed(5)+', '+lng.toFixed(5)+'</small>');
+  var m = L.marker([lat,lng],{icon:markerIcon}).addTo(map);
   builderMarkers.push(m);
-
+  
+  // Update de lijst zodat we zien dat hij laadt
   renderBuilderStopList();
   drawBuilderRoute();
-  hint('Stop '+(idx+1)+' toegevoegd — klik voor meer, of druk Stuur Route',4000);
+
+  // 3. Haal het echte adres op via Nominatim (als het niet stop 1 is)
+  if (idx !== 0) {
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`)
+      .then(response => response.json())
+      .then(data => {
+        var adres = "Stop " + (idx + 1); // fallback
+        if (data && data.address) {
+            var straat = data.address.road || data.address.pedestrian || "";
+            var huisnr = data.address.house_number || "";
+            var stad = data.address.village || data.address.town || data.address.city || "";
+            if (straat) {
+                adres = `${straat} ${huisnr}, ${stad}`.trim();
+            }
+        }
+        
+        // Werk de array en de UI bij
+        builderWaypoints[idx].naam = adres;
+        renderBuilderStopList();
+        
+        var stopLabel = (idx===1?'🏁 '+adres:'📍 '+adres);
+        m.bindPopup('<b>'+stopLabel+'</b><br><small>'+lat.toFixed(5)+', '+lng.toFixed(5)+'</small>');
+        hint('Stop '+(idx+1)+' toegevoegd: ' + adres, 4000);
+      })
+      .catch(err => {
+        console.warn("Geocoding failed", err);
+        builderWaypoints[idx].naam = "Stop " + (idx + 1);
+        renderBuilderStopList();
+      });
+  } else {
+    var stopLabel = '🟦 Start (Depot)';
+    m.bindPopup('<b>'+stopLabel+'</b><br><small>'+lat.toFixed(5)+', '+lng.toFixed(5)+'</small>');
+    hint('Startpunt geplaatst', 3000);
+  }
 }
 
 function undoLastStop(){
@@ -1139,6 +1171,77 @@ function refreshBuilderDriverSelect(){
     sel.appendChild(opt);
   });
   if(prev&&driverData[prev]) sel.value=prev;
+  // --- NIEUWE CODE: LAAAD ROUTE ALS CHAUFFEUR WORDT GESELECTEERD ---
+document.getElementById('builder-driver-select').addEventListener('change', function(e) {
+  var selectedUid = e.target.value;
+  if (!selectedUid) return;
+
+  hint('Zoeken naar actieve route voor chauffeur...', 0);
+  
+  db.ref('active_routes/' + selectedUid).once('value')
+    .then(function(snap) {
+      var routeData = snap.val();
+      
+      if (routeData && routeData.stops && routeData.stops.length > 0) {
+        if (confirm("Deze chauffeur heeft al een actieve route. Wil je deze inladen om te bewerken?")) {
+           loadDriverRouteIntoBuilder(routeData.stops);
+        }
+      } else {
+        hint('Chauffeur heeft momenteel geen actieve route.', 3000);
+      }
+    })
+    .catch(function(err) {
+      console.error("Fout bij ophalen route: ", err);
+    });
+});
+
+function loadDriverRouteIntoBuilder(stopsArray) {
+  // 1. Maak de hudige bouwer leeg
+  clearBuilderDraw();
+  
+  // 2. Loop door de stops uit Firebase en voeg ze toe aan de bouwer
+  stopsArray.forEach(function(stop, index) {
+      // Splits de tijd van de naam af als die er is (Formaat was "Naam 🕒 14:30")
+      var extractedName = stop.naam;
+      var extractedTime = "";
+      var timeSplit = stop.naam.split(" 🕒 ");
+      if (timeSplit.length === 2) {
+          extractedName = timeSplit[0];
+          extractedTime = timeSplit[1];
+      }
+
+      builderWaypoints.push({
+          lat: stop.lat,
+          lng: stop.lon, // Firebase gebruikt 'lon', Leaflet gebruikt 'lng'
+          naam: extractedName,
+          pakket_nr: stop.pakket_nr || "",
+          tijd: extractedTime
+      });
+
+      // Zet marker op de kaart
+      var isFirst = (index === 0);
+      var markerIcon = L.divIcon({
+        html:'<div style="width:26px;height:26px;background:'+(isFirst?'#00d4ff':'#00e676')+';border-radius:50%;border:2px solid #111;color:#000;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;font-family:monospace;box-shadow:0 2px 10px rgba(0,0,0,0.5);">'+(index+1)+'</div>',
+        iconSize:[26,26],iconAnchor:[13,13],className:''
+      });
+      
+      var m = L.marker([stop.lat, stop.lon], {icon: markerIcon}).addTo(map);
+      m.bindPopup('<b>'+extractedName+'</b>');
+      builderMarkers.push(m);
+  });
+
+  // 3. Render lijst en teken lijn
+  renderBuilderStopList();
+  drawBuilderRoute();
+  hint('Route succesvol ingeladen!', 3000);
+  
+  // Zoom in op de route
+  if (builderMarkers.length > 0) {
+      var group = new L.featureGroup(builderMarkers);
+      map.fitBounds(group.getBounds().pad(0.1));
+  }
+}
+// --- EINDE NIEUWE CODE ---
 }
 
 // Stuur de gebouwde route naar Firebase van de chauffeur
@@ -1154,6 +1257,7 @@ function sendBuiltRoute(){
 
   // Bouw stops array in het formaat dat de Android app verwacht
   // Bouw stops array in het formaat dat de Android app verwacht
+ // Bouw stops array in het formaat dat de Android app verwacht
   var stops = builderWaypoints.map(function(wp, i){
     // Plak de tijd achter de naam (bv: Kerkstraat 5 🕒 14:30)
     var finalName = wp.naam.trim() || ("Stop " + (i+1));
@@ -1163,7 +1267,7 @@ function sendBuiltRoute(){
 
     return {
       lat:       wp.lat,
-      lon:       wp.lng,   // Android gebruikt 'lon'
+      lon:       wp.lng,   // Let op: 'lon' want Android gebruikt lon
       naam:      finalName,
       pakket_nr: wp.pakket_nr || "",
       status:    'open'
