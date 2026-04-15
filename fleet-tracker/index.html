@@ -24,9 +24,7 @@
     display:flex; align-items:center; justify-content:center;
   }
   #login-screen.hidden { display:none; }
-
   .login-wrap { width:100%; max-width:420px; padding:20px; }
-
   .login-box {
     background:var(--panel); border:1px solid var(--border);
     border-radius:18px; padding:40px 44px;
@@ -40,7 +38,6 @@
   }
   .login-title { font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:700; color:white; text-align:center; margin-bottom:4px; }
   .login-sub   { font-size:11px; color:var(--muted); letter-spacing:2px; text-align:center; margin-bottom:30px; text-transform:uppercase; }
-
   .login-field { margin-bottom:14px; }
   .login-label { font-size:10px; color:var(--muted); font-family:'IBM Plex Mono',monospace; letter-spacing:0.12em; text-transform:uppercase; margin-bottom:6px; display:block; }
   .login-input {
@@ -91,10 +88,7 @@
   .modal-title { font-family:'IBM Plex Mono',monospace; font-size:13px; font-weight:700; color:var(--accent); letter-spacing:0.1em; margin-bottom:4px; }
   .modal-sub   { font-size:11px; color:var(--muted); margin-bottom:20px; }
   .user-list   { margin-bottom:20px; }
-  .user-row {
-    display:flex; align-items:center; gap:10px; padding:10px 12px;
-    background:var(--panel2); border:1px solid var(--border); border-radius:8px; margin-bottom:8px;
-  }
+  .user-row { display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--panel2); border:1px solid var(--border); border-radius:8px; margin-bottom:8px; }
   .user-avatar { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,#1e3a5f,#0a1e35); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:700; color:var(--accent); flex-shrink:0; }
   .user-info { flex:1; min-width:0; }
   .user-name { font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
@@ -116,9 +110,9 @@
   .modal-close-btn:hover { border-color:var(--accent); color:var(--accent); }
 
   /* ══ SIDEBAR ═══════════════════════════════════════ */
-  #sidebar { width:var(--sidebar); min-width:var(--sidebar); height:100vh; background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:1000; box-shadow:10px 0 40px rgba(0,0,0,0.6); }
+  #sidebar { width:var(--sidebar); min-width:var(--sidebar); height:100vh; background:var(--panel); border-right:1px solid var(--border); display:flex; flex-direction:column; z-index:1000; box-shadow:10px 0 40px rgba(0,0,0,0.6); overflow:hidden; }
 
-  .brand { padding:16px 20px; background:linear-gradient(135deg,#0f1d30,#0b1525); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; }
+  .brand { padding:16px 20px; background:linear-gradient(135deg,#0f1d30,#0b1525); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:12px; flex-shrink:0; }
   .brand-icon { width:40px; height:40px; background:var(--accent); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow:0 0 20px rgba(0,212,255,0.5); flex-shrink:0; }
   .brand-name { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:700; color:white; }
   .brand-sub  { font-size:9px; color:var(--accent); letter-spacing:2px; margin-top:2px; }
@@ -128,17 +122,55 @@
   .logout-btn { background:none; border:1px solid var(--border); border-radius:5px; color:var(--muted); font-size:10px; cursor:pointer; padding:3px 7px; margin-top:4px; font-family:'IBM Plex Mono',monospace; transition:all 0.2s; }
   .logout-btn:hover { border-color:var(--red); color:var(--red); }
 
-  .stats-row { display:flex; padding:12px 14px; gap:8px; border-bottom:1px solid var(--border); }
+  .stats-row { display:flex; padding:12px 14px; gap:8px; border-bottom:1px solid var(--border); flex-shrink:0; }
   .stat { flex:1; background:var(--panel2); border:1px solid var(--border); border-radius:8px; padding:9px; text-align:center; }
   .stat-val { font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:700; color:var(--accent); }
   .stat-lbl { font-size:9px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em; margin-top:2px; }
 
   /* Admin tools balk */
-  .admin-tools { padding:10px 14px; border-bottom:1px solid var(--border); display:flex; gap:7px; }
-  .tool-btn { flex:1; padding:8px 6px; background:var(--panel2); border:1px solid var(--border); border-radius:7px; color:var(--muted); font-size:10px; font-weight:700; cursor:pointer; font-family:'IBM Plex Mono',monospace; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:5px; white-space:nowrap; }
+  .admin-tools { padding:10px 14px; border-bottom:1px solid var(--border); display:flex; gap:7px; flex-wrap:wrap; flex-shrink:0; }
+  .tool-btn { flex:1; min-width:28%; padding:8px 6px; background:var(--panel2); border:1px solid var(--border); border-radius:7px; color:var(--muted); font-size:10px; font-weight:700; cursor:pointer; font-family:'IBM Plex Mono',monospace; transition:all 0.2s; display:flex; align-items:center; justify-content:center; gap:5px; white-space:nowrap; }
   .tool-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .tool-btn.active-builder { border-color:var(--green) !important; color:var(--green) !important; background:rgba(0,230,118,0.08) !important; }
 
-  #loc-bar { padding:8px 14px; border-bottom:1px solid var(--border); font-size:11px; font-family:'IBM Plex Mono',monospace; display:flex; align-items:center; gap:8px; min-height:34px; transition:color 0.4s; }
+  /* ══ ROUTE BUILDER PANEL ══════════════════════════ */
+  #route-builder-panel {
+    display:none; flex-shrink:0;
+    padding:14px 16px; background:#060e18;
+    border-bottom:1px solid var(--border);
+    max-height:260px; overflow-y:auto;
+  }
+  #route-builder-panel::-webkit-scrollbar { width:3px; }
+  #route-builder-panel::-webkit-scrollbar-thumb { background:var(--border); }
+  .builder-header { font-size:11px; color:var(--green); font-family:'IBM Plex Mono',monospace; margin-bottom:6px; font-weight:700; letter-spacing:0.1em; }
+  .builder-info { font-size:10px; color:var(--muted); margin-bottom:10px; line-height:1.5; }
+  #builder-stops-list { margin-bottom:10px; }
+  .b-stop-item {
+    padding:6px 8px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:8px; font-size:11px;
+  }
+  .b-stop-num {
+    width:18px; height:18px; border-radius:50%; background:var(--green);
+    color:#000; display:flex; align-items:center; justify-content:center;
+    font-size:9px; font-weight:700; font-family:'IBM Plex Mono',monospace; flex-shrink:0;
+  }
+  .b-stop-name { flex:1; color:var(--text); }
+  .b-stop-coords { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--muted); }
+  .b-stop-del { background:none; border:none; color:var(--red); cursor:pointer; font-size:13px; padding:0 3px; }
+  .builder-select {
+    width:100%; padding:8px 10px; background:var(--panel2); border:1px solid var(--border);
+    border-radius:7px; color:var(--text); font-size:12px; outline:none;
+    font-family:'IBM Plex Mono',monospace; margin-bottom:10px; cursor:pointer;
+  }
+  .builder-select:focus { border-color:var(--green); }
+  .builder-actions { display:flex; gap:7px; }
+  .b-btn { flex:1; padding:8px 6px; border-radius:6px; font-size:11px; font-weight:700; cursor:pointer; font-family:'IBM Plex Mono',monospace; transition:all 0.2s; border:1px solid var(--border); background:var(--panel2); color:var(--text); }
+  .b-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .b-btn.send { background:var(--green); color:#000; border-color:var(--green); }
+  .b-btn.send:hover { background:#00c860; }
+  .builder-counter { font-size:10px; color:var(--muted); font-family:'IBM Plex Mono',monospace; margin-bottom:8px; }
+
+  #loc-bar { padding:8px 14px; border-bottom:1px solid var(--border); font-size:11px; font-family:'IBM Plex Mono',monospace; display:flex; align-items:center; gap:8px; min-height:34px; transition:color 0.4s; flex-shrink:0; }
   #loc-bar .dot { width:7px; height:7px; border-radius:50%; background:var(--muted); flex-shrink:0; transition:all 0.3s; }
   #loc-bar.found  { color:var(--green); }
   #loc-bar.found .dot  { background:var(--green); box-shadow:0 0 7px var(--green); }
@@ -146,16 +178,16 @@
   #loc-bar.error .dot  { background:var(--red); }
   #loc-bar.searching .dot { background:var(--yellow); animation:blink 0.8s infinite; }
 
-  .search-wrap { padding:10px 14px; border-bottom:1px solid var(--border); }
+  .search-wrap { padding:10px 14px; border-bottom:1px solid var(--border); flex-shrink:0; }
   .search-inner { background:var(--panel2); border:1px solid var(--border); border-radius:8px; display:flex; align-items:center; padding:0 12px; gap:8px; transition:border-color 0.2s; }
   .search-inner:focus-within { border-color:var(--accent); }
   .search-inner input { background:none; border:none; outline:none; color:var(--text); font-size:13px; padding:8px 0; flex:1; font-family:'IBM Plex Sans',sans-serif; }
   .search-inner input::placeholder { color:var(--muted); }
 
-  .list-header { padding:7px 14px 3px; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.15em; font-family:'IBM Plex Mono',monospace; display:flex; justify-content:space-between; align-items:center; }
+  .list-header { padding:7px 14px 3px; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:0.15em; font-family:'IBM Plex Mono',monospace; display:flex; justify-content:space-between; align-items:center; flex-shrink:0; }
   .live-dot { width:6px; height:6px; border-radius:50%; background:var(--green); display:inline-block; box-shadow:0 0 6px var(--green); animation:pulse 1.5s infinite; }
 
-  #driver-list { flex:1; overflow-y:auto; padding:6px 10px 10px; }
+  #driver-list { flex:1; overflow-y:auto; padding:6px 10px 10px; min-height:0; }
   #driver-list::-webkit-scrollbar { width:3px; }
   #driver-list::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
 
@@ -167,10 +199,8 @@
   .driver-card.s-standby::before, .driver-card.s-wachten::before { background:var(--yellow); }
   .driver-card.s-sos::before { background:var(--red); box-shadow:0 0 16px var(--red); animation:sos-pulse 0.8s infinite; }
   .driver-card.s-pauze::before { background:var(--yellow); }
-  /* Chauffeur eigen kaart — speciaal highlight */
   .driver-card.own-card { border-color:var(--accent); background:linear-gradient(135deg,#0d1f35,#0b1525); }
   .own-tag { font-size:9px; background:rgba(0,212,255,0.15); color:var(--accent); border-radius:3px; padding:1px 5px; font-family:'IBM Plex Mono',monospace; margin-left:4px; }
-
   @keyframes sos-pulse { 0%,100%{box-shadow:0 0 16px var(--red)} 50%{box-shadow:0 0 4px var(--red)} }
 
   .d-avatar { width:36px; height:36px; border-radius:8px; background:linear-gradient(135deg,#1e3a5f,#0a1e35); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:12px; color:var(--accent); flex-shrink:0; }
@@ -181,16 +211,21 @@
   .sb-green  { background:rgba(0,230,118,0.15); color:var(--green); }
   .sb-yellow { background:rgba(255,234,0,0.12); color:var(--yellow); }
   .sb-red    { background:rgba(255,68,68,0.15);  color:var(--red); }
-  .route-btn { background:var(--accent); color:#000; border:none; border-radius:5px; padding:4px 9px; font-size:10px; font-weight:700; cursor:pointer; font-family:'IBM Plex Sans',sans-serif; white-space:nowrap; flex-shrink:0; transition:background 0.2s; }
+
+  .card-btns { display:flex; flex-direction:column; gap:4px; flex-shrink:0; }
+  .route-btn { background:var(--accent); color:#000; border:none; border-radius:5px; padding:4px 8px; font-size:10px; font-weight:700; cursor:pointer; font-family:'IBM Plex Sans',sans-serif; white-space:nowrap; transition:background 0.2s; }
   .route-btn:hover { background:#00b8e0; }
+  .send-route-btn { background:var(--green); color:#000; border:none; border-radius:5px; padding:4px 8px; font-size:10px; font-weight:700; cursor:pointer; font-family:'IBM Plex Sans',sans-serif; white-space:nowrap; transition:background 0.2s; }
+  .send-route-btn:hover { background:#00c860; }
+  .send-route-btn:disabled { opacity:0.4; cursor:not-allowed; }
 
   /* Chauffeur view — werkplaats pin info */
-  #depot-info { padding:10px 14px; border-bottom:1px solid var(--border); background:#0a1520; display:none; }
+  #depot-info { padding:10px 14px; border-bottom:1px solid var(--border); background:#0a1520; display:none; flex-shrink:0; }
   .depot-row { display:flex; align-items:center; gap:8px; font-size:11px; font-family:'IBM Plex Mono',monospace; color:var(--muted); }
   .depot-dot { width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 6px var(--accent); flex-shrink:0; }
 
-  /* Route panel */
-  #route-panel { border-top:1px solid var(--border); background:#0a1520; max-height:0; overflow:hidden; transition:max-height 0.5s ease; }
+  /* Route panel (live afstand) */
+  #route-panel { border-top:1px solid var(--border); background:#0a1520; max-height:0; overflow:hidden; transition:max-height 0.5s ease; flex-shrink:0; }
   #route-panel.open { max-height:600px; padding:14px 16px; overflow-y:auto; }
   #route-panel::-webkit-scrollbar { width:3px; }
   #route-panel::-webkit-scrollbar-thumb { background:var(--border); }
@@ -233,9 +268,10 @@
   .ctrl-btn:hover { border-color:var(--accent); color:var(--accent); }
   .ctrl-btn.on { border-color:var(--accent); color:var(--accent); box-shadow:0 0 10px rgba(0,212,255,0.3); }
 
-  /* SOS ring animatie */
-  @keyframes sos-ring { 0%{width:20px;height:20px;opacity:1;border-width:3px} 100%{width:56px;height:56px;opacity:0;border-width:1px} }
+  /* Builder modus kaart cursor */
+  #map.builder-mode { cursor:crosshair; }
 
+  @keyframes sos-ring { 0%{width:20px;height:20px;opacity:1;border-width:3px} 100%{width:56px;height:56px;opacity:0;border-width:1px} }
   .leaflet-container { background:#0b0f1a !important; }
   .leaflet-routing-container { display:none !important; }
   .leaflet-popup-content-wrapper { background:var(--panel) !important; color:var(--text) !important; border:1px solid var(--border) !important; border-radius:10px !important; box-shadow:0 4px 24px rgba(0,0,0,0.6) !important; }
@@ -243,7 +279,6 @@
   .leaflet-popup-content { margin:13px 15px !important; font-family:'IBM Plex Sans',sans-serif; font-size:13px; }
 
   #loading { position:fixed; inset:0; background:var(--bg); z-index:99998; display:flex; flex-direction:column; align-items:center; justify-content:center; transition:opacity 0.6s; }
-
   @keyframes spin  { to{transform:rotate(360deg)} }
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
@@ -264,7 +299,6 @@
       <div class="login-logo">🚛</div>
       <div class="login-title">CAKIR LOGISTICS</div>
       <div class="login-sub">Fleet Command — Inloggen</div>
-
       <div class="login-field">
         <label class="login-label">E-mailadres</label>
         <input class="login-input" type="email" id="login-email"
@@ -304,11 +338,11 @@
     <div class="add-user-form">
       <div class="add-title">➕ Nieuwe gebruiker aanmaken</div>
       <div class="form-row">
-        <input class="form-input" id="new-name"  placeholder="Naam (bv. Ozcan Cakir)">
+        <input class="form-input" id="new-name" placeholder="Naam (bv. Ozcan Cakir)">
       </div>
       <div class="form-row">
         <input class="form-input" id="new-email" placeholder="email@it-solutions-cakir.be">
-        <input class="form-input" id="new-pass"  type="password" placeholder="Wachtwoord" style="max-width:140px">
+        <input class="form-input" id="new-pass" type="password" placeholder="Wachtwoord" style="max-width:140px">
       </div>
       <div class="form-row">
         <select class="form-select" id="new-role">
@@ -347,10 +381,27 @@
     <div class="stat"><div class="stat-val" id="s-sos" style="color:var(--red)">0</div><div class="stat-lbl">SOS</div></div>
   </div>
 
-  <!-- Admin tools (verborgen voor chauffeur) -->
+  <!-- Admin tools balk -->
   <div class="admin-tools" id="admin-tools" style="display:none;">
     <button class="tool-btn" onclick="openQR()">🔑 QR Code</button>
     <button class="tool-btn" id="btn-users" onclick="openUserModal()" style="display:none;">👥 Gebruikers</button>
+    <button class="tool-btn" id="btn-builder" onclick="toggleRouteBuilder()" style="display:none;">🗺️ Route Bouwer</button>
+  </div>
+
+  <!-- ROUTE BUILDER PANEL (admin only) -->
+  <div id="route-builder-panel">
+    <div class="builder-header">🛠️ ROUTE MAKER — KLIK OP KAART</div>
+    <div class="builder-info">Klik op de kaart om stops toe te voegen. Kies daarna een chauffeur en stuur de route.</div>
+    <div class="builder-counter" id="builder-counter">0 stops geplaatst</div>
+    <div id="builder-stops-list"></div>
+    <select class="builder-select" id="builder-driver-select">
+      <option value="">-- Kies chauffeur --</option>
+    </select>
+    <div class="builder-actions">
+      <button class="b-btn" onclick="undoLastStop()">↩ Ongedaan</button>
+      <button class="b-btn" onclick="clearBuilder()">✕ Wissen</button>
+      <button class="b-btn send" onclick="sendBuiltRoute()">🚀 Stuur Route</button>
+    </div>
   </div>
 
   <!-- Chauffeur: werkplaats info -->
@@ -380,6 +431,7 @@
 
   <div id="driver-list"></div>
 
+  <!-- Route panel (live afstand admin → chauffeur) -->
   <div id="route-panel">
     <div class="r-title">📍 Route — Jij → Chauffeur</div>
     <div id="route-tabs"></div>
@@ -426,22 +478,22 @@
 
 <script>
 // ════════════════════════════════════════════════════
-//  ✅  Firebase Verbinding (ENTERPRISE VERSIE V22)
+//  Firebase Verbinding
 // ════════════════════════════════════════════════════
 firebase.initializeApp({
-  apiKey: "AIzaSyAK0MeCe1YAtHMNgyYXrvKyh4zvfj5cBgo", 
-  authDomain: "cakir-logistics-tracker-c4b6b.firebaseapp.com",
-  databaseURL: "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app",
-  projectId: "cakir-logistics-tracker-c4b6b",
-  storageBucket: "cakir-logistics-tracker-c4b6b.firebasestorage.app",
+  apiKey:            "AIzaSyAK0MeCe1YAtHMNgyYXrvKyh4zvfj5cBgo",
+  authDomain:        "cakir-logistics-tracker-c4b6b.firebaseapp.com",
+  databaseURL:       "https://cakir-logistics-tracker-c4b6b-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:         "cakir-logistics-tracker-c4b6b",
+  storageBucket:     "cakir-logistics-tracker-c4b6b.firebasestorage.app",
   messagingSenderId: "312186012365",
-  appId: "1:312186012365:web:1aa8c57db0d2785404df84"
+  appId:             "1:312186012365:web:1aa8c57db0d2785404df84"
 });
 
 var auth = firebase.auth();
 var db   = firebase.database();
 
-// ── WERKPLAATS (depot) ────────────────────────────────
+// ── WERKPLAATS ────────────────────────────────────────
 var DEPOT = { lat:51.0654, lng:4.0289, naam:'Werkplaats Zele' };
 
 // ── STATE ─────────────────────────────────────────────
@@ -458,15 +510,23 @@ var routeLines      = [];
 var markers         = {};
 var driverData      = {};
 var dbListener      = null;
-var ROUTE_COLORS    = ['#00d4ff','#00e676','#ffea00','#ff9800'];
-var ROUTE_LABELS    = [
+
+var ROUTE_COLORS = ['#00d4ff','#00e676','#ffea00','#ff9800'];
+var ROUTE_LABELS = [
   {label:'⚡ Snelste',     tag:'tag-fast', tagText:'Snelste'},
   {label:'🌿 Zuinigst',    tag:'tag-eco',  tagText:'Min. diesel'},
   {label:'🔀 Alternatief', tag:'tag-alt',  tagText:'Alternatief'},
   {label:'🔀 Alt. 2',      tag:'tag-alt',  tagText:'Alternatief'}
 ];
 
-// ── MAP INITIALISATIE ─────────────────────────────────
+// ── ROUTE BUILDER STATE ───────────────────────────────
+var isBuilderActive        = false;
+var builderWaypoints       = [];   // [{lat, lng}]
+var builderMarkers         = [];   // Leaflet markers op de kaart
+var builderRouteControl    = null;
+var builderMapClickHandler = null;
+
+// ── MAP ───────────────────────────────────────────────
 var map = L.map('map',{center:[51.0654,4.0289],zoom:11,zoomControl:false,attributionControl:false});
 L.control.attribution({prefix:'© OpenStreetMap | Cakir Logistics',position:'bottomright'}).addTo(map);
 
@@ -483,10 +543,13 @@ var currentLayer='dark', trafficOn=false;
 BASE.dark.addTo(map);
 
 function setLayer(n){
-  map.removeLayer(BASE[currentLayer]); BASE[n].addTo(map);
+  map.removeLayer(BASE[currentLayer]);
+  BASE[n].addTo(map);
   if(trafficOn){map.removeLayer(TRAFFIC_OVERLAY);TRAFFIC_OVERLAY.addTo(map);}
   currentLayer=n;
-  ['dark','light','sat'].forEach(function(k){document.getElementById('lb-'+k).classList.toggle('on',k===n);});
+  ['dark','light','sat'].forEach(function(k){
+    document.getElementById('lb-'+k).classList.toggle('on',k===n);
+  });
 }
 function toggleTraffic(){
   trafficOn=!trafficOn;
@@ -495,39 +558,38 @@ function toggleTraffic(){
   hint(trafficOn?'🚦 Traffic aan':'🚦 Traffic uit',3000);
 }
 
+// ── HINT BAR ──────────────────────────────────────────
+var hintTimer=null;
 function hint(msg,ms){
   var el=document.getElementById('hint-bar');
   el.textContent=msg; el.style.opacity='1';
   clearTimeout(hintTimer);
   if(ms) hintTimer=setTimeout(function(){el.style.opacity='0';},ms);
 }
-var hintTimer=null;
 
-// ── FIREBASE AUTH (GEFIXED) ───────────────────────────
-auth.onAuthStateChanged(function(user) {
-  var loader = document.getElementById('loading');
-  if(loader) { loader.style.opacity = '0'; setTimeout(function(){ loader.remove(); }, 500); }
+// ── AUTH ──────────────────────────────────────────────
+auth.onAuthStateChanged(function(user){
+  var loader=document.getElementById('loading');
+  if(loader){loader.style.opacity='0';setTimeout(function(){loader.remove();},500);}
 
-  if (user) {
-    currentUser = user;
-    db.ref('/users/' + user.uid).once('value', function(snap) {
-      var data = snap.val();
-      if (data) {
-        // Haalt onzichtbare spaties weg en leest perfect jouw 'superadmin' rol
-        currentUserData = {
-          naam: data.naam || user.email,
-          rol: (data.rol || 'chauffeur').toString().trim().toLowerCase(), 
-          firebaseId: data.firebaseId || null
+  if(user){
+    currentUser=user;
+    db.ref('/users/'+user.uid).once('value',function(snap){
+      var data=snap.val();
+      if(data){
+        currentUserData={
+          naam:      data.naam||user.email,
+          rol:       (data.rol||'chauffeur').toString().trim().toLowerCase(),
+          firebaseId:data.firebaseId||null
         };
       } else {
-        currentUserData = { naam: user.email, rol: 'chauffeur', firebaseId: null };
+        currentUserData={naam:user.email,rol:'chauffeur',firebaseId:null};
       }
-      // Nu roept hij de correcte functie aan!
       onLoginSuccess();
     });
   } else {
-    currentUser = null;
-    currentUserData = null;
+    currentUser=null;
+    currentUserData=null;
     document.getElementById('login-screen').classList.remove('hidden');
   }
 });
@@ -544,9 +606,7 @@ function doLogin(){
     err.textContent='⛔ Vul e-mail en wachtwoord in';
     err.classList.add('show'); return;
   }
-
   btn.disabled=true; spin.classList.add('show'); err.classList.remove('show');
-
   auth.signInWithEmailAndPassword(email,pw).catch(function(e){
     btn.disabled=false; spin.classList.remove('show');
     err.textContent='⛔ '+translateAuthError(e.code);
@@ -559,16 +619,17 @@ function doLogin(){
 }
 
 function translateAuthError(code){
-  if(code==='auth/user-not-found')    return 'E-mailadres niet gevonden';
-  if(code==='auth/wrong-password')    return 'Onjuist wachtwoord';
-  if(code==='auth/invalid-email')     return 'Ongeldig e-mailadres';
-  if(code==='auth/too-many-requests') return 'Te veel pogingen — wacht even';
+  if(code==='auth/user-not-found')     return 'E-mailadres niet gevonden';
+  if(code==='auth/wrong-password')     return 'Onjuist wachtwoord';
+  if(code==='auth/invalid-email')      return 'Ongeldig e-mailadres';
+  if(code==='auth/too-many-requests')  return 'Te veel pogingen — wacht even';
   if(code==='auth/invalid-credential') return 'Onjuiste inloggegevens';
   return 'Inloggen mislukt ('+code+')';
 }
 
 function doLogout(){
-  if(dbListener){ db.ref('/').off('value',dbListener); dbListener=null; }
+  if(dbListener){db.ref('/').off('value',dbListener);dbListener=null;}
+  if(isBuilderActive) stopBuilder();
   auth.signOut();
   Object.keys(markers).forEach(function(k){map.removeLayer(markers[k]);});
   markers={};driverData={};
@@ -584,32 +645,31 @@ function doLogout(){
 }
 
 // ── NA SUCCESVOL INLOGGEN ─────────────────────────────
-function onLoginSuccess() {
+function onLoginSuccess(){
   document.getElementById('login-screen').classList.add('hidden');
-  var rol = currentUserData.rol;
+  var rol=currentUserData.rol;
+  document.getElementById('bu-name').textContent=currentUserData.naam.split(' ')[0];
+  document.getElementById('bu-role').textContent=rol.toUpperCase();
 
-  document.getElementById('bu-name').textContent = currentUserData.naam.split(' ')[0];
-  document.getElementById('bu-role').textContent = rol.toUpperCase();
-
-  // Onderscheid tussen Admin en Chauffeur
-  if (rol === 'superadmin' || rol === 'admin') {
-    document.getElementById('admin-tools').style.display = 'flex';
-    document.getElementById('search-wrap').style.display = 'block';
-    document.getElementById('depot-info').style.display = 'none';
-    if (rol === 'superadmin') {
-      document.getElementById('btn-users').style.display = 'flex';
+  if(rol==='superadmin'||rol==='admin'){
+    document.getElementById('admin-tools').style.display='flex';
+    document.getElementById('btn-builder').style.display='flex';
+    document.getElementById('search-wrap').style.display='block';
+    document.getElementById('depot-info').style.display='none';
+    if(rol==='superadmin'){
+      document.getElementById('btn-users').style.display='flex';
     }
   } else {
-    document.getElementById('admin-tools').style.display = 'none';
-    document.getElementById('depot-info').style.display = 'block';
-    document.getElementById('search-wrap').style.display = 'none';
+    document.getElementById('admin-tools').style.display='none';
+    document.getElementById('depot-info').style.display='block';
+    document.getElementById('search-wrap').style.display='none';
+    showDepotMarker();
   }
-
   startGeolocation();
   startFirebaseListener();
 }
 
-// ── DEPOT MARKER (chauffeur view) ─────────────────────
+// ── DEPOT MARKER ──────────────────────────────────────
 function showDepotMarker(){
   var depotIcon=L.divIcon({
     html:'<div style="width:22px;height:22px;background:var(--accent);border-radius:50%;border:3px solid white;box-shadow:0 0 0 5px rgba(0,212,255,0.2),0 0 18px rgba(0,212,255,0.6);display:flex;align-items:center;justify-content:center;font-size:12px;">🏭</div>',
@@ -641,7 +701,6 @@ function startGeolocation(){
       myCircle=L.circle(myLocation,{radius:acc,color:'#00d4ff',fillColor:'#00d4ff',fillOpacity:0.07,weight:1}).addTo(map);
       bar.className='found';txt.textContent='Locatie gevonden (±'+acc+'m)';
       document.getElementById('btn-loc').classList.add('on');
-
       if(currentUserData&&currentUserData.rol==='chauffeur'){
         var bounds=L.latLngBounds([myLocation,[DEPOT.lat,DEPOT.lng]]);
         map.fitBounds(bounds,{padding:[60,60]});
@@ -662,7 +721,7 @@ function centerMyLoc(){
   else startGeolocation();
 }
 
-// ── TRUCK ICON MET SOS PULS ───────────────────────────
+// ── TRUCK ICON ────────────────────────────────────────
 function truckIcon(status,selected){
   var isSOS=status==='SOS';
   var color=isSOS?'#ff4444':(status==='START_RIT'||status==='rijden')?'#00e676':'#ffea00';
@@ -671,7 +730,7 @@ function truckIcon(status,selected){
   return L.divIcon({
     html:'<div style="position:relative;display:inline-block;">'
         +ring
-        +'<div style="width:'+sz+'px;height:'+sz+'px;background:'+color+';border-radius:'+(selected?'11px':'50%')+';border:2px solid white;box-shadow:0 0 '+(isSOS?'20px #ff4444':(selected?'16px':' 8px')+' '+color+'99')+';display:flex;align-items:center;justify-content:center;font-size:'+(selected?19:14)+'px;position:relative;z-index:2;">🚛</div>'
+        +'<div style="width:'+sz+'px;height:'+sz+'px;background:'+color+';border-radius:'+(selected?'11px':'50%')+';border:2px solid white;box-shadow:0 0 '+(isSOS?'20px #ff4444':(selected?'16px':'8px')+' '+color+'99')+';display:flex;align-items:center;justify-content:center;font-size:'+(selected?19:14)+'px;position:relative;z-index:2;">🚛</div>'
         +'</div>'
         +'<div style="background:#111827;color:'+color+';border-radius:3px;padding:1px 5px;font-size:9px;font-family:monospace;font-weight:bold;text-align:center;margin-top:2px;white-space:nowrap;">'+status+'</div>',
     iconSize:[sz,sz+14],iconAnchor:[sz/2,sz/2],className:''
@@ -686,7 +745,7 @@ function badge(s){
 // ── FIREBASE LISTENER ─────────────────────────────────
 function startFirebaseListener(){
   var rol=currentUserData.rol;
-  var myFirebaseId=currentUserData.firebaseId; 
+  var myFirebaseId=currentUserData.firebaseId;
 
   dbListener=function(snap){
     var root=snap.val()||{};
@@ -726,7 +785,14 @@ function startFirebaseListener(){
       card.className='driver-card '+sc+(selectedId===id?' active':'')+(isOwn?' own-card':'');
       card.id='card-'+id;
 
-      var routeBtn=rol!=='chauffeur'?'<button class="route-btn" onclick="event.stopPropagation();routeToDriver(\''+id+'\')">🏠 Route</button>':'';
+      // Knoppen voor admins: Route (live afstand) + Stuur Route (builder shortcut)
+      var btnsHtml='';
+      if(rol!=='chauffeur'){
+        btnsHtml='<div class="card-btns">'
+          +'<button class="route-btn" onclick="event.stopPropagation();routeToDriver(\''+id+'\')">🏠 Afstand</button>'
+          +'<button class="send-route-btn" id="snd-'+id+'" onclick="event.stopPropagation();quickSendToDriver(\''+id+'\')" title="Stuur gebouwde route naar deze chauffeur">📤 Stuur</button>'
+          +'</div>';
+      }
 
       card.innerHTML=
         '<div class="d-avatar">'+meta.naam.substring(0,2).toUpperCase()+'</div>'+
@@ -734,7 +800,7 @@ function startFirebaseListener(){
           '<div class="d-name">'+meta.naam+(isOwn?'<span class="own-tag">JIJ</span>':'')+'</div>'+
           '<div class="d-meta">'+badge(meta.status)+'</div>'+
         '</div>'+
-        routeBtn;
+        btnsHtml;
       card.onclick=(function(i){return function(){selectDriver(i);};})(id);
       list.appendChild(card);
     }
@@ -742,6 +808,9 @@ function startFirebaseListener(){
     document.getElementById('s-total').textContent=totaal;
     document.getElementById('s-rij').textContent=rijdend;
     document.getElementById('s-sos').textContent=sos;
+
+    // Refresh builder dropdown (behoudt keuze)
+    refreshBuilderDriverSelect();
   };
 
   db.ref('/').on('value',dbListener);
@@ -759,25 +828,25 @@ function selectDriver(id){
   if(d) map.flyTo([d.lat,d.lng],15,{duration:1.2});
 }
 
-// ── ROUTE MACHINE ─────────────────────────────────────
+// ── LIVE ROUTE (admin → chauffeur afstand) ────────────
 function routeToDriver(id){
   selectDriver(id);
-  var d=driverData[id];if(!d) return;
+  var d=driverData[id]; if(!d) return;
   if(!myLocation){
     hint('🎯 Locatie ophalen...',0);
     navigator.geolocation.getCurrentPosition(
       function(pos){myLocation=[pos.coords.latitude,pos.coords.longitude];buildRoute(myLocation,[d.lat,d.lng],d.naam);},
       function(){hint('⛔ Locatie niet beschikbaar — klik 🔒 adresbalk → Locatie → Toestaan',0);},
       {enableHighAccuracy:true,timeout:10000,maximumAge:0}
-    );return;
+    );
+    return;
   }
   buildRoute(myLocation,[d.lat,d.lng],d.naam);
 }
 
 function buildRoute(from,to,naam){
   if(routeControl){map.removeControl(routeControl);routeControl=null;}
-  routeLines.forEach(function(p){map.removeLayer(p);});
-  routeLines=[];allRoutes=[];
+  routeLines.forEach(function(p){map.removeLayer(p);}); routeLines=[];allRoutes=[];
   document.getElementById('route-tabs').innerHTML='';
   document.getElementById('instr-list').innerHTML='<div style="color:var(--muted);font-size:12px;padding:4px 0;">Berekenen...</div>';
   hint('🔄 Routes berekenen naar '+naam+'...',0);
@@ -821,11 +890,11 @@ function buildRoute(from,to,naam){
 }
 
 function renderRouteTabs(routes){
-  var tabs=document.getElementById('route-tabs');tabs.innerHTML='';
+  var tabs=document.getElementById('route-tabs'); tabs.innerHTML='';
   routes.forEach(function(route,i){
     var info=ROUTE_LABELS[i]||ROUTE_LABELS[2];
     var tab=document.createElement('div');
-    tab.className='route-tab'+(i===0?' active':'');tab.id='tab-'+i;
+    tab.className='route-tab'+(i===0?' active':''); tab.id='tab-'+i;
     tab.innerHTML='<div class="rt-label">'+info.label+'</div><div class="rt-time">'+formatTime(route.summary.totalTime)+'</div><div class="rt-dist">'+(route.summary.totalDistance/1000).toFixed(1)+' km</div><div class="rt-tag '+info.tag+'">'+info.tagText+'</div>';
     tab.onclick=(function(idx){return function(){activateRoute(idx);};})(i);
     tabs.appendChild(tab);
@@ -838,7 +907,9 @@ function activateRoute(idx){
     if(i===idx){poly.setStyle({color:ROUTE_COLORS[0],weight:6,opacity:0.95});poly.bringToFront();}
     else poly.setStyle({color:ROUTE_COLORS[i+1]||'#888',weight:3,opacity:0.4});
   });
-  var r=allRoutes[idx],km=(r.summary.totalDistance/1000).toFixed(1),mins=Math.round(r.summary.totalTime/60);
+  var r=allRoutes[idx];
+  var km=(r.summary.totalDistance/1000).toFixed(1);
+  var mins=Math.round(r.summary.totalTime/60);
   var eta=new Date(Date.now()+r.summary.totalTime*1000).toTimeString().slice(0,5);
   document.getElementById('r-time').textContent=mins<60?mins+' min':Math.floor(mins/60)+'u '+(mins%60)+'m';
   document.getElementById('r-dist').textContent=km+' km';
@@ -847,10 +918,10 @@ function activateRoute(idx){
 }
 
 function renderInstructions(steps){
-  var box=document.getElementById('instr-list');box.innerHTML='';
+  var box=document.getElementById('instr-list'); box.innerHTML='';
   if(!steps.length){box.innerHTML='<div style="color:var(--muted);font-size:12px;">Geen instructies.</div>';return;}
   steps.forEach(function(step){
-    var div=document.createElement('div');div.className='instr-item';
+    var div=document.createElement('div'); div.className='instr-item';
     div.innerHTML='<div class="instr-icon">'+instrIcon(step.type)+'</div><div style="flex:1;"><div class="instr-text">'+step.text+'</div>'+(step.distance>0?'<div class="instr-dist">'+formatDist(step.distance)+'</div>':'')+'</div>';
     box.appendChild(div);
   });
@@ -871,8 +942,7 @@ function formatTime(s){var m=Math.round(s/60);return m<60?m+' min':Math.floor(m/
 
 function clearRoute(){
   if(routeControl){map.removeControl(routeControl);routeControl=null;}
-  routeLines.forEach(function(p){map.removeLayer(p);});
-  routeLines=[];allRoutes=[];
+  routeLines.forEach(function(p){map.removeLayer(p);}); routeLines=[];allRoutes=[];
   document.getElementById('route-panel').classList.remove('open');
   document.getElementById('route-tabs').innerHTML='';
   document.getElementById('instr-list').innerHTML='';
@@ -883,6 +953,217 @@ function focusDriver(){
   map.flyTo([driverData[selectedId].lat,driverData[selectedId].lng],15,{duration:1.2});
 }
 
+// ════════════════════════════════════════════════════
+//  🚀 ROUTE BOUWER — Admin maakt route en stuurt naar chauffeur
+// ════════════════════════════════════════════════════
+
+function toggleRouteBuilder(){
+  if(isBuilderActive) stopBuilder();
+  else startBuilder();
+}
+
+function startBuilder(){
+  isBuilderActive=true;
+  document.getElementById('route-builder-panel').style.display='block';
+  document.getElementById('btn-builder').classList.add('active-builder');
+  document.getElementById('btn-builder').textContent='🗺️ Stop Bouwer';
+  document.getElementById('map').classList.add('builder-mode');
+  // Sluit eventueel open live route panel
+  clearRoute();
+  refreshBuilderDriverSelect();
+  hint('✏️ ROUTE BOUWER AAN — Klik op de kaart om stops toe te voegen',0);
+
+  // Klik listener op de kaart
+  builderMapClickHandler=function(e){
+    addBuilderStop(e.latlng.lat,e.latlng.lng);
+  };
+  map.on('click',builderMapClickHandler);
+}
+
+function stopBuilder(){
+  isBuilderActive=false;
+  document.getElementById('route-builder-panel').style.display='none';
+  document.getElementById('btn-builder').classList.remove('active-builder');
+  document.getElementById('btn-builder').textContent='🗺️ Route Bouwer';
+  document.getElementById('map').classList.remove('builder-mode');
+  if(builderMapClickHandler){ map.off('click',builderMapClickHandler); builderMapClickHandler=null; }
+  clearBuilderDraw();
+  hint('Route Bouwer gesloten',3000);
+}
+
+function addBuilderStop(lat,lng){
+  var idx=builderWaypoints.length;
+  builderWaypoints.push({lat:lat,lng:lng});
+
+  // Marker op kaart
+  var isFirst=(idx===0);
+  var markerIcon=L.divIcon({
+    html:'<div style="width:26px;height:26px;background:'+(isFirst?'#00d4ff':'#00e676')+';border-radius:50%;border:2px solid #111;color:#000;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;font-family:monospace;box-shadow:0 2px 10px rgba(0,0,0,0.5);">'+(idx+1)+'</div>',
+    iconSize:[26,26],iconAnchor:[13,13],className:''
+  });
+  var m=L.marker([lat,lng],{icon:markerIcon}).addTo(map);
+  var stopLabel=isFirst?'🟦 Start':(idx===1?'🏁 Stop '+idx:'📍 Stop '+idx);
+  m.bindPopup('<b>'+stopLabel+'</b><br><small>'+lat.toFixed(5)+', '+lng.toFixed(5)+'</small>');
+  builderMarkers.push(m);
+
+  renderBuilderStopList();
+  drawBuilderRoute();
+  hint('Stop '+(idx+1)+' toegevoegd — klik voor meer, of druk Stuur Route',4000);
+}
+
+function undoLastStop(){
+  if(!builderWaypoints.length) return;
+  builderWaypoints.pop();
+  var lastMarker=builderMarkers.pop();
+  if(lastMarker) map.removeLayer(lastMarker);
+  renderBuilderStopList();
+  drawBuilderRoute();
+  hint('Laatste stop verwijderd',2000);
+}
+
+function removeStop(idx){
+  builderWaypoints.splice(idx,1);
+  if(builderMarkers[idx]){map.removeLayer(builderMarkers[idx]);}
+  builderMarkers.splice(idx,1);
+  // Hernum markers
+  builderMarkers.forEach(function(m,i){
+    var isFirst=(i===0);
+    m.setIcon(L.divIcon({
+      html:'<div style="width:26px;height:26px;background:'+(isFirst?'#00d4ff':'#00e676')+';border-radius:50%;border:2px solid #111;color:#000;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;font-family:monospace;box-shadow:0 2px 10px rgba(0,0,0,0.5);">'+(i+1)+'</div>',
+      iconSize:[26,26],iconAnchor:[13,13],className:''
+    }));
+  });
+  renderBuilderStopList();
+  drawBuilderRoute();
+}
+
+function renderBuilderStopList(){
+  var list=document.getElementById('builder-stops-list');
+  var counter=document.getElementById('builder-counter');
+  list.innerHTML='';
+  counter.textContent=builderWaypoints.length+' stop'+(builderWaypoints.length!==1?'s':'')+' geplaatst';
+  builderWaypoints.forEach(function(wp,i){
+    var isFirst=(i===0), isLast=(i===builderWaypoints.length-1&&builderWaypoints.length>1);
+    var label=isFirst?'Start':(isLast?'Eindbestemming':'Stop '+i);
+    var div=document.createElement('div');
+    div.className='b-stop-item';
+    div.innerHTML=
+      '<div class="b-stop-num">'+(i+1)+'</div>'+
+      '<div class="b-stop-name">'+label+'</div>'+
+      '<div class="b-stop-coords">'+wp.lat.toFixed(4)+', '+wp.lng.toFixed(4)+'</div>'+
+      '<button class="b-stop-del" onclick="removeStop('+i+')" title="Verwijder">✕</button>';
+    list.appendChild(div);
+  });
+}
+
+function drawBuilderRoute(){
+  // Verwijder vorige route tekening
+  if(builderRouteControl){map.removeControl(builderRouteControl);builderRouteControl=null;}
+  if(builderWaypoints.length<2) return;
+
+  var latlngs=builderWaypoints.map(function(w){return L.latLng(w.lat,w.lng);});
+  builderRouteControl=L.Routing.control({
+    waypoints:latlngs,
+    router:L.Routing.osrmv1({serviceUrl:'https://router.project-osrm.org/route/v1',profile:'driving'}),
+    routeWhileDragging:false,
+    show:false,
+    addWaypoints:false,
+    createMarker:function(){return null;}, // Wij tekenen eigen markers
+    lineOptions:{styles:[{color:'#00e676',opacity:0.85,weight:5,dashArray:'8,4'}]}
+  }).addTo(map);
+}
+
+function clearBuilderDraw(){
+  builderWaypoints=[];
+  builderMarkers.forEach(function(m){map.removeLayer(m);}); builderMarkers=[];
+  if(builderRouteControl){map.removeControl(builderRouteControl);builderRouteControl=null;}
+  document.getElementById('builder-stops-list').innerHTML='';
+  document.getElementById('builder-counter').textContent='0 stops geplaatst';
+}
+
+function clearBuilder(){
+  clearBuilderDraw();
+  hint('Route gewist',2000);
+}
+
+// Refresh chauffeur dropdown in bouwer (behoudt keuze)
+function refreshBuilderDriverSelect(){
+  var sel=document.getElementById('builder-driver-select');
+  var prev=sel.value;
+  sel.innerHTML='<option value="">-- Kies chauffeur --</option>';
+  Object.keys(driverData).forEach(function(uid){
+    var opt=document.createElement('option');
+    opt.value=uid; opt.textContent=driverData[uid].naam;
+    sel.appendChild(opt);
+  });
+  if(prev&&driverData[prev]) sel.value=prev;
+}
+
+// Stuur de gebouwde route naar Firebase van de chauffeur
+function sendBuiltRoute(){
+  if(builderWaypoints.length<2){
+    hint('⚠️ Voeg minstens 2 stops toe (start + einde)',4000); return;
+  }
+  var driverUid=document.getElementById('builder-driver-select').value;
+  if(!driverUid){
+    hint('⚠️ Kies eerst een chauffeur!',4000); return;
+  }
+  var driverNaam=(driverData[driverUid]&&driverData[driverUid].naam)||driverUid;
+
+  // Bouw stops array in het formaat dat de Android app verwacht
+  var stops=builderWaypoints.map(function(wp,i){
+    var naam=(i===0)?'Start':(i===builderWaypoints.length-1?'Eindbestemming':'Stop '+i);
+    return {
+      lat:     wp.lat,
+      lon:     wp.lng,   // Android gebruikt 'lon'
+      naam:    naam,
+      status:  'open',
+      pakket_nr: ''
+    };
+  });
+
+  var routeData={
+    status:    'NEW_ROUTE',
+    timestamp: Date.now(),
+    verzonden_door: currentUserData.naam,
+    stops:     stops
+  };
+
+  hint('🔄 Route verzenden naar '+driverNaam+'...',0);
+
+  db.ref('active_routes/'+driverUid).set(routeData)
+    .then(function(){
+      hint('✅ Route verzonden naar '+driverNaam+'!',5000);
+      stopBuilder();
+    })
+    .catch(function(err){
+      hint('⛔ Verzenden mislukt: '+err.message,6000);
+    });
+}
+
+// Snelknop op chauffeurkaart — stuurt de al gebouwde route direct naar die chauffeur
+function quickSendToDriver(uid){
+  if(builderWaypoints.length<2){
+    hint('⚠️ Open eerst de Route Bouwer en voeg stops toe!',4000); return;
+  }
+  var driverNaam=(driverData[uid]&&driverData[uid].naam)||uid;
+  var stops=builderWaypoints.map(function(wp,i){
+    return {
+      lat:wp.lat, lon:wp.lng,
+      naam:(i===0)?'Start':(i===builderWaypoints.length-1?'Eindbestemming':'Stop '+i),
+      status:'open', pakket_nr:''
+    };
+  });
+  db.ref('active_routes/'+uid).set({
+    status:'NEW_ROUTE', timestamp:Date.now(),
+    verzonden_door:currentUserData.naam, stops:stops
+  }).then(function(){
+    hint('✅ Route verzonden naar '+driverNaam+'!',5000);
+  }).catch(function(err){
+    hint('⛔ Fout: '+err.message,5000);
+  });
+}
+
 // ── QR MODAL ──────────────────────────────────────────
 var qrDone=false;
 function openQR(){
@@ -890,7 +1171,7 @@ function openQR(){
   if(!qrDone){
     QRCode.toCanvas(document.getElementById('qr-canvas'),'CAKIR_AUTH_2026',
       {width:200,margin:1,color:{dark:'#000000',light:'#ffffff'},errorCorrectionLevel:'H'},
-      function(err){if(err) console.warn('QR fallback:',err);}
+      function(err){if(err)console.warn('QR fallback:',err);}
     );
     qrDone=true;
   }
@@ -914,7 +1195,7 @@ function loadUsers(){
     if(!keys.length){list.innerHTML='<div style="color:var(--muted);font-size:12px;">Geen gebruikers gevonden.</div>';return;}
     keys.forEach(function(uid){
       var u=users[uid];
-      var row=document.createElement('div');row.className='user-row';
+      var row=document.createElement('div'); row.className='user-row';
       row.innerHTML=
         '<div class="user-avatar">'+(u.naam||'?').substring(0,2).toUpperCase()+'</div>'+
         '<div class="user-info"><div class="user-name">'+(u.naam||'Onbekend')+'</div><div class="user-email">'+(u.email||uid)+'</div></div>'+
@@ -925,12 +1206,12 @@ function loadUsers(){
 }
 
 function addUser(){
-  var naam =document.getElementById('new-name').value.trim();
-  var email=document.getElementById('new-email').value.trim();
-  var pass =document.getElementById('new-pass').value;
-  var rol  =document.getElementById('new-role').value;
-  var fid  =document.getElementById('new-firebase-id').value.trim();
-  var msg  =document.getElementById('add-user-msg');
+  var naam  =document.getElementById('new-name').value.trim();
+  var email =document.getElementById('new-email').value.trim();
+  var pass  =document.getElementById('new-pass').value;
+  var rol   =document.getElementById('new-role').value;
+  var fid   =document.getElementById('new-firebase-id').value.trim();
+  var msg   =document.getElementById('add-user-msg');
 
   if(!naam||!email||!pass){msg.style.color='var(--red)';msg.textContent='⛔ Vul naam, e-mail en wachtwoord in.';return;}
   msg.style.color='var(--muted)';msg.textContent='🔄 Aanmaken...';
@@ -953,12 +1234,13 @@ function addUser(){
         loadUsers();
       });
     }).catch(function(e){
-      secondaryApp.delete();
+      try{secondaryApp.delete();}catch(x){}
       msg.style.color='var(--red)';
       msg.textContent='⛔ '+translateAuthError(e.code);
     });
 }
 
+// ── ZOEK FILTER ───────────────────────────────────────
 document.getElementById('search-input').addEventListener('input',function(){
   var f=this.value.toLowerCase();
   document.querySelectorAll('.driver-card').forEach(function(c){
@@ -967,3 +1249,5 @@ document.getElementById('search-input').addEventListener('input',function(){
   });
 });
 </script>
+</body>
+</html>
