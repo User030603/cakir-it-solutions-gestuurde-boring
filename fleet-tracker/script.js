@@ -930,7 +930,7 @@ function monitorDriverRoute(uid) {
             // Eğer resim varsa HTML'e ekle, tıklandığında yeni sekmede büyütsün
             var fotoHtml = '';
             if (isGeleverd && stop.foto_bewijs) {
-                fotoHtml = '<img src="' + stop.foto_bewijs + '" class="ds-photo" onclick="window.open(this.src, \'_blank\')" title="Klik om te vergroten">';
+                fotoHtml = '<img src="' + stop.foto_bewijs + '" class="ds-photo" onclick="document.getElementById(\'photo-modal\').style.display=\'flex\'; document.getElementById(\'photo-modal-img\').src=this.src;" title="Klik om te vergroten">';
             }
             
             var html = 
