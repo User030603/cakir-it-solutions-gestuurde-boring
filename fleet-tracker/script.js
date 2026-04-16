@@ -344,6 +344,9 @@ function selectDriver(id){
     if(card){card.classList.add('active');card.scrollIntoView({behavior:'smooth',block:'nearest'});}
     var d=driverData[id];
     if(d) map.flyTo([d.lat,d.lng],15,{duration:1.2});
+
+    // YENİ EKLENEN KISIM: Şoförün canlı rotasını ve fotolarını getir
+    monitorDriverRoute(id);
 }
 
 // ── LIVE ROUTE (admin → chauffeur afstand) ────────────
@@ -893,3 +896,55 @@ document.addEventListener('DOMContentLoaded', function(){
         });
     });
 });
+
+// ── LIVE FOTO & ROUTE LISTENER ────────────────────────
+var activeRouteRef = null;
+
+function monitorDriverRoute(uid) {
+    var panel = document.getElementById('driver-route-panel');
+    var container = document.getElementById('driver-stops-container');
+    
+    // Eski şoförün dinleyicisini kapat ki veriler karışmasın
+    if (activeRouteRef) { db.ref(activeRouteRef).off(); }
+    
+    panel.style.display = 'block';
+    container.innerHTML = '<div style="color:var(--muted);font-size:12px;">Laden...</div>';
+    
+    activeRouteRef = 'active_routes/' + uid;
+    
+    // Firebase'i anlık dinle
+    db.ref(activeRouteRef).on('value', function(snap) {
+        var data = snap.val();
+        container.innerHTML = '';
+        
+        if (!data || !data.stops || data.stops.length === 0) {
+            container.innerHTML = '<div style="color:var(--muted);font-size:12px;">Geen actieve route.</div>';
+            return;
+        }
+        
+        data.stops.forEach(function(stop, index) {
+            var isGeleverd = (stop.status === 'geleverd');
+            var statusKleur = isGeleverd ? 'geleverd' : '';
+            var tijdText = stop.aankomst_tijd ? ('✅ ' + stop.aankomst_tijd) : '⏳ Wachten...';
+            
+            // Eğer resim varsa HTML'e ekle, tıklandığında yeni sekmede büyütsün
+            var fotoHtml = '';
+            if (isGeleverd && stop.foto_bewijs) {
+                fotoHtml = '<img src="' + stop.foto_bewijs + '" class="ds-photo" onclick="window.open(this.src, \'_blank\')" title="Klik om te vergroten">';
+            }
+            
+            var html = 
+                '<div class="ds-item ' + statusKleur + '">' +
+                    '<div class="ds-header">' +
+                        '<div class="ds-num">' + (index + 1) + '</div>' +
+                        '<div class="ds-info">' + stop.naam + '</div>' +
+                        '<div class="ds-time">' + tijdText + '</div>' +
+                    '</div>' +
+                    (stop.pakket_nr ? '<div style="font-size:10px; color:var(--muted); margin-bottom:4px;">📦 ' + stop.pakket_nr + '</div>' : '') +
+                    fotoHtml +
+                '</div>';
+                
+            container.innerHTML += html;
+        });
+    });
+}
