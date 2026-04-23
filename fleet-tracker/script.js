@@ -219,7 +219,8 @@ function startGeolocation(){
             else myMarker=L.marker(myLocation,{icon:myIcon,zIndexOffset:500}).addTo(map)
                 .bindPopup('<b style="color:#00d4ff">📍 Jouw locatie</b><br><small>±'+acc+'m</small>');
             if(myCircle) map.removeLayer(myCircle);
-            myCircle=L.circle(myLocation,{radius:acc,color:'#00d4ff',fillColor:'#00d4ff',fillOpacity:0.07,weight:1}).addTo(map);
+            // Voeg "interactive: false" toe aan de opties
+            myCircle=L.circle(myLocation,{radius:acc,color:'#00d4ff',fillColor:'#00d4ff',fillOpacity:0.07,weight:1, interactive:false}).addTo(map);
             bar.className='found';txt.textContent='Locatie gevonden (±'+acc+'m)';
             document.getElementById('btn-loc').classList.add('on');
             if(currentUserData&&currentUserData.rol==='chauffeur'){
