@@ -275,11 +275,11 @@ select {
 }
 
 /* ==========================================
-   PARTNERS STRIP (MARQUEE)
+   PARTNERS STRIP (SEAMLESS MARQUEE)
    ========================================== */
 .partners-strip {
   background: var(--surface);
-  padding: 54px 0;
+  padding: 40px 0; /* İç boşluk biraz daraltıldı */
   border-bottom: 1px solid var(--border);
   overflow: hidden;
 }
@@ -288,7 +288,7 @@ select {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 36px;
+  gap: 28px;
 }
 
 .partners-label {
@@ -300,45 +300,51 @@ select {
 }
 
 .partners-logos {
-  position: relative;
-  width: 100%;
+  display: flex;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
-  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  width: 100%;
+  /* Kenarlardan hafif silikleşme efekti */
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
 .partners-track {
   display: flex;
-  align-items: center;
   width: max-content;
-  gap: 80px;
-  padding-right: 80px; /* Essential for seamless loop */
-  animation: partnersMarquee 35s linear infinite;
-  will-change: transform;
+  /* Animasyon süresi (hızlandırmak istersen 35s'yi düşür) */
+  animation: scrollLogos 35s linear infinite;
 }
 
 .partners-track:hover {
   animation-play-state: paused;
 }
 
-.partners-logos img {
-  height: 42px;
+.partners-group {
+  display: flex;
+  align-items: center; /* Logoları dikeyde tam ortalar */
+  gap: 70px; /* Logolar arası yatay boşluk */
+  padding-right: 70px; /* Döngünün atlamaması için gap ile aynı olmalı */
+}
+
+.partners-group img {
+  height: 32px; /* Logolar küçültüldü */
   width: auto;
   object-fit: contain;
   flex-shrink: 0;
-  filter: grayscale(100%) opacity(0.45);
+  filter: grayscale(100%) opacity(0.5);
   transition: filter var(--transition), opacity var(--transition), transform var(--transition);
   cursor: pointer;
 }
 
-.partners-logos img:hover {
+.partners-group img:hover {
   filter: grayscale(0%) opacity(1);
-  transform: scale(1.06) translateY(-2px);
+  transform: scale(1.08) translateY(-2px);
 }
 
-@keyframes partnersMarquee {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
+/* Sağdan sola tam %50 (bir grubun genişliği kadar) kaydırır */
+@keyframes scrollLogos {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 /* ========================================== */
 
