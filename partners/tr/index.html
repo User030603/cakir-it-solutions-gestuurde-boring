@@ -9,46 +9,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="../../style.css">
-  
   <style>
-    /* Sadece bu sayfaya özel Partner Grid tasarımı */
-    .partners-hero {
-      min-height: 50vh;
-      padding: 160px 20px 80px;
-    }
-    .partners-page-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 30px;
-      margin-top: 50px;
-    }
-    .partner-card-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 40px 30px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
-    .partner-card-box:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-md);
-      border-color: rgba(20,184,255,0.28);
-    }
-    .partner-card-box img {
-      max-height: 55px;
-      width: auto;
-      object-fit: contain;
-      filter: grayscale(100%) opacity(0.6);
-      transition: filter var(--transition), opacity var(--transition), transform var(--transition);
-    }
-    .partner-card-box:hover img {
-      filter: grayscale(0%) opacity(1);
-      transform: scale(1.08);
-    }
+    .partners-hero { min-height: 50vh; padding: 160px 20px 80px; }
+    .partners-page-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; }
+    .partner-card-box { background: var(--surface); border: 1px solid var(--border); padding: 40px 30px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition); }
+    .partner-card-box:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: rgba(20,184,255,0.28); }
+    .partner-card-box img { max-height: 55px; width: auto; object-fit: contain; filter: grayscale(100%) opacity(0.6); transition: filter var(--transition), opacity var(--transition), transform var(--transition); }
+    .partner-card-box:hover img { filter: grayscale(0%) opacity(1); transform: scale(1.08); }
   </style>
 </head>
 <body>
@@ -60,23 +27,25 @@
 <header class="site-header">
   <div class="container navbar">
     <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
+    
     <input type="checkbox" id="nav-toggle" class="nav-toggle">
     <label for="nav-toggle" class="hamburger"><i class="fa-solid fa-bars"></i></label>
-    <nav class="nav-panel">
+    
+    <ul class="nav-links">
       <label for="nav-toggle" class="close-btn"><i class="fa-solid fa-xmark"></i></label>
-      <a href="../../tr/#home">Ana Sayfa</a>
-      <a href="../../tr/#about">Hakkımızda</a>
-      <a href="../../tr/#services">Hizmetler</a>
-      <a href="../../tr/#projects">Projeler</a>
-      <a href="./" class="active">Partnerler</a>
-      <a href="../../tr/#contact" class="btn-nav-contact">İletişim</a>
+      <li><a href="../../tr/#home">Ana Sayfa</a></li>
+      <li><a href="../../tr/#about">Hakkımızda</a></li>
+      <li><a href="../../tr/#services">Hizmetler</a></li>
+      <li><a href="../../tr/#projects">Projeler</a></li>
+      <li><a href="./" class="active">Partnerler</a></li>
+      <li><a href="../../tr/#contact" class="btn-nav-contact">İletişim</a></li>
       <div class="language-wrapper">
         <a href="../" class="lang-link">EN</a><span>/</span>
         <a href="../nl/" class="lang-link">NL</a><span>/</span>
         <a href="./" class="lang-link active">TR</a><span>/</span>
         <a href="../fr/" class="lang-link">FR</a>
       </div>
-    </nav>
+    </ul>
     <label for="nav-toggle" class="nav-overlay"></label>
   </div>
 </header>
@@ -118,19 +87,6 @@
   </div>
 </footer>
 
-<script>
-document.querySelectorAll('.nav-links a').forEach(function (link) {
-  link.addEventListener('click', function () { document.getElementById('nav-toggle').checked = false; });
-});
-(function () {
-  var revealEls = document.querySelectorAll('.reveal');
-  var io = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
-    });
-  }, { threshold: 0.1 });
-  revealEls.forEach(function (el) { io.observe(el); });
-})();
-</script>
+<script src="../../script.js"></script>
 </body>
 </html>
