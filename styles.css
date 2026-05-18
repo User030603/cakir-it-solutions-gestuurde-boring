@@ -59,41 +59,38 @@ button, input, textarea, select { font: inherit; }
   opacity: 1;
   transform: translateY(0);
 }
-/* stagger children inside revealed sections */
 .reveal .stat-box:nth-child(1)  { transition-delay: 0.05s; }
 .reveal .stat-box:nth-child(2)  { transition-delay: 0.15s; }
 .reveal .stat-box:nth-child(3)  { transition-delay: 0.25s; }
-.reveal .service-card:nth-child(1),
-.reveal .project-item:nth-child(1),
-.reveal .region-card:nth-child(1)  { transition-delay: 0.05s; }
-.reveal .service-card:nth-child(2),
-.reveal .project-item:nth-child(2),
-.reveal .region-card:nth-child(2)  { transition-delay: 0.15s; }
-.reveal .service-card:nth-child(3),
-.reveal .project-item:nth-child(3),
-.reveal .region-card:nth-child(3)  { transition-delay: 0.25s; }
-.reveal .project-item:nth-child(4),
-.reveal .region-card:nth-child(4)  { transition-delay: 0.3s; }
+.reveal .service-card:nth-child(1), .reveal .project-item:nth-child(1), .reveal .region-card:nth-child(1)  { transition-delay: 0.05s; }
+.reveal .service-card:nth-child(2), .reveal .project-item:nth-child(2), .reveal .region-card:nth-child(2)  { transition-delay: 0.15s; }
+.reveal .service-card:nth-child(3), .reveal .project-item:nth-child(3), .reveal .region-card:nth-child(3)  { transition-delay: 0.25s; }
+.reveal .project-item:nth-child(4), .reveal .region-card:nth-child(4)  { transition-delay: 0.3s; }
 .reveal .project-item:nth-child(5) { transition-delay: 0.35s; }
 .reveal .project-item:nth-child(6) { transition-delay: 0.4s; }
 
 /* ============================================================
-   NAVBAR
+   HEADER & NAVBAR (BEYAZ BOŞLUK HATASI ÇÖZÜLDÜ)
    ============================================================ */
-#nav-toggle { display: none; }
-
-.navbar {
+.site-header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 32px;
-  background: rgba(11,22,48,0.92);
+  width: 100%;
+  background: rgba(11,22,48,0.96); /* Arka plan artık tam ekran */
   backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0; /* Yatay boşluğu container yönetiyor */
+  background: transparent;
+}
+
+#nav-toggle { display: none; }
 
 .logo {
   color: var(--white);
@@ -268,7 +265,7 @@ button, input, textarea, select { font: inherit; }
 .btn-outline:hover { background: var(--white); color: var(--primary); }
 
 /* ============================================================
-   PARTNERS MARQUEE
+   PARTNERS MARQUEE (ATLAMAYI ENGELLEYEN KUSURSUZ MATEMATİK)
    ============================================================ */
 .partners-strip {
   background: var(--surface);
@@ -314,16 +311,17 @@ button, input, textarea, select { font: inherit; }
   flex-wrap: nowrap;
   align-items: center;
   width: max-content;
-  /* animation applied by JS after clone */
+  gap: 0 !important; /* DÖNGÜ HİÇ BOZULMASIN DİYE SIFIRLANDI */
+  animation: marquee-scroll 30s linear infinite;
 }
 .partner-logo-slide img {
   flex-shrink: 0;
   display: block;
-  height: 52px;
+  height: 48px;
   width: auto;
   object-fit: contain;
-  margin: 0 10px;
-  padding: 10px 16px;
+  margin: 0 15px; /* GAP YERİNE MARGIN KULLANILDI, BÖYLECE %50 TAM OTURUYOR */
+  padding: 10px 14px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: #fff;
@@ -336,7 +334,7 @@ button, input, textarea, select { font: inherit; }
 }
 @keyframes marquee-scroll {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(-50%); } /* Tam Set 1 bittiğinde kusursuz başlar */
 }
 
 /* ============================================================
@@ -448,7 +446,6 @@ button, input, textarea, select { font: inherit; }
   color: var(--accent);
   letter-spacing: -0.04em;
   margin-bottom: 8px;
-  /* counter pop animation — triggered by JS adding .counted class */
   transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
 }
 .metric-card.pop .metric-number {
@@ -503,7 +500,6 @@ button, input, textarea, select { font: inherit; }
   transition: transform var(--tr), background var(--tr);
 }
 .service-card:hover .icon { transform: scale(1.12) rotate(-4deg); background: linear-gradient(135deg, rgba(20,184,255,0.22), rgba(20,184,255,0.1)); }
-
 .service-card h3 { margin: 0 0 12px; color: var(--primary); font-size: 1.42rem; line-height: 1.15; letter-spacing: -0.02em; }
 .service-card p  { margin: 0; color: var(--muted); }
 
@@ -512,8 +508,7 @@ button, input, textarea, select { font: inherit; }
   border-color: rgba(20,184,255,0.16);
   box-shadow: var(--shadow-lg);
 }
-.service-card.highlight-card h3,
-.service-card.highlight-card p { color: var(--white); }
+.service-card.highlight-card h3, .service-card.highlight-card p { color: var(--white); }
 .service-card.highlight-card p  { color: rgba(255,255,255,0.8); }
 .service-card.highlight-card .icon { background: rgba(20,184,255,0.14); color: var(--accent); }
 .service-card.highlight-card::after { background: linear-gradient(90deg, var(--accent), #38bdf8); }
@@ -629,7 +624,6 @@ button, input, textarea, select { font: inherit; }
   transition: transform var(--tr);
 }
 .contact-card:hover .icon { transform: scale(1.1) rotate(-4deg); }
-
 .contact-card h3 { margin: 0 0 8px; color: var(--primary); font-size: 1.22rem; }
 .contact-card p  { margin: 0; color: var(--muted); }
 .contact-person-name { display: block; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
@@ -706,15 +700,13 @@ button, input, textarea, select { font: inherit; }
 }
 
 /* ============================================================
-   RESPONSIVE
+   MOBİL VE TABLET RESPONSIVE (DİLLER YAN YANA & BURGER FİX)
    ============================================================ */
 @media (max-width: 1100px) {
   .about-grid     { grid-template-columns: 1fr; }
-  .services-grid,
-  .contact-grid   { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .services-grid, .contact-grid   { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .projects-grid  { grid-template-columns: 1fr; }
-  .metrics-grid,
-  .regions-grid   { grid-template-columns: repeat(2, 1fr); }
+  .metrics-grid, .regions-grid   { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 991px) {
@@ -728,10 +720,15 @@ button, input, textarea, select { font: inherit; }
     font-size: 1.7rem;
     cursor: pointer;
     z-index: 1010;
-    background: none;
-    border: none;
-    padding: 4px;
+    transition: opacity 0.3s ease;
   }
+  
+  /* Menü açıldığında hamburger ikonunu gizle (Çakışma olmaz) */
+  #nav-toggle:checked ~ .hamburger {
+    opacity: 0;
+    pointer-events: none;
+  }
+
   .nav-links {
     position: fixed;
     top: 0; right: -100%;
@@ -742,11 +739,11 @@ button, input, textarea, select { font: inherit; }
     align-items: flex-start;
     gap: 0;
     padding: 88px 24px 30px;
-    background: linear-gradient(180deg, #0b1630 0%, #122044 100%);
-    box-shadow: -20px 0 44px rgba(0,0,0,0.25);
+    background: #0b1630; /* Arka plan kirliliği silindi, koyu lacivert */
+    box-shadow: -20px 0 44px rgba(0,0,0,0.4);
     transition: right 0.35s ease;
   }
-  .nav-links li { width: 100%; margin-bottom: 20px; }
+  .nav-links li { width: 100%; margin-bottom: 16px; }
   .nav-links a   { display: block; width: 100%; font-size: 1.06rem; }
 
   .close-btn {
@@ -766,17 +763,29 @@ button, input, textarea, select { font: inherit; }
     z-index: 1006;
     background: rgba(3,10,24,0.55);
   }
+
+  /* MOBİLDE DİLLERİ YAN YANA GÖSTEREN KISIM */
   .language-wrapper {
-    width: 100%;
-    margin-left: 0;
-    padding-left: 0;
-    padding-top: 16px;
-    margin-top: 8px;
-    border-left: 0;
-    border-top: 1px solid rgba(255,255,255,0.12);
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center;
     justify-content: flex-start;
-    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+    padding-top: 20px;
+    margin-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+    border-left: none;
   }
+  .language-wrapper span {
+    display: inline-block;
+    color: rgba(255,255,255,0.3);
+  }
+  .lang-link {
+    display: inline-block !important;
+    width: auto !important;
+  }
+
   .hero          { min-height: auto; padding: 120px 20px 86px; }
   .hero-btns     { flex-direction: column; }
   .hero-btns .btn{ width: min(100%, 320px); }
@@ -785,15 +794,9 @@ button, input, textarea, select { font: inherit; }
 
 @media (max-width: 767px) {
   .container { width: min(var(--container), calc(100% - 28px)); }
-  .services-grid,
-  .projects-grid,
-  .contact-grid  { grid-template-columns: 1fr; gap: 20px; }
-  .metrics-grid,
-  .regions-grid  { grid-template-columns: repeat(2,1fr); gap: 14px; }
-  .service-card,
-  .project-item,
-  .contact-card,
-  .stat-box      { padding: 24px 20px; border-radius: 22px; }
+  .services-grid, .projects-grid, .contact-grid  { grid-template-columns: 1fr; gap: 20px; }
+  .metrics-grid, .regions-grid  { grid-template-columns: repeat(2,1fr); gap: 14px; }
+  .service-card, .project-item, .contact-card, .stat-box { padding: 24px 20px; border-radius: 22px; }
   .hero h1       { font-size: clamp(2.3rem, 10vw, 3.6rem); }
   .hero p        { font-size: 1rem; }
 }
