@@ -707,3 +707,30 @@ select {
     font-size: 0.96rem;
   }
 }
+/* Logo */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--white);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.logo img.logo-spin {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  animation: logoRotate 22s linear infinite;
+}
+
+.logo-text span {
+  color: var(--accent);
+}
+
+@keyframes logoRotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); } /* sağdan sola */
+}
