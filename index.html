@@ -8,639 +8,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <style>
-    :root {
-      --primary: #0b1630;
-      --primary-2: #122044;
-      --accent: #14b8ff;
-      --accent-2: #0ea5e9;
-      --bg: #f3f7fb;
-      --surface: #ffffff;
-      --surface-2: #f8fbff;
-      --border: #d9e4f0;
-      --text: #132238;
-      --muted: #5f7188;
-      --white: #ffffff;
-      --success: #25d366;
-      --shadow-sm: 0 10px 24px rgba(8,24,54,0.06);
-      --shadow-md: 0 20px 48px rgba(8,24,54,0.1);
-      --shadow-lg: 0 28px 70px rgba(8,24,54,0.16);
-      --radius-sm: 12px;
-      --radius-md: 18px;
-      --radius-lg: 28px;
-      --radius-full: 999px;
-      --container: 1180px;
-      --transition: 0.28s ease;
-    }
-
-    *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
-    img, svg { display: block; max-width: 100%; }
-    a { color: inherit; text-decoration: none; }
-    button, input, textarea, select { font: inherit; }
-
-    .container {
-      width: min(var(--container), calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    /* ── NAVBAR ── */
-    #nav-toggle { display: none; }
-
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 32px;
-      background: rgba(11,22,48,0.92);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .logo {
-      color: var(--white);
-      font-size: 1.8rem;
-      font-weight: 800;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
-    }
-    .logo span { color: var(--accent); }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 26px;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    .nav-links a {
-      position: relative;
-      color: rgba(255,255,255,0.84);
-      font-size: 0.97rem;
-      font-weight: 500;
-      transition: color var(--transition);
-    }
-    .nav-links a:hover { color: var(--white); }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: -8px;
-      width: 0; height: 2px;
-      border-radius: var(--radius-full);
-      background: var(--accent);
-      transition: width var(--transition);
-    }
-    .nav-links a:hover::after { width: 100%; }
-
-    .btn-nav-contact {
-      padding: 12px 22px;
-      border-radius: var(--radius-sm);
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: var(--primary) !important;
-      font-weight: 700 !important;
-      box-shadow: 0 12px 26px rgba(20,184,255,0.24);
-    }
-    .btn-nav-contact::after { display: none; }
-
-    .language-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-left: 8px;
-      padding-left: 18px;
-      border-left: 1px solid rgba(255,255,255,0.16);
-      color: rgba(255,255,255,0.35);
-      font-size: 0.82rem;
-    }
-    .lang-link {
-      color: rgba(255,255,255,0.72) !important;
-      font-size: 0.82rem !important;
-      font-weight: 700 !important;
-      letter-spacing: 0.04em;
-    }
-    .lang-link::after { display: none; }
-    .lang-link.active { color: var(--accent) !important; }
-
-    .hamburger { display: none; }
-    .close-btn { display: none; }
-    .nav-overlay { display: none; }
-
-    /* ── HERO ── */
-    .hero {
-      position: relative;
-      min-height: 92vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 120px 20px 100px;
-      text-align: center;
-      color: var(--white);
-      background: linear-gradient(rgba(5,17,42,0.74), rgba(5,17,42,0.84)),
-        url("https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1800&q=80") center/cover no-repeat;
-    }
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 50% 70%, rgba(20,184,255,0.1), transparent 28%),
-        linear-gradient(180deg, rgba(5,17,42,0.18), rgba(5,17,42,0.45));
-    }
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 980px;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 22px;
-      margin-bottom: 24px;
-      border-radius: var(--radius-full);
-      border: 1px solid rgba(255,255,255,0.2);
-      background: rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.92);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      backdrop-filter: blur(6px);
-    }
-    .hero h1 {
-      margin: 0 0 22px;
-      font-size: clamp(3rem, 7vw, 5.8rem);
-      line-height: 0.98;
-      letter-spacing: -0.05em;
-    }
-    .hero .highlight { color: var(--accent); }
-    .hero p {
-      max-width: 820px;
-      margin: 0 auto 32px;
-      color: rgba(255,255,255,0.9);
-      font-size: clamp(1.05rem, 2vw, 1.34rem);
-    }
-    .hero-btns {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 54px;
-      padding: 14px 28px;
-      border-radius: var(--radius-full);
-      font-weight: 700;
-      transition: transform var(--transition), box-shadow var(--transition),
-        background var(--transition), color var(--transition);
-    }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2));
-      color: var(--primary);
-      box-shadow: 0 14px 30px rgba(20,184,255,0.24);
-    }
-    .btn-outline {
-      border: 1px solid rgba(255,255,255,0.28);
-      color: var(--white);
-      background: rgba(255,255,255,0.06);
-      backdrop-filter: blur(6px);
-    }
-    .btn-outline:hover { background: var(--white); color: var(--primary); }
-
-    /* ── PARTNERS MARQUEE (FIXED) ── */
-    .partners-strip {
-      background: var(--surface);
-      padding: 40px 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .partners-label {
-      display: block;
-      text-align: center;
-      margin-bottom: 24px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--muted);
-    }
-
-    /* Wrapper clips the scroll and hosts the fade edges */
-    .partner-logo-slider {
-      position: relative;
-      width: 100%;
-      overflow: hidden;       /* CLIP HERE — nowhere else */
-    }
-
-    .partner-logo-slider::before,
-    .partner-logo-slider::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      width: 100px;
-      height: 100%;
-      z-index: 2;
-      pointer-events: none;
-    }
-    .partner-logo-slider::before {
-      left: 0;
-      background: linear-gradient(to right, var(--surface), transparent);
-    }
-    .partner-logo-slider::after {
-      right: 0;
-      background: linear-gradient(to left, var(--surface), transparent);
-    }
-
-    /* The actual scrolling row — MUST be flex, no wrap, max-content width */
-    .partner-logo-slide {
-      display: flex;            /* horizontal row */
-      flex-direction: row;      /* be explicit */
-      flex-wrap: nowrap;        /* never stack */
-      align-items: center;
-      width: max-content;       /* fit all children */
-      /* animation is set by JS after clone so we know the right % */
-    }
-
-    .partner-logo-slide img {
-      flex-shrink: 0;           /* never collapse */
-      display: block;
-      height: 52px;
-      width: auto;
-      object-fit: contain;
-      margin: 0 10px;
-      padding: 10px 16px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      background: #fff;
-      transition: border-color var(--transition), transform var(--transition);
-    }
-    .partner-logo-slide img:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
-    }
-
-    @keyframes marquee-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }   /* 50% = half of (original + 1 clone) */
-    }
-
-    /* ── SECTIONS ── */
-    .section-padding { padding: 110px 0; }
-
-    .section-title {
-      margin: 0 0 54px;
-      text-align: center;
-      color: var(--primary);
-      font-size: clamp(2rem, 4vw, 3rem);
-      line-height: 1.08;
-      letter-spacing: -0.04em;
-    }
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 80px;
-      height: 4px;
-      margin: 16px auto 0;
-      border-radius: var(--radius-full);
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-    }
-
-    .section-intro {
-      max-width: 760px;
-      margin: -26px auto 42px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 1.02rem;
-    }
-
-    /* About */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 46px;
-      align-items: start;
-    }
-    .about-text h3 {
-      margin: 0 0 18px;
-      color: var(--primary);
-      font-size: clamp(1.6rem, 3vw, 2.25rem);
-      line-height: 1.12;
-      letter-spacing: -0.03em;
-    }
-    .about-text p { margin: 0 0 18px; color: var(--muted); font-size: 1.02rem; }
-    .about-stats { display: grid; gap: 18px; }
-    .stat-box {
-      padding: 26px 24px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
-    .stat-box:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(20,184,255,0.28); }
-    .stat-box i { margin-bottom: 12px; font-size: 1.8rem; color: var(--accent); }
-    .stat-box span { display: block; margin-bottom: 8px; color: var(--primary); font-size: 1.08rem; font-weight: 700; }
-    .stat-box p { margin: 0; color: var(--muted); font-size: 0.97rem; }
-
-    /* Metrics */
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 22px;
-      margin-top: 46px;
-    }
-    .metric-card {
-      padding: 28px 22px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      background: var(--surface);
-      box-shadow: var(--shadow-sm);
-      text-align: center;
-    }
-    .metric-card.highlight-card {
-      background: linear-gradient(180deg, #0d1a36 0%, #13264b 100%);
-      border-color: rgba(20,184,255,0.16);
-    }
-    .metric-card.highlight-card p { color: rgba(255,255,255,0.75); }
-    .metric-number {
-      display: block;
-      font-size: 2.4rem;
-      font-weight: 800;
-      color: var(--accent);
-      letter-spacing: -0.03em;
-      margin-bottom: 8px;
-    }
-    .metric-card p { margin: 0; color: var(--muted); font-size: 0.95rem; }
-
-    /* Services */
-    .services-section { background: linear-gradient(180deg, #f8fbff 0%, #f3f7fb 100%); }
-    .services-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 26px; }
-
-    .service-card {
-      height: 100%;
-      padding: 34px 28px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
-    .service-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(20,184,255,0.24); }
-    .service-card .icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 64px; height: 64px;
-      margin-bottom: 18px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(20,184,255,0.14), rgba(20,184,255,0.06));
-      color: var(--accent);
-      font-size: 1.5rem;
-    }
-    .service-card h3 { margin: 0 0 12px; color: var(--primary); font-size: 1.42rem; line-height: 1.15; letter-spacing: -0.02em; }
-    .service-card p { margin: 0; color: var(--muted); }
-    .service-card.highlight-card { background: linear-gradient(180deg, #0d1a36 0%, #13264b 100%); border-color: rgba(20,184,255,0.16); box-shadow: var(--shadow-lg); }
-    .service-card.highlight-card h3, .service-card.highlight-card p { color: var(--white); }
-    .service-card.highlight-card .icon { background: rgba(20,184,255,0.14); color: var(--accent); }
-
-    /* Projects */
-    .projects-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 26px; }
-    .project-item {
-      height: 100%;
-      padding: 34px 28px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
-    .project-item:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(20,184,255,0.24); }
-    .project-info { display: flex; flex-direction: column; gap: 14px; }
-    .project-item h4 { margin: 0; color: var(--primary); font-size: 1.28rem; line-height: 1.15; letter-spacing: -0.02em; }
-    .project-item p { margin: 0; color: var(--muted); }
-    .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-    .tags span {
-      display: inline-flex;
-      align-items: center;
-      padding: 7px 14px;
-      border-radius: var(--radius-full);
-      background: #e8f7ff;
-      color: #0b7eb2;
-      font-size: 0.8rem;
-      font-weight: 700;
-    }
-
-    /* Regions */
-    .regions-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 22px; }
-    .region-card {
-      padding: 28px 22px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      background: var(--surface);
-      box-shadow: var(--shadow-sm);
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
-    .region-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(20,184,255,0.24); }
-    .region-card h3 { margin: 0 0 10px; color: var(--primary); font-size: 1.18rem; }
-    .region-card p { margin: 0; color: var(--muted); font-size: 0.97rem; }
-
-    /* Contact */
-    .contact-subtitle {
-      max-width: 760px;
-      margin: -26px auto 42px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 1.02rem;
-    }
-    .contact-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 26px; }
-    .contact-card {
-      height: 100%;
-      padding: 34px 28px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      background: var(--surface);
-      box-shadow: var(--shadow-sm);
-      text-align: center;
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
-    }
-    .contact-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: rgba(20,184,255,0.24); }
-    .contact-card .icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 64px; height: 64px;
-      margin: 0 auto 18px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(20,184,255,0.14), rgba(20,184,255,0.06));
-      color: var(--accent);
-      font-size: 1.5rem;
-    }
-    .contact-card h3 { margin: 0 0 8px; color: var(--primary); font-size: 1.22rem; }
-    .contact-card p { margin: 0; color: var(--muted); }
-    .contact-person-name { display: block; font-weight: 700; color: var(--primary); margin-bottom: 2px; }
-    .contact-person-role { display: block; font-size: 0.88rem; color: var(--muted); margin-bottom: 14px; }
-    .contact-link { display: inline-block; margin-top: 6px; color: #0b7eb2; font-weight: 600; word-break: break-word; }
-    .contact-link:hover { color: var(--accent); }
-
-    .whatsapp-card { background: linear-gradient(180deg, #f0fdf4 0%, #ffffff 100%); border-color: rgba(37,211,102,0.24); }
-    .whatsapp-card .icon { background: rgba(37,211,102,0.12); color: var(--success); }
-
-    .btn-whatsapp {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 16px;
-      padding: 12px 24px;
-      border-radius: var(--radius-full);
-      background: var(--success);
-      color: var(--white);
-      font-weight: 700;
-      box-shadow: 0 14px 30px rgba(37,211,102,0.24);
-      transition: transform var(--transition), background var(--transition);
-    }
-    .btn-whatsapp:hover { transform: translateY(-2px); background: #18b857; }
-
-    /* Footer */
-    .main-footer {
-      padding: 34px 0;
-      text-align: center;
-      background: #08142b;
-      color: rgba(255,255,255,0.68);
-    }
-    .main-footer p { margin: 0 0 8px; }
-    .main-footer strong { color: var(--white); }
-    .small-text { font-size: 0.92rem; }
-
-    /* WhatsApp floating — FIXED */
-    .whatsapp-floating {
-      position: fixed;
-      right: 24px;        /* right side, clearly visible */
-      bottom: 24px;
-      z-index: 9999;      /* above everything */
-      width: 58px;
-      height: 58px;
-      border-radius: 50%;
-      background: #25d366;
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 32px rgba(37,211,102,0.5);
-      font-size: 1.9rem;
-      text-decoration: none;
-      transition: transform 0.18s ease, box-shadow 0.18s ease;
-    }
-    .whatsapp-floating:hover {
-      transform: translateY(-3px) scale(1.06);
-      box-shadow: 0 14px 40px rgba(37,211,102,0.65);
-    }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1100px) {
-      .about-grid { grid-template-columns: 1fr; }
-      .services-grid, .contact-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-      .projects-grid { grid-template-columns: 1fr; }
-      .metrics-grid, .regions-grid { grid-template-columns: repeat(2,1fr); }
-    }
-
-    @media (max-width: 991px) {
-      .navbar { padding: 16px 20px; }
-
-      .hamburger {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--white);
-        font-size: 1.7rem;
-        cursor: pointer;
-        z-index: 1010;
-        background: none;
-        border: none;
-        padding: 4px;
-      }
-
-      .nav-links {
-        position: fixed;
-        top: 0; right: -100%;
-        z-index: 1008;
-        width: min(320px, 84vw);
-        height: 100vh;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0;
-        padding: 88px 24px 30px;
-        background: linear-gradient(180deg, #0b1630 0%, #122044 100%);
-        box-shadow: -20px 0 44px rgba(0,0,0,0.25);
-        transition: right 0.35s ease;
-      }
-      .nav-links li { width: 100%; margin-bottom: 20px; }
-      .nav-links a { display: block; width: 100%; font-size: 1.06rem; }
-
-      .close-btn {
-        display: block;
-        position: absolute;
-        top: 22px; left: 22px;
-        color: var(--white);
-        font-size: 1.6rem;
-        cursor: pointer;
-      }
-
-      #nav-toggle:checked ~ .nav-links { right: 0; }
-      #nav-toggle:checked ~ .nav-overlay { display: block; }
-
-      .nav-overlay {
-        position: fixed;
-        inset: 0;
-        z-index: 1006;
-        background: rgba(3,10,24,0.55);
-      }
-
-      .language-wrapper {
-        width: 100%;
-        margin-left: 0;
-        padding-left: 0;
-        padding-top: 16px;
-        margin-top: 8px;
-        border-left: 0;
-        border-top: 1px solid rgba(255,255,255,0.12);
-        justify-content: flex-start;
-        flex-wrap: wrap;
-      }
-
-      .hero { min-height: auto; padding: 120px 20px 86px; }
-      .hero-btns { flex-direction: column; }
-      .hero-btns .btn { width: min(100%, 320px); }
-      .section-padding { padding: 82px 0; }
-    }
-
-    @media (max-width: 767px) {
-      .container { width: min(var(--container), calc(100% - 28px)); }
-      .services-grid, .projects-grid, .contact-grid { grid-template-columns: 1fr; gap: 20px; }
-      .metrics-grid, .regions-grid { grid-template-columns: repeat(2,1fr); gap: 14px; }
-      .service-card, .project-item, .contact-card, .stat-box { padding: 24px 20px; border-radius: 22px; }
-      .hero h1 { font-size: clamp(2.3rem, 10vw, 3.6rem); }
-      .hero p { font-size: 1rem; }
-    }
-  </style>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 
-<!-- WhatsApp Floating Button — placed early so z-index is clear -->
+<!-- ── WHATSAPP FLOATING ── -->
 <a href="https://wa.me/32486240642"
    class="whatsapp-floating"
    target="_blank"
@@ -649,6 +21,7 @@
   <i class="fa-brands fa-whatsapp"></i>
 </a>
 
+<!-- ── HEADER / NAVBAR ── -->
 <header>
   <input type="checkbox" id="nav-toggle">
   <nav class="navbar">
@@ -669,7 +42,7 @@
       <li><a href="./partners/">Partners</a></li>
       <li><a href="#contact" class="btn-nav-contact">Contact</a></li>
       <li class="language-wrapper">
-        <a href="./" class="lang-link active">EN</a><span>/</span>
+        <a href="./"    class="lang-link active">EN</a><span>/</span>
         <a href="./nl/" class="lang-link">NL</a><span>/</span>
         <a href="./tr/" class="lang-link">TR</a><span>/</span>
         <a href="./fr/" class="lang-link">FR</a>
@@ -682,7 +55,7 @@
 
 <main id="main-content">
 
-  <!-- HERO -->
+  <!-- ── HERO ── -->
   <section class="hero" id="home">
     <div class="hero-overlay"></div>
     <div class="container hero-content">
@@ -691,35 +64,34 @@
       <p>Cakir IT-Solutions combines field operations, drilling coordination, display systems, logistics tools and multilingual digital interfaces into a sharper and more professional company structure.</p>
       <div class="hero-btns">
         <a href="#projects" class="btn btn-primary">Explore projects</a>
-        <a href="#contact" class="btn btn-outline">Start a project</a>
+        <a href="#contact"  class="btn btn-outline">Start a project</a>
       </div>
     </div>
   </section>
 
-  <!-- PARTNERS STRIP -->
+  <!-- ── PARTNERS STRIP ── -->
   <section class="partners-strip">
     <div class="container">
       <span class="partners-label">Partners & Networks</span>
     </div>
-    <!-- slider is full-width, outside container so it bleeds edge to edge -->
     <div class="partner-logo-slider">
       <div class="partner-logo-slide" id="partner-slide">
-        <img src="./images/logo1.jpeg" alt="Partner 1">
-        <img src="./images/logo2.jpg"  alt="Partner 2">
-        <img src="./images/logo3.jpg"  alt="Partner 3">
-        <img src="./images/logo4.jpeg" alt="Partner 4">
-        <img src="./images/logo5.jpg"  alt="Partner 5">
-        <img src="./images/logo6.jpeg" alt="Partner 6">
-        <img src="./images/logo7.jpg"  alt="Partner 7">
-        <img src="./images/logo8.jpg"  alt="Partner 8">
-        <img src="./images/logo9.jpg"  alt="Partner 9">
-        <img src="./images/logo10.jpg" alt="Partner 10">
+        <img src="./images/logo1.jpeg"  alt="Partner 1">
+        <img src="./images/logo2.jpg"   alt="Partner 2">
+        <img src="./images/logo3.jpg"   alt="Partner 3">
+        <img src="./images/logo4.jpeg"  alt="Partner 4">
+        <img src="./images/logo5.jpg"   alt="Partner 5">
+        <img src="./images/logo6.jpeg"  alt="Partner 6">
+        <img src="./images/logo7.jpg"   alt="Partner 7">
+        <img src="./images/logo8.jpg"   alt="Partner 8">
+        <img src="./images/logo9.jpg"   alt="Partner 9">
+        <img src="./images/logo10.jpg"  alt="Partner 10">
       </div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section class="section-padding" id="about">
+  <!-- ── ABOUT ── -->
+  <section class="section-padding reveal" id="about">
     <div class="container">
       <h2 class="section-title">Who We Are</h2>
       <div class="about-grid">
@@ -729,7 +101,7 @@
           <p>That practical background now supports a broader digital layer with smart displays, logistics interfaces, branded information screens and operational software tools.</p>
           <p>This creates a company profile that feels both technical and modern, not generic.</p>
         </article>
-        <div class="about-stats">
+        <div class="about-stats reveal">
           <article class="stat-box">
             <i class="fa-solid fa-trowel-bricks"></i>
             <span>Infrastructure Strength</span>
@@ -747,20 +119,34 @@
           </article>
         </div>
       </div>
-      <div class="metrics-grid">
-        <article class="metric-card"><span class="metric-number">10+</span><p>Years of combined operational experience.</p></article>
-        <article class="metric-card"><span class="metric-number">4</span><p>Core activities in one structure.</p></article>
-        <article class="metric-card"><span class="metric-number">24/7</span><p>Planning mentality for continuous visibility.</p></article>
-        <article class="metric-card highlight-card"><span class="metric-number">EU</span><p>Cross-border communication capacity.</p></article>
+
+      <!-- metrics — data-target drives the JS counter -->
+      <div class="metrics-grid reveal">
+        <article class="metric-card">
+          <span class="metric-number" data-target="10" data-suffix="+">0+</span>
+          <p>Years of combined operational experience.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-number" data-target="4">0</span>
+          <p>Core activities in one structure.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-number" data-static="24/7">24/7</span>
+          <p>Planning mentality for continuous visibility.</p>
+        </article>
+        <article class="metric-card highlight-card">
+          <span class="metric-number" data-static="EU">EU</span>
+          <p>Cross-border communication capacity.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- SERVICES -->
-  <section class="section-padding services-section" id="services">
+  <!-- ── SERVICES ── -->
+  <section class="section-padding services-section reveal" id="services">
     <div class="container">
       <h2 class="section-title">Our Services</h2>
-      <div class="services-grid">
+      <div class="services-grid reveal">
         <article class="service-card">
           <div class="icon"><i class="fa-solid fa-road"></i></div>
           <h3>Directional Drilling & Support</h3>
@@ -780,12 +166,12 @@
     </div>
   </section>
 
-  <!-- PROJECTS -->
-  <section class="section-padding" id="projects">
+  <!-- ── PROJECTS ── -->
+  <section class="section-padding reveal" id="projects">
     <div class="container">
       <h2 class="section-title">Featured Projects</h2>
       <p class="section-intro">A stronger corporate image requires portfolio examples that feel practical, premium, and commercially credible.</p>
-      <div class="projects-grid">
+      <div class="projects-grid reveal">
         <article class="project-item">
           <div class="project-info">
             <h4>SlimPano Smart Advertising Panels</h4>
@@ -832,12 +218,12 @@
     </div>
   </section>
 
-  <!-- REGIONS -->
-  <section class="section-padding services-section" id="regions">
+  <!-- ── REGIONS ── -->
+  <section class="section-padding services-section reveal" id="regions">
     <div class="container">
       <h2 class="section-title">Regional Strength</h2>
       <p class="section-intro">A clear regional positioning makes the company story more serious, credible, and much stronger.</p>
-      <div class="regions-grid">
+      <div class="regions-grid reveal">
         <article class="region-card">
           <h3>Belgium</h3>
           <p>Operational base for planning, execution support, client communication and multi-sector technical projects.</p>
@@ -858,12 +244,12 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
-  <section class="section-padding" id="contact">
+  <!-- ── CONTACT ── -->
+  <section class="section-padding reveal" id="contact">
     <div class="container">
       <h2 class="section-title">Get In Touch</h2>
       <p class="contact-subtitle">Direct contact for management, operations, software and smart display requests.</p>
-      <div class="contact-grid">
+      <div class="contact-grid reveal">
 
         <article class="contact-card whatsapp-card">
           <div class="icon"><i class="fa-solid fa-user-tie"></i></div>
@@ -899,6 +285,7 @@
 
 </main>
 
+<!-- ── FOOTER ── -->
 <footer class="main-footer">
   <div class="container">
     <p>© 2026 <strong>Cakir IT-Solutions</strong>. All rights reserved. | <strong>VAT: BE 0637.765.003</strong></p>
@@ -906,32 +293,89 @@
   </div>
 </footer>
 
+<!-- ================================================================
+     JAVASCRIPT
+     ================================================================ -->
 <script>
-  // ── PARTNER MARQUEE ──────────────────────────────────────────────────
-  // Uses cloneNode (NOT innerHTML +=) so flex is never broken.
-  // Strategy: clone the original set once → 2 sets total → animate -50%.
-  (function () {
-    var slide = document.getElementById('partner-slide');
-    if (!slide) return;
+/* ── 1. PARTNER MARQUEE ─────────────────────────────────────────── */
+(function () {
+  var slide = document.getElementById('partner-slide');
+  if (!slide) return;
 
-    var origItems = Array.from(slide.children); // snapshot before touching DOM
-
-    // Clone each original item and append — gives us 2 identical sets
-    origItems.forEach(function (item) {
-      slide.appendChild(item.cloneNode(true));
-    });
-
-    // Now apply the animation. -50% = exactly one full original set width.
-    slide.style.animation = 'marquee-scroll 30s linear infinite';
-  })();
-
-  // ── MOBILE MENU ───────────────────────────────────────────────────────
-  // Close menu when any nav link is clicked
-  document.querySelectorAll('.nav-links a').forEach(function (link) {
-    link.addEventListener('click', function () {
-      document.getElementById('nav-toggle').checked = false;
-    });
+  var origItems = Array.from(slide.children);   // snapshot before touching DOM
+  origItems.forEach(function (item) {
+    slide.appendChild(item.cloneNode(true));      // 1 clone → 2 sets total
   });
+
+  slide.style.animation = 'marquee-scroll 30s linear infinite';
+
+  /* pause on hover */
+  slide.addEventListener('mouseenter', function () {
+    slide.style.animationPlayState = 'paused';
+  });
+  slide.addEventListener('mouseleave', function () {
+    slide.style.animationPlayState = 'running';
+  });
+})();
+
+/* ── 2. SCROLL REVEAL ───────────────────────────────────────────── */
+(function () {
+  var revealEls = document.querySelectorAll('.reveal');
+  if (!revealEls.length) return;
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach(function (el) { io.observe(el); });
+})();
+
+/* ── 3. ANIMATED COUNTERS ───────────────────────────────────────── */
+(function () {
+  var counters = document.querySelectorAll('.metric-number[data-target]');
+  if (!counters.length) return;
+
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+
+      var el      = entry.target;
+      var target  = parseInt(el.getAttribute('data-target'), 10);
+      var suffix  = el.getAttribute('data-suffix') || '';
+      var duration = 1400;   /* ms */
+      var start    = null;
+
+      /* trigger the pop keyframe */
+      el.closest('.metric-card').classList.add('pop');
+
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        var progress = Math.min((timestamp - start) / duration, 1);
+        /* ease-out quad */
+        var eased = 1 - (1 - progress) * (1 - progress);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target + suffix;   /* exact final value */
+      }
+      requestAnimationFrame(step);
+    });
+  }, { threshold: 0.4 });
+
+  counters.forEach(function (el) { io.observe(el); });
+})();
+
+/* ── 4. MOBILE MENU — close on link click ───────────────────────── */
+document.querySelectorAll('.nav-links a').forEach(function (link) {
+  link.addEventListener('click', function () {
+    document.getElementById('nav-toggle').checked = false;
+  });
+});
 </script>
 
 </body>
