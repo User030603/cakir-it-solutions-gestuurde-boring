@@ -279,7 +279,7 @@ select {
    ========================================== */
 .partners-strip {
   background: var(--surface);
-  padding: 40px 0; /* İç boşluk biraz daraltıldı */
+  padding: 40px 0;
   border-bottom: 1px solid var(--border);
   overflow: hidden;
 }
@@ -301,9 +301,8 @@ select {
 
 .partners-logos {
   display: flex;
-  overflow: hidden;
   width: 100%;
-  /* Kenarlardan hafif silikleşme efekti */
+  overflow: hidden;
   -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
   mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
@@ -311,7 +310,6 @@ select {
 .partners-track {
   display: flex;
   width: max-content;
-  /* Animasyon süresi (hızlandırmak istersen 35s'yi düşür) */
   animation: scrollLogos 35s linear infinite;
 }
 
@@ -321,17 +319,19 @@ select {
 
 .partners-group {
   display: flex;
-  align-items: center; /* Logoları dikeyde tam ortalar */
-  gap: 70px; /* Logolar arası yatay boşluk */
-  padding-right: 70px; /* Döngünün atlamaması için gap ile aynı olmalı */
+  align-items: center;
+  gap: 70px;
+  padding-right: 70px;
+  flex-shrink: 0; /* CRITICAL: Prevents squishing */
 }
 
 .partners-group img {
-  height: 32px; /* Logolar küçültüldü */
+  height: 45px;
   width: auto;
+  max-width: none; /* CRITICAL: Overrides global image rules */
   object-fit: contain;
   flex-shrink: 0;
-  filter: grayscale(100%) opacity(0.5);
+  filter: grayscale(100%) opacity(0.6);
   transition: filter var(--transition), opacity var(--transition), transform var(--transition);
   cursor: pointer;
 }
@@ -341,7 +341,6 @@ select {
   transform: scale(1.08) translateY(-2px);
 }
 
-/* Sağdan sola tam %50 (bir grubun genişliği kadar) kaydırır */
 @keyframes scrollLogos {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
