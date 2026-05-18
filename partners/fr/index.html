@@ -9,7 +9,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="../../style.css">
-  
   <style>
     .partners-hero { min-height: 50vh; padding: 160px 20px 80px; }
     .partners-page-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; }
@@ -28,23 +27,25 @@
 <header class="site-header">
   <div class="container navbar">
     <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
+    
     <input type="checkbox" id="nav-toggle" class="nav-toggle">
     <label for="nav-toggle" class="hamburger"><i class="fa-solid fa-bars"></i></label>
-    <nav class="nav-panel">
+    
+    <ul class="nav-links">
       <label for="nav-toggle" class="close-btn"><i class="fa-solid fa-xmark"></i></label>
-      <a href="../../fr/#home">Accueil</a>
-      <a href="../../fr/#about">A propos</a>
-      <a href="../../fr/#services">Services</a>
-      <a href="../../fr/#projects">Projets</a>
-      <a href="./" class="active">Partenaires</a>
-      <a href="../../fr/#contact" class="btn-nav-contact">Contact</a>
+      <li><a href="../../fr/#home">Accueil</a></li>
+      <li><a href="../../fr/#about">A propos</a></li>
+      <li><a href="../../fr/#services">Services</a></li>
+      <li><a href="../../fr/#projects">Projets</a></li>
+      <li><a href="./" class="active">Partenaires</a></li>
+      <li><a href="../../fr/#contact" class="btn-nav-contact">Contact</a></li>
       <div class="language-wrapper">
         <a href="../" class="lang-link">EN</a><span>/</span>
         <a href="../nl/" class="lang-link">NL</a><span>/</span>
         <a href="../tr/" class="lang-link">TR</a><span>/</span>
         <a href="./" class="lang-link active">FR</a>
       </div>
-    </nav>
+    </ul>
     <label for="nav-toggle" class="nav-overlay"></label>
   </div>
 </header>
@@ -86,9 +87,6 @@
   </div>
 </footer>
 
-<script>
-document.querySelectorAll('.nav-links a').forEach(function (link) { link.addEventListener('click', function () { document.getElementById('nav-toggle').checked = false; }); });
-(function () { var revealEls = document.querySelectorAll('.reveal'); var io = new IntersectionObserver(function (entries) { entries.forEach(function (entry) { if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); } }); }, { threshold: 0.1 }); revealEls.forEach(function (el) { io.observe(el); }); })();
-</script>
+<script src="../../script.js"></script>
 </body>
 </html>
