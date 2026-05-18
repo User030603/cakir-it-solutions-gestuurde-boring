@@ -708,42 +708,45 @@ select {
   }
 }
 
-/* Partner logos strip */
 .partners-strip {
   background: #ffffff;
-  padding: 26px 0;
+  padding: 20px 0;
   border-bottom: 1px solid var(--border);
 }
 
 .partners-strip-inner {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   align-items: center;
 }
 
 .partners-label {
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
   color: var(--muted);
 }
 
 .partners-logos {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 40px;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.partners-track {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  overflow-x: auto;
-  padding-bottom: 4px;
+  gap: 40px;
+  animation: partnersScroll 35s linear infinite;
 }
 
 .partners-logos img {
-  height: 34px;
+  height: 34px;          /* hepsi aynı yükseklik */
   width: auto;
+  flex-shrink: 0;
   filter: grayscale(1);
-  opacity: 0.86;
+  opacity: 0.9;
   transition: opacity 0.2s ease, filter 0.2s ease, transform 0.2s ease;
 }
 
@@ -751,6 +754,15 @@ select {
   filter: grayscale(0);
   opacity: 1;
   transform: translateY(-2px);
+}
+
+@keyframes partnersScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* Floating WhatsApp button */
