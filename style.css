@@ -710,14 +710,14 @@ select {
 
 .partners-strip {
   background: #ffffff;
-  padding: 20px 0;
+  padding: 24px 0;
   border-bottom: 1px solid var(--border);
 }
 
 .partners-strip-inner {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   align-items: center;
 }
 
@@ -737,12 +737,12 @@ select {
 .partners-track {
   display: inline-flex;
   align-items: center;
-  gap: 40px;
-  animation: partnersScroll 35s linear infinite;
+  gap: 60px;                /* logolar arası boşluk */
+  animation: partnersScroll 22s linear infinite;
 }
 
 .partners-logos img {
-  height: 34px;          /* hepsi aynı yükseklik */
+  height: 46px;             /* önceki 34px idi, şimdi daha dolu */
   width: auto;
   flex-shrink: 0;
   filter: grayscale(1);
