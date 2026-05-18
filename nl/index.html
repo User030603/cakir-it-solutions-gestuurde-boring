@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="UTF-8">
@@ -8,9 +8,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body>
+
+<a href="https://wa.me/32486240642" class="whatsapp-floating" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
 <a class="skip-link" href="#main-content">Naar inhoud</a>
 <header class="site-header">
   <div class="container navbar">
@@ -25,11 +30,17 @@
       <a href="#projects">Projecten</a>
       <a href="../partners/nl/">Partners</a>
       <a href="#contact" class="btn-nav-contact">Contact</a>
-      <div class="language-wrapper"><a href="../" class="lang-link">EN</a><span>/</span><a href="./" class="lang-link active">NL</a><span>/</span><a href="../tr/" class="lang-link">TR</a><span>/</span><a href="../fr/" class="lang-link">FR</a></div>
+      <div class="language-wrapper">
+        <a href="../" class="lang-link">EN</a><span>/</span>
+        <a href="./" class="lang-link active">NL</a><span>/</span>
+        <a href="../tr/" class="lang-link">TR</a><span>/</span>
+        <a href="../fr/" class="lang-link">FR</a>
+      </div>
     </nav>
     <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
   </div>
 </header>
+
 <main id="main-content">
   <section class="hero" id="home">
     <div class="hero-overlay"></div>
@@ -43,6 +54,27 @@
       </div>
     </div>
   </section>
+
+  <section class="partners-strip">
+    <div class="container">
+      <span class="partners-label">Partners & Netwerken</span>
+    </div>
+    <div class="partner-logo-slider">
+      <div class="partner-logo-slide" id="partner-slide">
+        <img src="../images/logo1.jpeg" alt="Partner 1">
+        <img src="../images/logo2.jpg"  alt="Partner 2">
+        <img src="../images/logo3.jpg"  alt="Partner 3">
+        <img src="../images/logo4.jpeg" alt="Partner 4">
+        <img src="../images/logo5.jpg"  alt="Partner 5">
+        <img src="../images/logo6.jpeg" alt="Partner 6">
+        <img src="../images/logo7.jpg"  alt="Partner 7">
+        <img src="../images/logo8.jpg"  alt="Partner 8">
+        <img src="../images/logo9.jpg"  alt="Partner 9">
+        <img src="../images/logo10.jpg" alt="Partner 10">
+      </div>
+    </div>
+  </section>
+
   <section class="section-padding reveal" id="about">
     <div class="container">
       <h2 class="section-title">Wie Zijn Wij</h2>
@@ -53,56 +85,86 @@
           <p>Die praktische basis ondersteunt nu ook een bredere digitale laag met slimme displays, logistieke interfaces, branded informatieschermen en operationele softwaretools.</p>
           <p>Zo ontstaat een bedrijfsprofiel dat tegelijk technisch en modern aanvoelt.</p>
         </article>
-        <div class="about-stats">
+        <div class="about-stats reveal">
           <article class="stat-box"><i class="fa-solid fa-trowel-bricks"></i><span>Infrastructuurkracht</span><p>Praktische steun bij boringen, routeplanning, nutsvoorbereiding en werfcoordinatie.</p></article>
           <article class="stat-box"><i class="fa-solid fa-display"></i><span>Smart Screen Systemen</span><p>Tabletinterfaces, advertentiepanelen en digitale presentatiesystemen voor live communicatie.</p></article>
           <article class="stat-box"><i class="fa-solid fa-code-branch"></i><span>Operationele Software</span><p>Trackingdashboards, interne systemen en businessgerichte tools voor dagelijkse controle.</p></article>
         </div>
       </div>
-      <div class="metrics-grid">
-        <article class="metric-card"><span class="metric-number">10+</span><p>Jaren gecombineerde operationele ervaring.</p></article>
-        <article class="metric-card"><span class="metric-number">4</span><p>Kernactiviteiten in een structuur.</p></article>
-        <article class="metric-card"><span class="metric-number">24/7</span><p>Planningsmentaliteit voor continue zichtbaarheid.</p></article>
-        <article class="metric-card highlight-card"><span class="metric-number">EU</span><p>Grensoverschrijdende communicatiecapaciteit.</p></article>
+      
+      <div class="metrics-grid reveal">
+        <article class="metric-card">
+          <span class="metric-number" data-target="10" data-suffix="+">0+</span>
+          <p>Jaren gecombineerde operationele ervaring.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-number" data-target="4">0</span>
+          <p>Kernactiviteiten in een structuur.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-number" data-static="24/7">24/7</span>
+          <p>Planningsmentaliteit voor continue zichtbaarheid.</p>
+        </article>
+        <article class="metric-card highlight-card">
+          <span class="metric-number" data-static="EU">EU</span>
+          <p>Grensoverschrijdende communicatiecapaciteit.</p>
+        </article>
       </div>
     </div>
   </section>
+
   <section class="section-padding services-section reveal" id="services">
     <div class="container">
       <h2 class="section-title">Onze Diensten</h2>
-      <div class="services-grid">
+      <div class="services-grid reveal">
         <article class="service-card"><div class="icon"><i class="fa-solid fa-road"></i></div><h3>Gestuurde Boring & Ondersteuning</h3><p>Planning, routeondersteuning, onderaannemerscommunicatie en uitvoeringshulp voor infrastructuurwerk.</p></article>
         <article class="service-card"><div class="icon"><i class="fa-solid fa-tablet-screen-button"></i></div><h3>Retail- en Tabletinterfaces</h3><p>Tablets in winkels, digitale infosystemen en meertalige presentatielagen voor klanten.</p></article>
         <article class="service-card highlight-card"><div class="icon"><i class="fa-solid fa-satellite-dish"></i></div><h3>Live Panelen & Slimme Media</h3><p>Livescoreborden, nieuwswanden, advertentiedisplays en branded communicatieschermen.</p></article>
       </div>
     </div>
   </section>
+
   <section class="section-padding reveal" id="projects">
     <div class="container">
       <h2 class="section-title">Uitgelichte Projecten</h2>
       <p class="section-intro">Een sterkere bedrijfsuitstraling vraagt portfoliovoorbeelden die praktisch, premium en commercieel geloofwaardig aanvoelen.</p>
-      <div class="projects-grid"><article class="project-item"><div class="project-info"><h4>SlimPano Smart Advertising Panels</h4><p>A flexible smart signage concept for custom advertising boards, in-store campaigns and multilingual display rotations on connected screens.</p><div class="tags"><span>Digital Signage</span><span>Advertising</span><span>Panels</span></div></div></article><article class="project-item"><div class="project-info"><h4>Live Sports Scores & News Wall</h4><p>A live content screen concept combining sports results, breaking news and sponsor placements for hospitality and public-facing environments.</p><div class="tags"><span>Live Data</span><span>Sports</span><span>News Feed</span></div></div></article><article class="project-item"><div class="project-info"><h4>Cakir Logistics Tracker</h4><p>A mobile-first operations tracker designed for route visibility, delivery updates, field assignments and status monitoring from one dashboard.</p><div class="tags"><span>Tracker App</span><span>Logistics</span><span>Dashboard</span></div></div></article><article class="project-item"><div class="project-info"><h4>Retail Information Tablets</h4><p>Store-side tablet interfaces for promotions, service updates, product information and lightweight multilingual presentation.</p><div class="tags"><span>Tablet UI</span><span>Retail</span><span>Multilingual</span></div></div></article><article class="project-item"><div class="project-info"><h4>Custom Business Display Boards</h4><p>Dedicated branded advertising boards and internal information screens for companies that want their own controlled visual communication layer.</p><div class="tags"><span>Custom Panels</span><span>Branding</span><span>Screens</span></div></div></article><article class="project-item"><div class="project-info"><h4>Network Expansion Field Support</h4><p>Operational support work around utility growth, local route expansion, site preparation and coordination in cross-border project environments.</p><div class="tags"><span>Infrastructure</span><span>Field Ops</span><span>Expansion</span></div></div></article></div>
+      <div class="projects-grid reveal">
+        <article class="project-item"><div class="project-info"><h4>SlimPano Smart Advertising Panels</h4><p>A flexible smart signage concept for custom advertising boards, in-store campaigns and multilingual display rotations on connected screens.</p><div class="tags"><span>Digital Signage</span><span>Advertising</span><span>Panels</span></div></div></article>
+        <article class="project-item"><div class="project-info"><h4>Live Sports Scores & News Wall</h4><p>A live content screen concept combining sports results, breaking news and sponsor placements for hospitality and public-facing environments.</p><div class="tags"><span>Live Data</span><span>Sports</span><span>News Feed</span></div></div></article>
+        <article class="project-item"><div class="project-info"><h4>Cakir Logistics Tracker</h4><p>A mobile-first operations tracker designed for route visibility, delivery updates, field assignments and status monitoring from one dashboard.</p><div class="tags"><span>Tracker App</span><span>Logistics</span><span>Dashboard</span></div></div></article>
+        <article class="project-item"><div class="project-info"><h4>Retail Information Tablets</h4><p>Store-side tablet interfaces for promotions, service updates, product information and lightweight multilingual presentation.</p><div class="tags"><span>Tablet UI</span><span>Retail</span><span>Multilingual</span></div></div></article>
+        <article class="project-item"><div class="project-info"><h4>Custom Business Display Boards</h4><p>Dedicated branded advertising boards and internal information screens for companies that want their own controlled visual communication layer.</p><div class="tags"><span>Custom Panels</span><span>Branding</span><span>Screens</span></div></div></article>
+        <article class="project-item"><div class="project-info"><h4>Network Expansion Field Support</h4><p>Operational support work around utility growth, local route expansion, site preparation and coordination in cross-border project environments.</p><div class="tags"><span>Infrastructure</span><span>Field Ops</span><span>Expansion</span></div></div></article>
+      </div>
     </div>
   </section>
+
   <section class="section-padding services-section reveal" id="regions">
     <div class="container">
       <h2 class="section-title">Regionale Kracht</h2>
       <p class="section-intro">Een duidelijke regionale positionering maakt het bedrijfsverhaal serieuzer, geloofwaardiger en veel sterker.</p>
-      <div class="regions-grid"><article class="region-card"><h3>Belgium</h3><p>Operational base for planning, execution support, client communication and multi-sector technical projects.</p></article><article class="region-card"><h3>Netherlands</h3><p>Cross-border business contact environment for network growth, partner communication and installation opportunities.</p></article><article class="region-card"><h3>Germany</h3><p>Project-facing communication with field-oriented technical culture and infrastructure-related service partners.</p></article><article class="region-card"><h3>Türkiye</h3><p>Strong regional business relevance with increasing operational visibility and long-term relationship building.</p></article></div>
+      <div class="regions-grid reveal">
+        <article class="region-card"><h3>Belgium</h3><p>Operational base for planning, execution support, client communication and multi-sector technical projects.</p></article>
+        <article class="region-card"><h3>Netherlands</h3><p>Cross-border business contact environment for network growth, partner communication and installation opportunities.</p></article>
+        <article class="region-card"><h3>Germany</h3><p>Project-facing communication with field-oriented technical culture and infrastructure-related service partners.</p></article>
+        <article class="region-card"><h3>Türkiye</h3><p>Strong regional business relevance with increasing operational visibility and long-term relationship building.</p></article>
+      </div>
     </div>
   </section>
+
   <section class="section-padding reveal" id="contact">
     <div class="container">
       <h2 class="section-title">Neem Contact Op</h2>
       <p class="contact-subtitle">Direct contact voor management, operations, software en slimme displayaanvragen.</p>
-      <div class="contact-grid">
+      <div class="contact-grid reveal">
         <article class="contact-card whatsapp-card"><div class="icon"><i class="fa-solid fa-user-tie"></i></div><h3>Management Contact</h3><span class="contact-person-name">Cakir Ozcan</span><span class="contact-person-role">Founder / Operations Lead</span><a href="mailto:cakirozcan@it-solutions-cakir.be" class="contact-link">ozcancakir@it-solutions-cakir.be</a><p>Rechtstreeks contact voor projectaanvragen, infrastructuurcoordinatie en strategische samenwerkingen.</p><a href="https://wa.me/32486240642" target="_blank" rel="noopener noreferrer" class="btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a></article>
-        <article class="contact-card"><div class="icon"><i class="fa-solid fa-user-gear"></i></div><h3>IT & Software Contact</h3><span class="contact-person-name">Bekir Fazli Calik</span><span class="contact-person-role">Software & Systems Lead</span><a href="mailto:bekir-fazil.calik@it-solutions-cakir.be" class="contact-link">bekirfazil.calik@it-solutions-cakir.be</a><p>Contactpunt voor logistieke tools, displaysystemen, interne software en meertalige digitale interfaces.</p><a href="mailto:info@it-solutions-cakir.be" class="contact-link">info@it-solutions-cakir.be</a></article>
+        <article class="contact-card"><div class="icon"><i class="fa-solid fa-user-gear"></i></div><h3>IT & Software Contact</h3><span class="contact-person-name">Bekir Fazli Calik</span><span class="contact-person-role">Software & Systems Lead</span><a href="mailto:bekir-fazil.calik@it-solutions-cakir.be" class="contact-link">bekirfazil.calik@it-solutions-cakir.be</a><p>Contactpunt voor logistieke tools, displaysystemen, interne software en meertalige digitale interfaces.</p><a href="mailto:info@it-solutions-cakir.be" class="contact-link" style="margin-top:10px;">info@it-solutions-cakir.be</a></article>
         <article class="contact-card"><div class="icon"><i class="fa-solid fa-location-dot"></i></div><h3>Hoofdkantoor</h3><p>Kruisstraat 57, 9240 Zele, Belgie. Verbonden met bredere regionale activiteiten in Europa en Turkije.</p></article>
       </div>
     </div>
   </section>
 </main>
+
 <footer class="main-footer">
   <div class="container">
     <p>© 2026 <strong>Cakir IT-Solutions</strong>. Alle rechten voorbehouden. | <strong>BTW: BE 0637.765.003</strong></p>
@@ -110,5 +172,63 @@
   </div>
 </footer>
 
+<script>
+(function () {
+  var slide = document.getElementById('partner-slide');
+  if (!slide) return;
+  var origItems = Array.from(slide.children);
+  origItems.forEach(function (item) {
+    slide.appendChild(item.cloneNode(true));
+  });
+  slide.style.animation = 'marquee-scroll 30s linear infinite';
+  slide.addEventListener('mouseenter', function () { slide.style.animationPlayState = 'paused'; });
+  slide.addEventListener('mouseleave', function () { slide.style.animationPlayState = 'running'; });
+})();
+
+(function () {
+  var revealEls = document.querySelectorAll('.reveal');
+  if (!revealEls.length) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(function (el) { io.observe(el); });
+})();
+
+(function () {
+  var counters = document.querySelectorAll('.metric-number[data-target]');
+  if (!counters.length) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      io.unobserve(entry.target);
+      var el = entry.target;
+      var target = parseInt(el.getAttribute('data-target'), 10);
+      var suffix = el.getAttribute('data-suffix') || '';
+      var duration = 1400;
+      var start = null;
+      el.closest('.metric-card').classList.add('pop');
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        var progress = Math.min((timestamp - start) / duration, 1);
+        var eased = 1 - (1 - progress) * (1 - progress);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = target + suffix;
+      }
+      requestAnimationFrame(step);
+    });
+  }, { threshold: 0.4 });
+  counters.forEach(function (el) { io.observe(el); });
+})();
+
+document.querySelectorAll('.nav-links a').forEach(function (link) {
+  link.addEventListener('click', function () { document.getElementById('nav-toggle').checked = false; });
+});
+</script>
 </body>
 </html>
