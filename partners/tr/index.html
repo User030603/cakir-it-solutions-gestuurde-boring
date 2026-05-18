@@ -1,9 +1,136 @@
 <!DOCTYPE html>
-<html lang="tr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cakir IT-Solutions | Partners</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"><link rel="stylesheet" href="../../styles.css"></head><body><a class="skip-link" href="#main-content">İçeriğe geç</a><header class="site-header"><div class="container navbar"><div class="logo">CAKIR <span>IT-SOLUTIONS</span></div><input type="checkbox" id="nav-toggle" class="nav-toggle"><label for="nav-toggle" class="hamburger" aria-label="Open menu"><i class="fa-solid fa-bars"></i></label><nav class="nav-panel" aria-label="Primary"><label for="nav-toggle" class="close-btn" aria-label="Close menu"><i class="fa-solid fa-xmark"></i></label><a href="../../">Ana Sayfa</a><a href="../../#about">Hakkımızda</a><a href="../../#services">Hizmetler</a><a href="../../#projects">Projeler</a><a href="#main-content" class="active">Partners</a><a href="../../#contact" class="btn-nav-contact">İletişim</a><div class="language-wrapper"><a href="../" class="lang-link">EN</a><span>/</span><a href="../nl/" class="lang-link">NL</a><span>/</span><a href="./" class="lang-link active">TR</a><span>/</span><a href="../fr/" class="lang-link">FR</a></div></nav><label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label></div></header><main id="main-content"><section class="hero"><div class="hero-overlay"></div><div class="container hero-content"><span class="badge">PARTNER AĞI • BÖLGESEL BÜYÜME</span><h1>Daha güçlü bir <span class="highlight">partners sayfası</span> ve daha ciddi iş anlatımı</h1><p class="partner-hero-note">Bu sayfa zayıf bir ek bölüm gibi değil, bölgesel büyüme ile iş ağı sunan ciddi bir yapı gibi kurgulandı.</p><div class="hero-btns"><a href="#network" class="btn btn-primary">Ağı incele</a><a href="../../#contact" class="btn btn-outline">İletişim kur</a></div></div></section><section class="section-padding reveal" id="network"><div class="container"><h2 class="section-title">Bölgesel İş Alanları</h2><p class="section-intro">Afyonkarahisar, Bolvadin ve Menteşe daha güçlü konumlandırma ile sunulur.</p><div class="partners-grid"><article class="partner-card"><h3>Afyonkarahisar</h3><p>Daha geniş şirket hikayesinde en güçlü büyüme alanlarından biri olarak öne çıkar.</p></article><article class="partner-card"><h3>Bolvadin</h3><p>Yerel güven, iş ilişkileri ve uzun vadeli ticari potansiyel taşıyan önemli bir bölgedir.</p></article><article class="partner-card"><h3>Menteşe</h3><p>Türkiye gelişim anlatısını destekleyen bölgesel değer ve sürdürülebilir ilişki alanıdır.</p></article><article class="partner-card"><h3>Bölgesel Genişleme Planı</h3><p>Partners alanı rastgele yer isimleri değil, planlı büyüme vizyonu olarak sunulur.</p></article><article class="partner-card"><h3>Sınır Ötesi İletişim</h3><p>Belçika, Hollanda, Almanya ve Türkiye arasında iş dili kurabilen yapı vurgulanır.</p></article><article class="partner-card"><h3>Gelecek Müşteri Ağı</h3><p>Gelecekteki sözleşmeler, kurulumlar ve altyapı talepleri için gelişen ekosistemdir.</p></article></div></div></section></main>
-    <footer class="main-footer">
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partnerlerimiz | Cakir IT-Solutions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../../style.css">
+  
+  <style>
+    /* Sadece bu sayfaya özel Partner Grid tasarımı */
+    .partners-hero {
+      min-height: 50vh;
+      padding: 160px 20px 80px;
+    }
+    .partners-page-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+    .partner-card-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 40px 30px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .partner-card-box:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(20,184,255,0.28);
+    }
+    .partner-card-box img {
+      max-height: 55px;
+      width: auto;
+      object-fit: contain;
+      filter: grayscale(100%) opacity(0.6);
+      transition: filter var(--transition), opacity var(--transition), transform var(--transition);
+    }
+    .partner-card-box:hover img {
+      filter: grayscale(0%) opacity(1);
+      transform: scale(1.08);
+    }
+  </style>
+</head>
+<body>
+
+<a href="https://wa.me/32486240642" class="whatsapp-floating" target="_blank" rel="noopener noreferrer">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<header class="site-header">
+  <div class="container navbar">
+    <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="hamburger"><i class="fa-solid fa-bars"></i></label>
+    <nav class="nav-panel">
+      <label for="nav-toggle" class="close-btn"><i class="fa-solid fa-xmark"></i></label>
+      <a href="../../tr/#home">Ana Sayfa</a>
+      <a href="../../tr/#about">Hakkımızda</a>
+      <a href="../../tr/#services">Hizmetler</a>
+      <a href="../../tr/#projects">Projeler</a>
+      <a href="./" class="active">Partnerler</a>
+      <a href="../../tr/#contact" class="btn-nav-contact">İletişim</a>
+      <div class="language-wrapper">
+        <a href="../" class="lang-link">EN</a><span>/</span>
+        <a href="../nl/" class="lang-link">NL</a><span>/</span>
+        <a href="./" class="lang-link active">TR</a><span>/</span>
+        <a href="../fr/" class="lang-link">FR</a>
+      </div>
+    </nav>
+    <label for="nav-toggle" class="nav-overlay"></label>
+  </div>
+</header>
+
+<main id="main-content">
+  <section class="hero partners-hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content reveal">
+      <span class="badge">EST. 2018 • GÜÇLÜ İŞ BİRLİKLERİ</span>
+      <h1>Güvenilir <span class="highlight">Partnerlerimiz</span></h1>
+      <p>2018'den bu yana, altyapı ve akıllı sistemler sektöründe Avrupa'nın ve Türkiye'nin en seçkin firmalarıyla omuz omuza çalışarak büyük projelere imza atıyoruz.</p>
+    </div>
+  </section>
+
+  <section class="section-padding">
+    <div class="container">
+      <h2 class="section-title reveal">Birlikte Büyüdüğümüz Ağımız</h2>
+      <p class="section-intro reveal">Başarımızın temelinde, sahadaki gerçek ihtiyaçları anlayan ve bu süreçleri modern dijital çözümlerle desteklediğimiz güçlü iş ortaklıklarımız yatmaktadır. Sektörün liderleriyle kurduğumuz bu bağ, kalitemizin en büyük teminatıdır.</p>
+      
+      <div class="partners-page-grid reveal">
+        <article class="partner-card-box"><img src="../../images/logo1.jpeg" alt="Partner"></article>
+        <article class="partner-card-box"><img src="../../images/logo2.jpg" alt="Partner"></article>
+        <article class="partner-card-box"><img src="../../images/logo3.jpg" alt="Partner"></article>
+        <article class="partner-card-box"><img src="../../images/logo4.jpeg" alt="Partner"></article>
+        <article class="partner-card-box"><img src="../../images/logo5.jpg" alt="Partner"></article>
+        <article class="partner-card-box"><img src="../../images/logo6.jpeg" alt="Partner"></article>
+        <article class="partner-card-box"><img src="../../images/logo7.jpg" alt="Partner"></article>
+        <article class="partner-card-box"><img src="../../images/logo8.jpg" alt="Partner"></article>
+        <article class="partner-card-box"><img src="../../images/logo9.jpg" alt="Partner"></article>
+        <article class="partner-card-box"><img src="../../images/logo10.jpg" alt="Partner"></article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="main-footer">
   <div class="container">
     <p>© 2026 <strong>Cakir IT-Solutions</strong>. Tüm hakları saklıdır. | <strong>KDV: BE 0637.765.003</strong></p>
-    <p class="small-text">Altyapı desteği, akıllı iş sistemleri, lojistik araçları ve ekran odaklı iletişim çözümleri.</p>
   </div>
 </footer>
-</body></html>
+
+<script>
+document.querySelectorAll('.nav-links a').forEach(function (link) {
+  link.addEventListener('click', function () { document.getElementById('nav-toggle').checked = false; });
+});
+(function () {
+  var revealEls = document.querySelectorAll('.reveal');
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); io.unobserve(entry.target); }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(function (el) { io.observe(el); });
+})();
+</script>
+</body>
+</html>
