@@ -275,23 +275,18 @@ select {
 }
 
 /* ==========================================
-   PARTNERS STRIP (SEAMLESS MARQUEE)
+   PARTNERS STRIP (YENİ EKLEDİĞİN KOD)
    ========================================== */
 .partners-strip {
   background: var(--surface);
   padding: 40px 0;
   border-bottom: 1px solid var(--border);
-  overflow: hidden;
-}
-
-.partners-strip-inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 28px;
 }
 
 .partners-label {
+  display: block;
+  text-align: center;
+  margin-bottom: 24px;
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -299,51 +294,78 @@ select {
   color: var(--muted);
 }
 
-.partners-logos {
-  display: flex;
+.partner-logo-slider {
   width: 100%;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  white-space: nowrap;
+  box-sizing: border-box;
+  position: relative;
 }
 
-.partners-track {
+.partner-logo-slider:before {
+  content: "";
+  /* Sitenin arka plan rengine (--surface) göre güncellendi */
+  background: linear-gradient(to right, var(--surface) 0%, rgba(255, 255, 255, 0) 100%);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 100%;
+  z-index: 9;
+}
+
+.partner-logo-slider:after {
+  content: "";
+  /* Sitenin arka plan rengine (--surface) göre güncellendi */
+  background: linear-gradient(to left, var(--surface) 0%, rgba(255, 255, 255, 0) 100%);
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 100%;
+  z-index: 9;
+}
+
+.partner-logo-slide {
   display: flex;
+  align-items: center;
+  gap: 20px;
   width: max-content;
-  animation: scrollLogos 35s linear infinite;
+  animation: partner-logo 30s linear infinite;
 }
 
-.partners-track:hover {
+.partner-logo-slide:hover {
   animation-play-state: paused;
 }
 
-.partners-group {
-  display: flex;
-  align-items: center;
-  gap: 70px;
-  padding-right: 70px;
-  flex-shrink: 0; /* CRITICAL: Prevents squishing */
-}
-
-.partners-group img {
-  height: 45px;
-  width: auto;
-  max-width: none; /* CRITICAL: Overrides global image rules */
+.partner-logo-slide img {
+  width: 150px;
+  height: auto;
+  border: 1px solid var(--border);
+  padding: 15px;
+  border-radius: 10px;
   object-fit: contain;
-  flex-shrink: 0;
-  filter: grayscale(100%) opacity(0.6);
-  transition: filter var(--transition), opacity var(--transition), transform var(--transition);
-  cursor: pointer;
+  background: #fff;
+  transition: border-color var(--transition), transform var(--transition);
 }
 
-.partners-group img:hover {
-  filter: grayscale(0%) opacity(1);
-  transform: scale(1.08) translateY(-2px);
+.partner-logo-slide img:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
 }
 
-@keyframes scrollLogos {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+@keyframes partner-logo {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media only screen and (max-width: 1025px) {
+  .partner-logo-slide { gap: 20px; }
+  .partner-logo-slide img {
+    width: auto;
+    height: 45px;
+    padding: 10px;
+  }
 }
 /* ========================================== */
 
@@ -633,7 +655,6 @@ select {
   font-size: 0.92rem;
 }
 
-/* Floating WhatsApp button */
 .whatsapp-floating {
   position: fixed;
   left: 24px;
