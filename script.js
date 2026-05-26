@@ -1,82 +1,35 @@
-// MEDIA LIGHTBOX: fullscreen video + photos
+// ============================================================
+// NAV TOGGLE (mobile menu)
+// ============================================================
 (function() {
-  const lightbox = document.getElementById('media-lightbox');
-  if (!lightbox) return;
+  const navToggle = document.getElementById('nav-toggle');
+  const navOverlay = document.querySelector('.nav-overlay');
 
-  const imgEl = lightbox.querySelector('.media-lightbox-img');
-  const videoEl = lightbox.querySelector('.media-lightbox-video');
-  const videoSource = videoEl.querySelector('source');
-  const closeBtn = lightbox.querySelector('.media-lightbox-close');
-  const backdrop = lightbox.querySelector('.media-lightbox-backdrop');
+  if (!navToggle || !navOverlay) return;
 
-  function openImage(src, alt) {
-    videoEl.pause();
-    videoEl.style.display = 'none';
-    if (videoSource) {
-      videoSource.src = '';
-      videoEl.load();
-    } else {
-      videoEl.src = '';
-    }
-
-    imgEl.src = src;
-    imgEl.alt = alt || '';
-    imgEl.style.display = 'block';
-
-    lightbox.classList.add('is-open');
-  }
-
-  function openVideo(src) {
-    imgEl.style.display = 'none';
-    imgEl.src = '';
-
-    if (videoSource) {
-      videoSource.src = src;
-      videoEl.load();
-    } else {
-      videoEl.src = src;
-    }
-
-    videoEl.style.display = 'block';
-    lightbox.classList.add('is-open');
-    videoEl.play().catch(() => {});
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('is-open');
-    videoEl.pause();
-  }
-
-  const heroMain = document.querySelector('.hero-media-main[data-type="video"]');
-  if (heroMain) {
-    const btn = heroMain.querySelector('.media-fullscreen-btn');
-    const video = heroMain.querySelector('video');
-    if (btn && video) {
-      const sourceEl = video.querySelector('source');
-      const src = (sourceEl && sourceEl.getAttribute('src')) || video.currentSrc;
-      btn.addEventListener('click', () => {
-        if (src) openVideo(src);
-      });
-    }
-  }
-
-  document.querySelectorAll('.hero-media-photos img').forEach(img => {
-    img.style.cursor = 'pointer';
-    img.addEventListener('click', () => {
-      openImage(img.src, img.alt);
-    });
-  });
-
-  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-  if (backdrop) backdrop.addEventListener('click', closeLightbox);
-
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && lightbox.classList.contains('is-open')) {
-      closeLightbox();
-    }
+  navOverlay.addEventListener('click', () => {
+    navToggle.checked = false;
   });
 })();
-// METRIC COUNTERS (simple)
+
+// ============================================================
+// PARTNER LOGO MARQUEE DUPLICATION
+// ============================================================
+(function() {
+  const slide = document.getElementById('partner-slide');
+  if (!slide) return;
+
+  const logos = Array.from(slide.children);
+  // İkinci kopyayı ekleyerek sonsuz marquee
+  logos.forEach(logo => {
+    const clone = logo.cloneNode(true);
+    slide.appendChild(clone);
+  });
+})();
+
+// ============================================================
+// METRIC COUNTERS (numbers animate once on scroll)
+// ============================================================
 (function() {
   const cards = document.querySelectorAll('.metric-card');
   if (!cards.length) return;
@@ -125,4 +78,110 @@
 
   window.addEventListener('scroll', onScroll);
   window.addEventListener('load', onScroll);
+})();
+
+// ============================================================
+// REVEAL ON SCROLL (fade-up animation for .reveal)
+// ============================================================
+(function() {
+  const revealEls = document.querySelectorAll('.reveal');
+  if (!revealEls.length) return;
+
+  function onScrollReveal() {
+    revealEls.forEach(el => {
+      if (el.classList.contains('visible')) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.85) {
+        el.classList.add('visible');
+      }
+    });
+  }
+
+  window.addEventListener('scroll', onScrollReveal);
+  window.addEventListener('load', onScrollReveal);
+})();
+
+// ============================================================
+// MEDIA LIGHTBOX: fullscreen video + photos
+// ============================================================
+(function() {
+  const lightbox = document.getElementById('media-lightbox');
+  if (!lightbox) return;
+
+  const imgEl = lightbox.querySelector('.media-lightbox-img');
+  const videoEl = lightbox.querySelector('.media-lightbox-video');
+  const videoSource = videoEl.querySelector('source');
+  const closeBtn = lightbox.querySelector('.media-lightbox-close');
+  const backdrop = lightbox.querySelector('.media-lightbox-backdrop');
+
+  function openImage(src, alt) {
+    // videoyu kapat
+    videoEl.pause();
+    videoEl.style.display = 'none';
+    if (videoSource) {
+      videoSource.src = '';
+      videoEl.load();
+    } else {
+      videoEl.src = '';
+    }
+
+    imgEl.src = src;
+    imgEl.alt = alt || '';
+    imgEl.style.display = 'block';
+
+    lightbox.classList.add('is-open');
+  }
+
+  function openVideo(src) {
+    // resmi gizle
+    imgEl.style.display = 'none';
+    imgEl.src = '';
+
+    if (videoSource) {
+      videoSource.src = src;
+      videoEl.load();
+    } else {
+      videoEl.src = src;
+    }
+
+    videoEl.style.display = 'block';
+    lightbox.classList.add('is-open');
+    videoEl.play().catch(() => {});
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('is-open');
+    videoEl.pause();
+  }
+
+  // Hero main video fullscreen
+  const heroMain = document.querySelector('.hero-media-main[data-type="video"]');
+  if (heroMain) {
+    const btn = heroMain.querySelector('.media-fullscreen-btn');
+    const video = heroMain.querySelector('video');
+    if (btn && video) {
+      const sourceEl = video.querySelector('source');
+      const src = (sourceEl && sourceEl.getAttribute('src')) || video.currentSrc;
+      btn.addEventListener('click', () => {
+        if (src) openVideo(src);
+      });
+    }
+  }
+
+  // Hero photos fullscreen
+  document.querySelectorAll('.hero-media-photos img').forEach(img => {
+    img.style.cursor = 'pointer';
+    img.addEventListener('click', () => {
+      openImage(img.src, img.alt);
+    });
+  });
+
+  // Close handlers
+  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+  if (backdrop) backdrop.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && lightbox.classList.contains('is-open')) {
+      closeLightbox();
+    }
+  });
 })();
