@@ -76,3 +76,53 @@
     }
   });
 })();
+// METRIC COUNTERS (simple)
+(function() {
+  const cards = document.querySelectorAll('.metric-card');
+  if (!cards.length) return;
+
+  function animateCard(card) {
+    const numEl = card.querySelector('.metric-number');
+    if (!numEl) return;
+
+    const staticValue = numEl.getAttribute('data-static');
+    if (staticValue) {
+      // 24/7 ve EU gibi sabit değerler
+      numEl.textContent = staticValue;
+      return;
+    }
+
+    const target = parseInt(numEl.getAttribute('data-target'), 10);
+    const suffix = numEl.getAttribute('data-suffix') || '';
+    if (!target || isNaN(target)) return;
+
+    let current = 0;
+    const steps = 40;
+    const increment = target / steps;
+    let step = 0;
+
+    const interval = setInterval(() => {
+      step++;
+      current += increment;
+      if (step >= steps) {
+        current = target;
+        clearInterval(interval);
+      }
+      numEl.textContent = Math.round(current) + suffix;
+    }, 30);
+  }
+
+  function onScroll() {
+    cards.forEach(card => {
+      if (card.classList.contains('pop')) return;
+      const rect = card.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.8) {
+        card.classList.add('pop');
+        animateCard(card);
+      }
+    });
+  }
+
+  window.addEventListener('scroll', onScroll);
+  window.addEventListener('load', onScroll);
+})();
