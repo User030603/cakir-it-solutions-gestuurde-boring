@@ -93,16 +93,21 @@
       </div>
 
       <div class="hero-media">
-        <div class="hero-media-main">
+        <!-- main video + fullscreen button -->
+        <div class="hero-media-main" data-type="video">
           <video class="hero-media-video" autoplay muted loop playsinline>
             <source src="./videos/BoringVid1.mp4" type="video/mp4">
           </video>
+          <button class="media-fullscreen-btn" aria-label="Open video fullscreen">
+            <i class="fa-solid fa-expand"></i>
+          </button>
         </div>
+        <!-- photos clickable for fullscreen -->
         <div class="hero-media-photos">
-          <img src="./images/boring1.jpeg" alt="Directional drilling">
+          <img src="./images/boring1.jpeg" alt="Directional drilling site">
           <img src="./images/boring2.jpeg" alt="Cable and duct installation">
-          <img src="./images/boring3.jpeg" alt="Civil reinstatement">
-          <img src="./images/boring4.jpeg" alt="Street lighting">
+          <img src="./images/boring3.jpeg" alt="Civil works and reinstatement">
+          <img src="./images/boring4.jpeg" alt="Street lighting installation">
         </div>
       </div>
     </div>
@@ -362,74 +367,89 @@
   <section class="section-padding reveal" id="contact">
     <div class="container">
       <h2 class="section-title">Contact</h2>
-    <p class="contact-subtitle">
-      One contact for HDD and field work, one for IT and dashboards.
-    </p>
+      <p class="contact-subtitle">
+        One contact for HDD and field work, one for IT and dashboards.
+      </p>
 
-    <div class="contact-grid reveal">
-      <article class="contact-card whatsapp-card">
-        <div class="icon">
-          <i class="fa-solid fa-user-tie"></i>
-        </div>
-        <h3>HDD & Infrastructure</h3>
-        <span class="contact-person-name">Özcan Cakir</span>
-        <span class="contact-person-role">
-          Founder • HDD • Civil Works
-        </span>
-        <a href="mailto:ozcancakir@it-solutions-cakir.be"
-           class="contact-link">
-          ozcancakir@it-solutions-cakir.be
-        </a>
-        <p>
-          Direct contact for drilling routes, cabling, lighting lines and road
-          reinstatement.
-        </p>
-        <a href="https://wa.me/32486240642"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="btn-whatsapp">
-          <i class="fa-brands fa-whatsapp"></i> WhatsApp
-        </a>
-      </article>
+      <div class="contact-grid reveal">
+        <article class="contact-card whatsapp-card">
+          <div class="icon">
+            <i class="fa-solid fa-user-tie"></i>
+          </div>
+          <h3>HDD & Infrastructure</h3>
+          <span class="contact-person-name">Özcan Cakir</span>
+          <span class="contact-person-role">
+            Founder • HDD • Civil Works
+          </span>
+          <a href="mailto:ozcancakir@it-solutions-cakir.be"
+             class="contact-link">
+            ozcancakir@it-solutions-cakir.be
+          </a>
+          <p>
+            Direct contact for drilling routes, cabling, lighting lines and road
+            reinstatement.
+          </p>
+          <a href="https://wa.me/32486240642"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+          </a>
+        </article>
 
-      <article class="contact-card">
-        <div class="icon">
-          <i class="fa-solid fa-user-gear"></i>
-        </div>
-        <h3>IT & Software</h3>
-        <span class="contact-person-name">Bekir Fazli Calik</span>
-        <span class="contact-person-role">
-          Software • Systems
-        </span>
-        <a href="mailto:bekirfazil.calik@it-solutions-cakir.be"
-           class="contact-link">
-          bekirfazil.calik@it-solutions-cakir.be
-        </a>
-        <p>
-          Contact for dashboards, web tools, internal systems and smart display
-          setups linked to your operations.
-        </p>
-        <a href="mailto:info@it-solutions-cakir.be"
-           class="contact-link">
-          info@it-solutions-cakir.be
-        </a>
-      </article>
+        <article class="contact-card">
+          <div class="icon">
+            <i class="fa-solid fa-user-gear"></i>
+          </div>
+          <h3>IT & Software</h3>
+          <span class="contact-person-name">Bekir Fazli Calik</span>
+          <span class="contact-person-role">
+            Software • Systems
+          </span>
+          <a href="mailto:bekirfazil.calik@it-solutions-cakir.be"
+             class="contact-link">
+            bekirfazil.calik@it-solutions-cakir.be
+          </a>
+          <p>
+            Contact for dashboards, web tools, internal systems and smart display
+            setups linked to your operations.
+          </p>
+          <a href="mailto:info@it-solutions-cakir.be"
+             class="contact-link">
+            info@it-solutions-cakir.be
+          </a>
+        </article>
 
-      <article class="contact-card">
-        <div class="icon">
-          <i class="fa-solid fa-location-dot"></i>
-        </div>
-        <h3>Head Office</h3>
-        <p>
-          Kruisstraat 57, 9240 Zele, Belgium.<br>
-          Connected to work across the EU and Türkiye.
-        </p>
-      </article>
+        <article class="contact-card">
+          <div class="icon">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <h3>Head Office</h3>
+          <p>
+            Kruisstraat 57, 9240 Zele, Belgium.<br>
+            Connected to work across the EU and Türkiye.
+          </p>
+        </article>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
 </main>
+
+<!-- FULLSCREEN MEDIA LIGHTBOX (for video + photos) -->
+<div class="media-lightbox" id="media-lightbox" aria-hidden="true">
+  <div class="media-lightbox-backdrop"></div>
+  <button class="media-lightbox-close" aria-label="Close fullscreen">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+  <div class="media-lightbox-content">
+    <img src="" alt="" class="media-lightbox-img">
+    <video class="media-lightbox-video" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
 
 <footer class="main-footer">
   <div class="container">
