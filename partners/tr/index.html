@@ -3,19 +3,48 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Partnerlerimiz | Cakir IT-Solutions</title>
+  <title>Partnerler | Cakir Technics</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="../../style.css">
   <style>
-    .partners-hero { min-height: 50vh; padding: 160px 20px 80px; }
-    .partners-page-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-top: 50px; }
-    .partner-card-box { background: var(--surface); border: 1px solid var(--border); padding: 40px 30px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; transition: transform var(--tr), box-shadow var(--tr), border-color var(--tr); }
-    .partner-card-box:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); border-color: rgba(20,184,255,0.28); }
-    .partner-card-box img { max-height: 55px; width: auto; object-fit: contain; filter: grayscale(100%) opacity(0.6); transition: filter var(--tr), opacity var(--tr), transform var(--tr); }
-    .partner-card-box:hover img { filter: grayscale(0%) opacity(1); transform: scale(1.08); }
+    .partners-hero { min-height: 50vh; padding: 160px 20px 80px; position: relative; }
+    .partners-page-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+    .partner-card-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 40px 30px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--tr), box-shadow var(--tr), border-color var(--tr);
+    }
+    .partner-card-box:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(20,184,255,0.28);
+    }
+    .partner-card-box img {
+      max-height: 55px;
+      width: auto;
+      object-fit: contain;
+      filter: grayscale(100%) opacity(0.6);
+      transition: filter var(--tr), opacity var(--tr), transform var(--tr);
+    }
+    .partner-card-box:hover img {
+      filter: grayscale(0%) opacity(1);
+      transform: scale(1.08);
+    }
   </style>
 </head>
 <body>
@@ -26,26 +55,35 @@
 
 <header class="site-header">
   <div class="container navbar">
-    <div class="logo">CAKIR <span>IT-SOLUTIONS</span></div>
-    
+    <div class="logo">
+      <img src="../../images/logoCAKIRIT.png"
+           alt="Cakir Technics logo"
+           class="logo-mark">
+      <div class="logo-text">
+        <span class="logo-main">CAKIR TECHNICS</span>
+        <span class="logo-sub">IT-SOLUTIONS</span>
+      </div>
+    </div>
+
     <input type="checkbox" id="nav-toggle" class="nav-toggle">
     <label for="nav-toggle" class="hamburger"><i class="fa-solid fa-bars"></i></label>
-    
+
     <ul class="nav-links">
       <label for="nav-toggle" class="close-btn"><i class="fa-solid fa-xmark"></i></label>
       <li><a href="../../tr/#home">Ana Sayfa</a></li>
-      <li><a href="../../tr/#about">Hakkımızda</a></li>
+      <li><a href="../../tr/#about">Biz Kimiz</a></li>
       <li><a href="../../tr/#services">Hizmetler</a></li>
       <li><a href="../../tr/#projects">Projeler</a></li>
       <li><a href="./" class="active">Partnerler</a></li>
       <li><a href="../../tr/#contact" class="btn-nav-contact">İletişim</a></li>
-      <div class="language-wrapper">
+      <li class="language-wrapper">
         <a href="../" class="lang-link">EN</a><span>/</span>
         <a href="../nl/" class="lang-link">NL</a><span>/</span>
         <a href="./" class="lang-link active">TR</a><span>/</span>
         <a href="../fr/" class="lang-link">FR</a>
-      </div>
+      </li>
     </ul>
+
     <label for="nav-toggle" class="nav-overlay"></label>
   </div>
 </header>
@@ -54,28 +92,34 @@
   <section class="hero partners-hero">
     <div class="hero-overlay"></div>
     <div class="container hero-content reveal">
-      <span class="badge">EST. 2018 • GÜÇLÜ İŞ BİRLİKLERİ</span>
-      <h1>Güvenilir <span class="highlight">Partnerlerimiz</span></h1>
-      <p>2018'den bu yana, altyapı ve akıllı sistemler sektöründe Avrupa'nın ve Türkiye'nin en seçkin firmalarıyla omuz omuza çalışarak büyük projelere imza atıyoruz.</p>
+      <span class="badge">EST. 2018 • PARTNERLER & AĞLAR</span>
+      <h1>Güvendiğimiz <span class="highlight">Partnerler</span></h1>
+      <p>
+        Cakir Technics, Belçika, Hollanda, Almanya ve Türkiye’de altyapı, kablolama
+        ve akıllı sistem projelerinde farklı partnerlerle birlikte çalışır.
+      </p>
     </div>
   </section>
 
   <section class="section-padding">
     <div class="container">
-      <h2 class="section-title reveal">Birlikte Büyüdüğümüz Ağımız</h2>
-      <p class="section-intro reveal">Başarımızın temelinde, sahadaki gerçek ihtiyaçları anlayan ve bu süreçleri modern dijital çözümlerle desteklediğimiz güçlü iş ortaklıklarımız yatmaktadır. Sektörün liderleriyle kurduğumuz bu bağ, kalitemizin en büyük teminatıdır.</p>
-      
+      <h2 class="section-title reveal">İşimizi Çevreleyen Ağ</h2>
+      <p class="section-intro reveal">
+        Bu marka ve firmalar, HDD, kablolama, aydınlatma ve IT çözümleri sunduğumuz
+        projelerin bir parçasıdır.
+      </p>
+
       <div class="partners-page-grid reveal">
-        <article class="partner-card-box"><img src="../../images/logo1.jpeg" alt="Partner"></article>
-        <article class="partner-card-box"><img src="../../images/logo2.jpg" alt="Partner"></article>
-        <article class="partner-card-box"><img src="../../images/logo3.jpg" alt="Partner"></article>
-        <article class="partner-card-box"><img src="../../images/logo4.jpeg" alt="Partner"></article>
-        <article class="partner-card-box"><img src="../../images/logo5.jpg" alt="Partner"></article>
-        <article class="partner-card-box"><img src="../../images/logo6.jpeg" alt="Partner"></article>
-        <article class="partner-card-box"><img src="../../images/logo7.jpg" alt="Partner"></article>
-        <article class="partner-card-box"><img src="../../images/logo8.jpg" alt="Partner"></article>
-        <article class="partner-card-box"><img src="../../images/logo9.jpg" alt="Partner"></article>
-        <article class="partner-card-box"><img src="../../images/logo10.jpg" alt="Partner"></article>
+        <article class="partner-card-box"><img src="../../images/logo1.jpeg" alt="Partner 1"></article>
+        <article class="partner-card-box"><img src="../../images/logo2.jpg"  alt="Partner 2"></article>
+        <article class="partner-card-box"><img src="../../images/logo3.jpg"  alt="Partner 3"></article>
+        <article class="partner-card-box"><img src="../../images/logo4.jpeg" alt="Partner 4"></article>
+        <article class="partner-card-box"><img src="../../images/logo5.jpg"  alt="Partner 5"></article>
+        <article class="partner-card-box"><img src="../../images/logo6.jpeg" alt="Partner 6"></article>
+        <article class="partner-card-box"><img src="../../images/logo7.jpg"  alt="Partner 7"></article>
+        <article class="partner-card-box"><img src="../../images/logo8.jpg"  alt="Partner 8"></article>
+        <article class="partner-card-box"><img src="../../images/logo9.jpg"  alt="Partner 9"></article>
+        <article class="partner-card-box"><img src="../../images/logo10.jpg" alt="Partner 10"></article>
       </div>
     </div>
   </section>
@@ -83,7 +127,7 @@
 
 <footer class="main-footer">
   <div class="container">
-    <p>© 2026 <strong>Cakir IT-Solutions</strong>. Tüm hakları saklıdır. | <strong>KDV: BE 0637.765.003</strong></p>
+    <p>© 2026 <strong>Cakir Technics – IT-Solutions</strong>. Tüm hakları saklıdır. | <strong>KDV: BE 0637.765.003</strong></p>
   </div>
 </footer>
 
