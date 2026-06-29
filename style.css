@@ -789,6 +789,13 @@ button, input, textarea, select { font: inherit; }
   color: var(--muted);
   font-size: 1.02rem;
 }
+.contact-location-card {
+  margin-top: 34px;
+  padding: 24px 22px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
 
 .contact-layout {
   display: grid;
