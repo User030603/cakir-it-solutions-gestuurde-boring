@@ -368,75 +368,112 @@
     <div class="container">
       <h2 class="section-title">Contact</h2>
       <p class="contact-subtitle">
-        One contact for HDD and field work, one for IT and dashboards.
+        One central team for HDD & civil works and IT & software solutions. 
+        Reach us for project coordination, planning questions or digital tools.
       </p>
 
-      <div class="contact-grid reveal">
-        <article class="contact-card whatsapp-card">
+      <div class="contact-layout reveal">
+        <!-- Left: operations info + phone + WhatsApp -->
+        <article class="contact-info-card">
           <div class="icon">
-            <i class="fa-solid fa-user-tie"></i>
+            <i class="fa-solid fa-building"></i>
           </div>
-          <h3>HDD & Infrastructure</h3>
-          <span class="contact-person-name">Özcan Cakir</span>
-          <span class="contact-person-role">
-            Founder • HDD • Civil Works
-          </span>
-          <a href="mailto:ozcancakir@it-solutions-cakir.be"
-             class="contact-link">
-            ozcancakir@it-solutions-cakir.be
-          </a>
+          <h3>HDD & IT Operations</h3>
           <p>
-            Direct contact for drilling routes, cabling, lighting lines and road
-            reinstatement.
+            Cakir Technics combines directional drilling, cabling, lighting and civil 
+            works with dashboards, web tools and smart display systems in one 
+            integrated operations team.
           </p>
-          <a href="https://wa.me/32486240642"
-             target="_blank"
-             rel="noopener noreferrer"
-             class="btn-whatsapp">
-            <i class="fa-brands fa-whatsapp"></i> WhatsApp
-          </a>
+          <p>
+            For urgent questions or direct coordination, you can reach our desk 
+            quickly by phone or WhatsApp.
+          </p>
+          <div class="contact-info-block">
+            <div class="contact-info-row">
+              <i class="fa-solid fa-phone"></i>
+              <span>+32 486 24 06 42</span>
+            </div>
+            <a href="https://wa.me/32486240642"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-whatsapp-inline">
+              <i class="fa-brands fa-whatsapp"></i>
+              WhatsApp chat
+            </a>
+          </div>
         </article>
 
-        <article class="contact-card">
+        <!-- Right: visual form + mailto button -->
+        <article class="contact-form-card">
           <div class="icon">
-            <i class="fa-solid fa-user-gear"></i>
+            <i class="fa-solid fa-envelope-open-text"></i>
           </div>
-          <h3>IT & Software</h3>
-          <span class="contact-person-name">Bekir Fazli Calik</span>
-          <span class="contact-person-role">
-            Software • Systems
-          </span>
-          <a href="mailto:bekirfazil.calik@it-solutions-cakir.be"
-             class="contact-link">
-            bekirfazil.calik@it-solutions-cakir.be
-          </a>
-          <p>
-            Contact for dashboards, web tools, internal systems and smart display
-            setups linked to your operations.
+          <h3>Send us your question</h3>
+          <p class="contact-form-intro">
+            Fill in your details and click the button to send an email to our team. 
+            Your message is routed internally to the right person.
           </p>
-          <a href="mailto:info@it-solutions-cakir.be"
-             class="contact-link">
-            info@it-solutions-cakir.be
-          </a>
-        </article>
 
-        <article class="contact-card">
-          <div class="icon">
-            <i class="fa-solid fa-location-dot"></i>
-          </div>
-          <h3>Head Office</h3>
-          <p>
-            Kruisstraat 57, 9240 Zele, Belgium.<br>
-            Connected to work across the EU and Türkiye.
-          </p>
+          <form class="contact-form">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="first-name">First name</label>
+                <input type="text" id="first-name" name="first_name" placeholder="First name">
+              </div>
+              <div class="form-field">
+                <label for="last-name">Last name</label>
+                <input type="text" id="last-name" name="last_name" placeholder="Last name">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" placeholder="Your email address">
+            </div>
+
+            <div class="form-field">
+              <label for="message">Message / Question</label>
+              <textarea id="message" name="message" rows="4"
+                        placeholder="Describe your question, project or situation"></textarea>
+            </div>
+
+            <a
+              href="mailto:ozcancakir@it-solutions-cakir.be"
+              class="btn btn-primary contact-submit-btn">
+              Send via email
+            </a>
+
+            <p class="contact-email-display">
+              Email: 
+              <a href="mailto:ozcancakir@it-solutions-cakir.be">
+                ozcancakir@it-solutions-cakir.be
+              </a>
+            </p>
+          </form>
         </article>
       </div>
+
+      <!-- Head Office -->
+      <article class="contact-location-card">
+        <div class="icon">
+          <i class="fa-solid fa-location-dot"></i>
+        </div>
+        <h3>Head Office</h3>
+        <p>
+          Kruisstraat 57, 9240 Zele, Belgium.<br>
+          Connected to work across Belgium, the wider EU triangle and Türkiye.
+        </p>
+        <p class="contact-location-extra">
+          Meetings, planning and coordination can be arranged on site or online, 
+          depending on your project.
+        </p>
+      </article>
     </div>
   </section>
 
 </main>
 
-<!-- FULLSCREEN MEDIA LIGHTBOX (for video + photos) -->
+<!-- FULLSCREEN MEDIA LIGHTBOX -->
 <div class="media-lightbox" id="media-lightbox" aria-hidden="true">
   <div class="media-lightbox-backdrop"></div>
   <button class="media-lightbox-close" aria-label="Close fullscreen">
