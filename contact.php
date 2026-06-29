@@ -1,61 +1,46 @@
-<?php
-// Simple contact form handler for Cakir Technics
+// ============================================================
+// CONTACT FORM: submit via fetch, no redirect
+// ============================================================
+(function() {
+  const encodedEndpoint = 'aHR0cHM6Ly9mb3Jtc3ByZWUuaW8vZi9tbmpremprZA==';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: index.html');
-    exit;
-}
+  function decodeBase64(str) {
+    try { return atob(str); } catch (e) { return ''; }
+  }
 
-$first_name = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';
-$last_name  = isset($_POST['last_name'])  ? trim($_POST['last_name'])  : '';
-$email      = isset($_POST['email'])      ? trim($_POST['email'])      : '';
-$message    = isset($_POST['message'])    ? trim($_POST['message'])    : '';
+  function initContactForm() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
 
-if ($first_name === '' || $last_name === '' || $email === '' || $message === '') {
-    header('Location: index.html');
-    exit;
-}
+    const endpoint = decodeBase64(encodedEndpoint);
+    if (!endpoint) return;
 
-// Tek inbox: Özcan
-$to      = 'ozcancakir@it-solutions-cakir.be';
-$subject = 'Website contact form - Cakir Technics';
+    // İsteğe bağlı: action & method set (Network’te gözüksün diye)
+    form.setAttribute('action', endpoint);
+    form.setAttribute('method', 'post');
 
-$body    = "New contact form submission:\n\n" .
-           "Name: {$first_name} {$last_name}\n" .
-           "Email: {$email}\n\n" .
-           "Message:\n{$message}\n";
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault(); // Formspree sayfasına gitmeyi engeller
 
-// Header'ı çok basit tutuyoruz; From'u aynı adrese set edebiliriz
-$headers = "From: ozcancakir@it-solutions-cakir.be\r\n" .
-           "Reply-To: {$email}\r\n";
+      const formData = new FormData(form);
 
-$sent = mail($to, $subject, $body, $headers);
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Thank you | Cakir Technics</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./style.css">
-</head>
-<body>
-  <main class="section-padding">
-    <div class="container">
-      <h2 class="section-title">Thank you</h2>
-      <p class="contact-subtitle">
-        <?php if ($sent): ?>
-          Your message has been sent to our operations team. 
-          We will get back to you as soon as possible.
-        <?php else: ?>
-          There was a problem sending your message. 
-          Please try again later or contact us by phone or WhatsApp.
-        <?php endif; ?>
-      </p>
-      <p style="text-align:center; margin-top:24px;">
-        <a href="./" class="btn btn-outline">Back to homepage</a>
-      </p>
-    </div>
-  </main>
-</body>
-</html>
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          form.reset();
+          // Burada herhangi bir kendi mesajını göstermek istemiyorsan
+          // hiçbir şey yapma; sayfa aynı kalır.
+        }
+      } catch (err) {
+        console.error('Contact form error', err);
+      }
+    });
+  }
+
+  window.addEventListener('DOMContentLoaded', initContactForm);
+})();
