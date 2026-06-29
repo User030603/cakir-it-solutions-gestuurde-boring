@@ -364,92 +364,109 @@
   </section>
 
   <!-- CONTACT -->
-<section class="section-padding reveal" id="contact">
-  <div class="container">
-    <h2 class="section-title">Contact</h2>
-    <p class="contact-subtitle">
-      One central team for HDD & civil works and IT & software solutions. 
-      Reach us for project coordination, planning questions or digital tools.
-    </p>
+  <section class="section-padding reveal" id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <p class="contact-subtitle">
+        One central team for HDD & civil works and IT & software solutions. 
+        Reach us for project coordination, planning questions or digital tools.
+      </p>
 
-    <div class="contact-layout reveal">
-      <!-- Left: hybrid corporate text + phone -->
-      <article class="contact-info-card">
-        <div class="icon">
-          <i class="fa-solid fa-building"></i>
-        </div>
-        <h3>HDD & IT Operations</h3>
-        <p>
-          Cakir Technics combines directional drilling, cabling, lighting and civil 
-          works with dashboards, web tools and smart display systems in one 
-          integrated company department.
-        </p>
-        <p>
-          For urgent questions or direct coordination, you can reach our operations 
-          desk by phone or WhatsApp.
-        </p>
-        <div class="contact-info-block">
-          <div class="contact-info-row">
-            <i class="fa-solid fa-phone"></i>
-            <span>+32 486 24 06 42</span>
+      <div class="contact-layout reveal">
+        <!-- Left: operations info + phone + WhatsApp -->
+        <article class="contact-info-card">
+          <div class="icon">
+            <i class="fa-solid fa-building"></i>
           </div>
-          <div class="contact-info-row">
-            <i class="fa-solid fa-envelope"></i>
-            <span>info@it-solutions-cakir.be</span>
-          </div>
-          <a href="https://wa.me/32486240642"
-             target="_blank"
-             rel="noopener noreferrer"
-             class="btn-whatsapp-inline">
-            <i class="fa-brands fa-whatsapp"></i>
-            WhatsApp chat
-          </a>
-        </div>
-      </article>
-
-      <!-- Right: contact form -->
-      <article class="contact-form-card">
-        <h3>Stuur ons uw vraag</h3>
-        <p class="contact-form-intro">
-          Vul het formulier in en ons team neemt zo snel mogelijk contact met u op 
-          over HDD-werken, bekabeling of IT-oplossingen.
-        </p>
-
-        <form class="contact-form"
-              action="mailto:ozcancakir@it-solutions-cakir.be"
-              method="post"
-              enctype="text/plain">
-          <div class="form-row">
-            <div class="form-field">
-              <label for="first-name">Naam</label>
-              <input type="text" id="first-name" name="First name" placeholder="Voornaam" required>
+          <h3>HDD & IT Operations</h3>
+          <p>
+            Cakir Technics combines directional drilling, cabling, lighting and civil 
+            works with dashboards, web tools and smart display systems in one 
+            integrated operations team.
+          </p>
+          <p>
+            For urgent questions or direct coordination, you can reach our desk 
+            quickly by phone or WhatsApp.
+          </p>
+          <div class="contact-info-block">
+            <div class="contact-info-row">
+              <i class="fa-solid fa-phone"></i>
+              <span>+32 486 24 06 42</span>
             </div>
-            <div class="form-field">
-              <label for="last-name">Achternaam</label>
-              <input type="text" id="last-name" name="Last name" placeholder="Achternaam" required>
+            <a href="https://wa.me/32486240642"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-whatsapp-inline">
+              <i class="fa-brands fa-whatsapp"></i>
+              WhatsApp chat
+            </a>
+          </div>
+        </article>
+
+        <!-- Middle: contact form (posts to contact.php → Özcan) -->
+        <article class="contact-form-card">
+          <div class="icon">
+            <i class="fa-solid fa-envelope-open-text"></i>
+          </div>
+          <h3>Send us your question</h3>
+          <p class="contact-form-intro">
+            Fill in the form and our team will get back to you as soon as possible 
+            about HDD work, cabling or IT tools. Your message is routed internally to 
+            the right person.
+          </p>
+
+          <form class="contact-form"
+                action="contact.php"
+                method="post">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="first-name">First name</label>
+                <input type="text" id="first-name" name="first_name" placeholder="First name" required>
+              </div>
+              <div class="form-field">
+                <label for="last-name">Last name</label>
+                <input type="text" id="last-name" name="last_name" placeholder="Last name" required>
+              </div>
             </div>
-          </div>
 
-          <div class="form-field">
-            <label for="email">E-mailadres</label>
-            <input type="email" id="email" name="Email" placeholder="Uw e-mailadres" required>
-          </div>
+            <div class="form-field">
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" placeholder="Your email address" required>
+            </div>
 
-          <div class="form-field">
-            <label for="message">Vraag / Bericht</label>
-            <textarea id="message" name="Message" rows="4"
-                      placeholder="Beschrijf kort uw vraag, project of situatie"
-                      required></textarea>
-          </div>
+            <div class="form-field">
+              <label for="message">Message / Question</label>
+              <textarea id="message" name="message" rows="4"
+                        placeholder="Describe your question, project or situation"
+                        required></textarea>
+            </div>
 
-          <button type="submit" class="btn btn-primary contact-submit-btn">
-            Stuur / Verzenden
-          </button>
-        </form>
-      </article>
+            <button type="submit" class="btn btn-primary contact-submit-btn">
+              Send / Submit
+            </button>
+          </form>
+        </article>
+
+        <!-- Right: location card -->
+        <article class="contact-location-card">
+          <div class="icon">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <h3>Head Office</h3>
+          <p>
+            Kruisstraat 57, 9240 Zele, Belgium.<br>
+            Connected to work across Belgium, the wider EU triangle and Türkiye.
+          </p>
+          <p class="contact-location-extra">
+            Meetings, planning and coordination can be arranged on site or online, 
+            depending on your project.
+          </p>
+        </article>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+
+</main>
 
 <!-- FULLSCREEN MEDIA LIGHTBOX (for video + photos) -->
 <div class="media-lightbox" id="media-lightbox" aria-hidden="true">
