@@ -190,32 +190,50 @@
 })();
 
 // ============================================================
-// CONTACT FORM: set Formspree endpoint via base64
+// CONTACT FORM: submit via fetch, no redirect
 // ============================================================
 (function() {
-  // Base64 encoded Formspree endpoint:
-  // "https://formspree.io/f/mnjkzjkd" -> aHR0cHM6Ly9mb3Jtc3ByZWUuaW8vZi9tbmpremprZA==
   const encodedEndpoint = 'aHR0cHM6Ly9mb3Jtc3ByZWUuaW8vZi9tbmpremprZA==';
 
   function decodeBase64(str) {
-    try {
-      return atob(str);
-    } catch (e) {
-      return '';
-    }
+    try { return atob(str); } catch (e) { return ''; }
   }
 
-  function initContactFormEndpoint() {
+  function initContactForm() {
     const form = document.getElementById('contact-form');
     if (!form) return;
 
     const endpoint = decodeBase64(encodedEndpoint);
-    if (endpoint) {
-      form.setAttribute('action', endpoint);
-      form.setAttribute('method', 'post');
-    }
+    if (!endpoint) return;
+
+    // form action & method yine set edelim (Network’te net görünsün)
+    form.setAttribute('action', endpoint);
+    form.setAttribute('method', 'post');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault(); // Formspree sayfasına gitmeyi engelle
+
+      const formData = new FormData(form);
+
+      try {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        // İstersen hiçbir mesaj verme, sadece formu temizle:
+        if (res.ok) {
+          form.reset();
+          // Buraya istersek kendi mini mesajımızı ekleriz,
+          // ama şu an hiçbir şey göstermiyoruz = “Bedankt” yok.
+        }
+      } catch (err) {
+        // Hata olursa da sayfa değişmesin
+        console.error('Contact form error', err);
+      }
+    });
   }
 
-  window.addEventListener('DOMContentLoaded', initContactFormEndpoint);
-  window.addEventListener('load', initContactFormEndpoint);
+  window.addEventListener('DOMContentLoaded', initContactForm);
 })();
