@@ -403,7 +403,7 @@
           </div>
         </article>
 
-        <!-- Middle: contact form (posts to contact.php → Özcan) -->
+        <!-- Middle: contact form (Formspree via base64 in script.js) -->
         <article class="contact-form-card">
           <div class="icon">
             <i class="fa-solid fa-envelope-open-text"></i>
@@ -415,9 +415,7 @@
             the right person.
           </p>
 
-          <form class="contact-form"
-                action="contact.php"
-                method="post">
+          <form class="contact-form" id="contact-form">
             <div class="form-row">
               <div class="form-field">
                 <label for="first-name">First name</label>
