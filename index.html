@@ -93,7 +93,6 @@
       </div>
 
       <div class="hero-media">
-        <!-- main video + fullscreen button -->
         <div class="hero-media-main" data-type="video">
           <video class="hero-media-video" autoplay muted loop playsinline>
             <source src="./videos/BoringVid1.mp4" type="video/mp4">
@@ -102,7 +101,6 @@
             <i class="fa-solid fa-expand"></i>
           </button>
         </div>
-        <!-- photos clickable for fullscreen -->
         <div class="hero-media-photos">
           <img src="./images/boring1.jpeg" alt="Directional drilling site">
           <img src="./images/boring2.jpeg" alt="Cable and duct installation">
@@ -337,33 +335,25 @@
       <div class="regions-grid reveal">
         <article class="region-card">
           <h3>Belgium</h3>
-          <p>
-            Base for HDD, cabling, lighting and IT work.
-          </p>
+          <p>Base for HDD, cabling, lighting and IT work.</p>
         </article>
         <article class="region-card">
           <h3>Netherlands</h3>
-          <p>
-            Cross-border work with contractors and utilities.
-          </p>
+          <p>Cross-border work with contractors and utilities.</p>
         </article>
         <article class="region-card">
           <h3>Germany</h3>
-          <p>
-            Infrastructure jobs with a field-first approach.
-          </p>
+          <p>Infrastructure jobs with a field-first approach.</p>
         </article>
         <article class="region-card">
           <h3>Türkiye</h3>
-          <p>
-            Long-term business contacts and support.
-          </p>
+          <p>Long-term business contacts and support.</p>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- CONTACT: 3'lü grid, tek mailto -->
+  <!-- CONTACT: 3'lü grid -->
   <section class="section-padding reveal" id="contact">
     <div class="container">
       <h2 class="section-title">Contact</h2>
@@ -373,8 +363,8 @@
       </p>
 
       <div class="contact-grid reveal">
-        <!-- Kart 1: HDD & IT Operations -->
-        <article class="contact-card">
+        <!-- Kart 1: HDD & IT Operations + WhatsApp -->
+        <article class="contact-card whatsapp-card">
           <div class="icon">
             <i class="fa-solid fa-building"></i>
           </div>
@@ -390,10 +380,12 @@
           </p>
           <span class="contact-person-name">Operations desk</span>
           <span class="contact-person-role">Coordination & planning</span>
+
           <div class="contact-info-row">
             <i class="fa-solid fa-phone"></i>
             <span>+32 486 24 06 42</span>
           </div>
+
           <a href="https://wa.me/32486240642"
              target="_blank"
              rel="noopener noreferrer"
@@ -403,7 +395,7 @@
           </a>
         </article>
 
-        <!-- Kart 2: General email (Ozcan) -->
+        <!-- Kart 2: Contact mail -->
         <article class="contact-card">
           <div class="icon">
             <i class="fa-solid fa-envelope-open-text"></i>
@@ -413,15 +405,18 @@
           <span class="contact-person-role">HDD & IT coordination</span>
           <p>
             For project details, planning questions or IT tools, you can send an email
-            directly to our central address. Your message is routed internally.
+            directly to our central address.
           </p>
           <a href="mailto:ozcancakir@it-solutions-cakir.be"
              class="contact-link">
-            ozcancakir@it-solutions-cakir.be
+            Mail
           </a>
+          <p style="margin-top: 6px; font-size: 0.85rem; color: var(--muted);">
+            ozcancakir@it-solutions-cakir.be
+          </p>
         </article>
 
-        <!-- Kart 3: Head Office info -->
+        <!-- Kart 3: Head Office -->
         <article class="contact-card">
           <div class="icon">
             <i class="fa-solid fa-location-dot"></i>
@@ -441,7 +436,6 @@
 
 </main>
 
-<!-- FULLSCREEN MEDIA LIGHTBOX -->
 <div class="media-lightbox" id="media-lightbox" aria-hidden="true">
   <div class="media-lightbox-backdrop"></div>
   <button class="media-lightbox-close" aria-label="Close fullscreen">
