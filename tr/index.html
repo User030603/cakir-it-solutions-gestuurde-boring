@@ -359,61 +359,90 @@
   </section>
 
   <!-- İLETİŞİM -->
-  <section class="section-padding reveal" id="contact">
-    <div class="container">
-      <h2 class="section-title">İletişim</h2>
-      <p class="contact-subtitle">
-        HDD ve saha işleri için bir, IT ve dashboard çözümleri için bir net iletişim hattı.
-      </p>
+<section class="section-padding reveal" id="contact">
+  <div class="container">
+    <h2 class="section-title">İletişim</h2>
+    <p class="contact-subtitle">
+      HDD ve yol işleri ile IT ve yazılım çözümleri için tek bir merkez ekip. 
+      Proje planlama, saha koordinasyonu veya dijital araçlar için bize ulaşın.
+    </p>
 
-      <div class="contact-grid reveal">
-        <article class="contact-card whatsapp-card">
-          <div class="icon">
-            <i class="fa-solid fa-user-tie"></i>
+    <div class="contact-layout reveal">
+      <article class="contact-info-card">
+        <div class="icon">
+          <i class="fa-solid fa-building"></i>
+        </div>
+        <h3>HDD & IT Operasyonları</h3>
+        <p>
+          Cakir Technics, yönlendirmeli delgi, kablolama, aydınlatma ve yol 
+          onarımını; dashboard’lar, web araçları ve akıllı ekranlarla tek bir 
+          şirket departmanı içinde birleştirir.
+        </p>
+        <p>
+          Acil sorular veya doğrudan saha koordinasyonu için operasyon ekibine 
+          telefon veya WhatsApp üzerinden ulaşabilirsiniz.
+        </p>
+        <div class="contact-info-block">
+          <div class="contact-info-row">
+            <i class="fa-solid fa-phone"></i>
+            <span>+32 486 24 06 42</span>
           </div>
-          <h3>HDD & Altyapı</h3>
-          <span class="contact-person-name">Cakir Ozcan</span>
-          <span class="contact-person-role">
-            Kurucu • HDD • Yol İşleri
-          </span>
-          <a href="mailto:ozcancakir@it-solutions-cakir.be"
-             class="contact-link">
-            ozcancakir@it-solutions-cakir.be
-          </a>
-          <p>
-            Delgi güzergâhları, kablolama, aydınlatma hatları ve yol onarım işleri
-            için doğrudan iletişim.
-          </p>
+          <div class="contact-info-row">
+            <i class="fa-solid fa-envelope"></i>
+            <span>ozcancakir@it-solutions-cakir.be</span>
+          </div>
           <a href="https://wa.me/32486240642"
              target="_blank"
              rel="noopener noreferrer"
-             class="btn-whatsapp">
-            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+             class="btn-whatsapp-inline">
+            <i class="fa-brands fa-whatsapp"></i>
+            WhatsApp ile yazın
           </a>
-        </article>
+        </div>
+      </article>
 
-        <article class="contact-card">
-          <div class="icon">
-            <i class="fa-solid fa-user-gear"></i>
+      <article class="contact-form-card">
+        <h3>Form ile bize yazın</h3>
+        <p class="contact-form-intro">
+          Formu doldurun; ekip, HDD işleri, kablolama veya IT çözümleriyle ilgili 
+          sorularınız için en kısa sürede size döner.
+        </p>
+
+        <form class="contact-form"
+              action="mailto:ozcancakir@it-solutions-cakir.be"
+              method="post"
+              enctype="text/plain">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="first-name-tr">Ad</label>
+              <input type="text" id="first-name-tr" name="First name" placeholder="Ad" required>
+            </div>
+            <div class="form-field">
+              <label for="last-name-tr">Soyad</label>
+              <input type="text" id="last-name-tr" name="Last name" placeholder="Soyad" required>
+            </div>
           </div>
-          <h3>IT & Yazılım</h3>
-          <span class="contact-person-name">Bekir Fazli Calik</span>
-          <span class="contact-person-role">
-            Yazılım • Sistemler
-          </span>
-          <a href="mailto:bekirfazil.calik@it-solutions-cakir.be"
-             class="contact-link">
-            bekirfazil.calik@it-solutions-cakir.be
-          </a>
-          <p>
-            Dashboard’lar, web araçları, iç sistemler ve operasyonlara bağlı
-            akıllı ekran kurulumları için irtibat noktası.
-          </p>
-          <a href="mailto:info@it-solutions-cakir.be"
-             class="contact-link">
-            info@it-solutions-cakir.be
-          </a>
-        </article>
+
+          <div class="form-field">
+            <label for="email-tr">E-posta adresi</label>
+            <input type="email" id="email-tr" name="Email" placeholder="E-posta adresiniz" required>
+          </div>
+
+          <div class="form-field">
+            <label for="message-tr">Soru / Mesaj</label>
+            <textarea id="message-tr" name="Message" rows="4"
+                      placeholder="Kısaca sorunuzu veya projenizi anlatın"
+                      required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary contact-submit-btn">
+            Gönder
+          </button>
+        </form>
+      </article>
+    </div>
+  </div>
+</section>
 
         <article class="contact-card">
           <div class="icon">
