@@ -45,13 +45,10 @@
       return;
     }
 
-    const targetAttr = numEl.getAttribute('data-target');
-    if (!targetAttr) return;
-
-    const target = parseInt(targetAttr, 10);
-    if (isNaN(target)) return;
-
+    const target = parseInt(numEl.getAttribute('data-target'), 10);
     const suffix = numEl.getAttribute('data-suffix') || '';
+    if (!target || isNaN(target)) return;
+
     let current = 0;
     const steps = 40;
     const increment = target / steps;
@@ -187,53 +184,4 @@
       closeLightbox();
     }
   });
-})();
-
-// ============================================================
-// CONTACT FORM: submit via fetch, no redirect
-// ============================================================
-(function() {
-  const encodedEndpoint = 'aHR0cHM6Ly9mb3Jtc3ByZWUuaW8vZi9tbmpremprZA==';
-
-  function decodeBase64(str) {
-    try { return atob(str); } catch (e) { return ''; }
-  }
-
-  function initContactForm() {
-    const form = document.getElementById('contact-form');
-    if (!form) return;
-
-    const endpoint = decodeBase64(encodedEndpoint);
-    if (!endpoint) return;
-
-    // form action & method yine set edelim (Network’te net görünsün)
-    form.setAttribute('action', endpoint);
-    form.setAttribute('method', 'post');
-
-    form.addEventListener('submit', async function(e) {
-      e.preventDefault(); // Formspree sayfasına gitmeyi engelle
-
-      const formData = new FormData(form);
-
-      try {
-        const res = await fetch(endpoint, {
-          method: 'POST',
-          body: formData,
-          headers: { 'Accept': 'application/json' }
-        });
-
-        // İstersen hiçbir mesaj verme, sadece formu temizle:
-        if (res.ok) {
-          form.reset();
-          // Buraya istersek kendi mini mesajımızı ekleriz,
-          // ama şu an hiçbir şey göstermiyoruz = “Bedankt” yok.
-        }
-      } catch (err) {
-        // Hata olursa da sayfa değişmesin
-        console.error('Contact form error', err);
-      }
-    });
-  }
-
-  window.addEventListener('DOMContentLoaded', initContactForm);
 })();
