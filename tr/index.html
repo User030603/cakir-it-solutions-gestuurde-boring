@@ -1,79 +1,455 @@
-<section class="section-padding reveal" id="contact">
-  <div class="container">
-    <h2 class="section-title">İletişim</h2>
-    <p class="contact-subtitle">
-      HDD & altyapı işleri ile IT & yazılım çözümleri için tek merkez ekip. 
-      Proje koordinasyonu, planlama soruları veya dijital araçlar için bize ulaşın.
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cakir Technics | HDD & Yazılım</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<a href="https://wa.me/32486240642"
+   class="whatsapp-floating"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="WhatsApp ile yazın">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<header class="site-header">
+  <div class="container navbar">
+    <div class="logo">
+      <img src="../images/logoCAKIRIT.png"
+           alt="Cakir Technics logo"
+           class="logo-mark">
+      <div class="logo-text">
+        <span class="logo-main">CAKIR TECHNICS</span>
+        <span class="logo-sub">IT-SOLUTIONS</span>
+      </div>
+    </div>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="hamburger" aria-label="Menüyü aç">
+      <i class="fa-solid fa-bars"></i>
+    </label>
+
+    <ul class="nav-links">
+      <label for="nav-toggle" class="close-btn" aria-label="Menüyü kapat">
+        <i class="fa-solid fa-xmark"></i>
+      </label>
+      <li><a href="#home" class="active">Ana Sayfa</a></li>
+      <li><a href="#about">Biz Kimiz</a></li>
+      <li><a href="#services">Hizmetler</a></li>
+      <li><a href="#projects">Projeler</a></li>
+      <li><a href="../partners/" >Partnerler</a></li>
+      <li><a href="#contact" class="btn-nav-contact">İletişim</a></li>
+      <li class="language-wrapper">
+        <a href="../" class="lang-link">EN</a><span>/</span>
+        <a href="../nl/" class="lang-link">NL</a><span>/</span>
+        <a href="../tr/" class="lang-link active">TR</a><span>/</span>
+        <a href="../fr/" class="lang-link">FR</a>
+      </li>
+    </ul>
+
+    <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
+  </div>
+</header>
+
+<main id="main-content">
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="../videos/BoringVid1.mp4" type="video/mp4">
+    </video>
+
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+      <span class="badge">
+        EST. 2018 • HDD • KABLOLAMA • IT
+      </span>
+      <h1>
+        Yönlendirmeli delgi ve kablolama<br>
+        <span class="highlight">basit ve net IT araçlarıyla birleşiyor</span>
+      </h1>
+      <p>
+        Cakir Technics, yönlendirmeli delgi, kablo döşeme, aydınlatma direği ve
+        elektrik işlerini; anlaşılır dashboard ekranları ve dijital panolarla
+        bir araya getirir.
+      </p>
+      <div class="hero-btns">
+        <a href="#services" class="btn btn-primary">Hizmetleri gör</a>
+        <a href="#contact" class="btn btn-outline">İletişime geç</a>
+      </div>
+
+      <div class="hero-media">
+        <div class="hero-media-main">
+          <video class="hero-media-video" autoplay muted loop playsinline>
+            <source src="../videos/BoringVid1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="hero-media-photos">
+          <img src="../images/boring1.jpeg" alt="Yönlendirmeli delgi">
+          <img src="../images/boring2.jpeg" alt="Kablo ve boru yerleştirme">
+          <img src="../images/boring3.jpeg" alt="Yol ve kaldırım onarımı">
+          <img src="../images/boring4.jpeg" alt="Aydınlatma direği montajı">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTNERLER -->
+  <section class="partners-strip">
+    <div class="container">
+      <h2 class="section-title">Partnerler & Ağlar</h2>
+    </div>
+    <div class="partner-logo-slider">
+      <div class="partner-logo-slide" id="partner-slide">
+        <img src="../images/logo1.jpeg" alt="Partner 1">
+        <img src="../images/logo2.jpg"  alt="Partner 2">
+        <img src="../images/logo3.jpg"  alt="Partner 3">
+        <img src="../images/logo4.jpeg" alt="Partner 4">
+        <img src="../images/logo5.jpg"  alt="Partner 5">
+        <img src="../images/logo6.jpeg" alt="Partner 6">
+        <img src="../images/logo7.jpg"  alt="Partner 7">
+        <img src="../images/logo8.jpg"  alt="Partner 8">
+        <img src="../images/logo9.jpg"  alt="Partner 9">
+        <img src="../images/logo10.jpg" alt="Partner 10">
+      </div>
+    </div>
+  </section>
+
+  <!-- BİZ KİMİZ -->
+  <section class="section-padding reveal" id="about">
+    <div class="container">
+      <h2 class="section-title">Biz Kimiz</h2>
+
+      <div class="about-grid">
+        <article class="about-text">
+          <h3>Saha tecrübesi ve yazılım aynı çatı altında</h3>
+          <p>
+            Cakir Technics’in HDD tarafı gerçek şantiye işlerinden gelir:
+            2016’dan beri yönlendirmeli delgi, boru ve kanal açma, enerji ve data
+            kabloları, aydınlatma direği temel ve montajı, bağlantılar ve iş
+            bittikten sonra yol ve kaldırımın temiz şekilde tekrar kapatılması.
+          </p>
+          <p>
+            IT-Solutions tarafı bu gerçekliğin etrafında araçlar kurar:
+            güzergâh ve iş takibi için dashboard’lar, ekip planlamaları, web ve
+            mobil arayüzler ve durum, güvenlik ve bilgi akışı için akıllı ekranlar.
+          </p>
+          <p>
+            Aynı ekip hem zemindeki işi yapar hem de bu işi ekranda net gösterir.
+          </p>
+        </article>
+
+        <div class="about-stats reveal">
+          <article class="stat-box">
+            <i class="fa-solid fa-trowel-bricks"></i>
+            <h3>HDD & Yol İşleri</h3>
+            <p>
+              Yolların ve engellerin altından yönlendirmeli delgi, boru ve kılıf,
+              kazı, dolgu ve asfalt ile parke yüzeylerinin düzgün şekilde yenilenmesi.
+            </p>
+          </article>
+          <article class="stat-box">
+            <i class="fa-solid fa-bolt"></i>
+            <h3>Altyapı & Aydınlatma</h3>
+            <p>
+              Elektrik ve data hatları için güzergâh hazırlığı, saha panoları,
+              aydınlatma direkleri, kablo çekme, ek ve bağlantı işleri.
+            </p>
+          </article>
+          <article class="stat-box">
+            <i class="fa-solid fa-display"></i>
+            <h3>Dashboard & Ekranlar</h3>
+            <p>
+              Güzergâh, ekip ve durum takibi için pratik dashboard’lar ve iç ekipler,
+              partnerler ve müşteriler için bilgilendirme ekranları.
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <div class="metrics-grid reveal">
+        <article class="metric-card">
+          <span class="metric-number" data-target="10" data-suffix="+">0+</span>
+          <p>Yıllık birleşik saha ve IT deneyimi.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-number" data-target="4">0</span>
+          <p>Tek yapıda toplanmış ana hizmet alanı.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-number" data-static="24/7">24/7</span>
+          <p>Sürekli planlama ve görünürlük anlayışı.</p>
+        </article>
+        <article class="metric-card highlight-card">
+          <span class="metric-number" data-static="EU">EU</span>
+          <p>Avrupa genelinde sınır ötesi iş kapasitesi.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- HİZMETLER -->
+  <section class="section-padding services-section reveal" id="services">
+    <div class="container">
+      <h2 class="section-title">Hizmetler</h2>
+
+      <div class="services-grid reveal">
+        <article class="service-card">
+          <div class="icon">
+            <i class="fa-solid fa-road"></i>
+          </div>
+          <h3>HDD, Kablo & Yol</h3>
+          <p>
+            Yönlendirmeli delgi ile boru ve kılıf çekme, gerektiği yerde kazı ve
+            kanal açma, kablo çekme, direk temeli ve montajı ve iş sonrası yol
+            ve kaldırım onarımı.
+          </p>
+        </article>
+
+        <article class="service-card">
+          <div class="icon">
+            <i class="fa-solid fa-bolt-lightning"></i>
+          </div>
+          <h3>Altyapı & Elektrik</h3>
+          <p>
+            Enerji ve data hatları için güzergâh hazırlığı, saha panosu ve
+            aydınlatma direği montajı, kablo bağlantıları, alçak gerilim işleri
+            ve devre testleri.
+          </p>
+        </article>
+
+        <article class="service-card highlight-card">
+          <div class="icon">
+            <i class="fa-solid fa-satellite-dish"></i>
+          </div>
+          <h3>IT & Dashboard</h3>
+          <p>
+            İşler, güzergâhlar ve planlamayı tek ekranda gösteren sade,
+            ihtiyaca göre yazılmış dashboard’lar ve skor, bilgi, reklam
+            veya iç iletişim için akıllı ekran sistemleri.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJELER -->
+  <section class="section-padding reveal" id="projects">
+    <div class="container">
+      <h2 class="section-title">Projeler</h2>
+    <p class="section-intro">
+      HDD işleri, kablolama ve bunları net gösteren dijital ekranlar.
     </p>
 
-    <div class="contact-grid reveal">
-      <!-- Kart 1: Operasyon + WhatsApp -->
-      <article class="contact-card whatsapp-card">
-        <div class="icon">
-          <i class="fa-solid fa-building"></i>
-        </div>
-        <h3>HDD & IT Operasyon</h3>
-        <p>
-          Cakir Technics, yönlendirilebilir delgi, kablolama, aydınlatma ve altyapı 
-          işlerini; panolar, web araçları ve akıllı ekranlarla tek bir entegre 
-          operasyon ekibinde birleştirir.
-        </p>
-        <p>
-          Acil sorular veya doğrudan koordinasyon için masa ekibimize telefon veya 
-          WhatsApp üzerinden hızlıca ulaşabilirsiniz.
-        </p>
-        <span class="contact-person-name">Operasyon masası</span>
-        <span class="contact-person-role">Koordinasyon & planlama</span>
+      <div class="projects-grid reveal">
+        <article class="project-item">
+          <div class="project-info">
+            <h3>Delgi & Kablo Güzergâhları</h3>
+            <p>
+              Yeni enerji veya data hatları için delgi güzergâhı planlama,
+              sahada uygulama, kablo çekme, ek ve bağlantı işleri ve yeniden
+              düzgün yol teslimi.
+            </p>
+            <div class="tags">
+              <span>HDD</span>
+              <span>Kablo</span>
+              <span>Altyapı</span>
+            </div>
+          </div>
+        </article>
 
-        <div class="contact-info-row">
-          <i class="fa-solid fa-phone"></i>
-          <span>+32 486 24 06 42</span>
-        </div>
+        <article class="project-item">
+          <div class="project-info">
+            <h3>Aydınlatma Hatları</h3>
+            <p>
+              Aydınlatma için boru, temel ve direk montajı, kablolama, bağlantı
+              ve aydınlatma devrelerinin sahada test edilmesi.
+            </p>
+            <div class="tags">
+              <span>Aydınlatma</span>
+              <span>Elektrik</span>
+              <span>Kamusal Alan</span>
+            </div>
+          </div>
+        </article>
 
-        <a href="https://wa.me/32486240642"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="btn-whatsapp">
-          <i class="fa-brands fa-whatsapp"></i>
-          WhatsApp sohbeti
-        </a>
-      </article>
+        <article class="project-item">
+          <div class="project-info">
+            <h3>Operasyon Dashboard’u</h3>
+            <p>
+              İş, konum, ekip ve ilerlemeyi telefon, tablet veya bilgisayardan
+              basitçe takip etmek için web tabanlı bir dashboard.
+            </p>
+            <div class="tags">
+              <span>Dashboard</span>
+              <span>Lojistik</span>
+              <span>Planlama</span>
+            </div>
+          </div>
+        </article>
 
-      <!-- Kart 2: Mail -->
-      <article class="contact-card">
-        <div class="icon">
-          <i class="fa-solid fa-envelope-open-text"></i>
-        </div>
-        <h3>İletişim (mail)</h3>
-        <span class="contact-person-name">Cakir Technics</span>
-        <span class="contact-person-role">HDD & IT koordinasyon</span>
-        <p>
-          Proje detayları, planlama soruları veya IT araçları için doğrudan mail 
-          gönderebilirsiniz.
-        </p>
-        <a href="mailto:ozcancakir@it-solutions-cakir.be"
-           class="contact-link">
-          Mail
-        </a>
-        <p style="margin-top: 6px; font-size: 0.85rem; color: var(--muted);">
-          ozcancakir@it-solutions-cakir.be
-        </p>
-      </article>
-
-      <!-- Kart 3: Merkez ofis -->
-      <article class="contact-card">
-        <div class="icon">
-          <i class="fa-solid fa-location-dot"></i>
-        </div>
-        <h3>Merkez Ofis</h3>
-        <span class="contact-person-name">Kruisstraat 55</span>
-        <span class="contact-person-role">9240 Zele, Belçika</span>
-        <p>
-          Belçika, genişletilmiş AB üçgeni ve Türkiye’de işlere bağlıdır. 
-          Toplantılar, planlama ve koordinasyon; projeye bağlı olarak sahada veya 
-          çevrim içi olarak ayarlanabilir.
-        </p>
-      </article>
+        <article class="project-item">
+          <div class="project-info">
+            <h3>Bilgi & Display Ekranları</h3>
+            <p>
+              Ofis, depo veya saha ortamında proje durumu, planlama, güvenlik
+              mesajları veya reklam içeriği göstermek için bağlı ekranlar.
+            </p>
+            <div class="tags">
+              <span>Ekran</span>
+              <span>Bilgi</span>
+              <span>Marka</span>
+            </div>
+          </div>
+        </article>
+      </div>
     </div>
+  </section>
+
+  <!-- BÖLGESEL GÜÇ -->
+  <section class="section-padding services-section reveal" id="regions">
+    <div class="container">
+      <h2 class="section-title">Bölgesel Güç</h2>
+      <p class="section-intro">
+        Belçika, Hollanda, Almanya ve Türkiye hattında net bir bölgesel konumlanma.
+      </p>
+
+      <div class="regions-grid reveal">
+        <article class="region-card">
+          <h3>Belçika</h3>
+          <p>
+            HDD, kablolama, aydınlatma ve yazılım işleri için operasyon merkezi.
+          </p>
+        </article>
+        <article class="region-card">
+          <h3>Hollanda</h3>
+          <p>
+            Yükleniciler ve altyapı firmaları ile sınır ötesi saha ve yazılım işleri.
+          </p>
+        </article>
+        <article class="region-card">
+          <h3>Almanya</h3>
+          <p>
+            Saha odaklı kültürle altyapı ve destek projeleri.
+          </p>
+        </article>
+        <article class="region-card">
+          <h3>Türkiye</h3>
+          <p>
+            Uzun vadeli iş ilişkileri, destek ve görünürlük.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- İLETİŞİM: 3’lü box, tek mail -->
+  <section class="section-padding reveal" id="contact">
+    <div class="container">
+      <h2 class="section-title">İletişim</h2>
+      <p class="contact-subtitle">
+        HDD & saha işleri ile IT & dashboard çözümleri için tek bir net iletişim hattı.
+      </p>
+
+      <div class="contact-grid reveal">
+        <!-- Kart 1: HDD & IT Operasyon -->
+        <article class="contact-card whatsapp-card">
+          <div class="icon">
+            <i class="fa-solid fa-building"></i>
+          </div>
+          <h3>HDD & IT Operasyon</h3>
+          <p>
+            Cakir Technics, yönlendirmeli delgi, kablolama, aydınlatma ve altyapı
+            işlerini; dashboard’lar, web araçları ve akıllı ekranlarla tek bir
+            entegre operasyon ekibinde toplar.
+          </p>
+          <p>
+            Acil sorular veya doğrudan koordinasyon için masa ekibimize telefon
+            veya WhatsApp üzerinden hızlıca ulaşabilirsiniz.
+          </p>
+          <span class="contact-person-name">Operasyon masası</span>
+          <span class="contact-person-role">Koordinasyon & planlama</span>
+
+          <div class="contact-info-row">
+            <i class="fa-solid fa-phone"></i>
+            <span>+32 486 24 06 42</span>
+          </div>
+
+          <a href="https://wa.me/32486240642"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i>
+            WhatsApp
+          </a>
+        </article>
+
+        <!-- Kart 2: Mail -->
+        <article class="contact-card">
+          <div class="icon">
+            <i class="fa-solid fa-envelope-open-text"></i>
+          </div>
+          <h3>Mail ile İletişim</h3>
+          <span class="contact-person-name">Cakir Technics</span>
+          <span class="contact-person-role">HDD & IT koordinasyon</span>
+          <p>
+            Proje detayları, planlama soruları veya IT araçları için doğrudan
+            mail gönderebilirsiniz.
+          </p>
+          <a href="mailto:ozcancakir@it-solutions-cakir.be"
+             class="contact-link">
+            Mail
+          </a>
+          <p style="margin-top: 6px; font-size: 0.85rem; color: var(--muted);">
+            ozcancakir@it-solutions-cakir.be
+          </p>
+        </article>
+
+        <!-- Kart 3: Merkez ofis -->
+        <article class="contact-card">
+          <div class="icon">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <h3>Merkez Ofis</h3>
+          <span class="contact-person-name">Kruisstraat 57</span>
+          <span class="contact-person-role">9240 Zele, Belçika</span>
+          <p>
+            Belçika, genişletilmiş AB üçgeni ve Türkiye’deki işler ile bağlantılı.
+            Toplantılar, planlama ve koordinasyon; projeye göre sahada veya çevrim
+            içi olarak ayarlanabilir.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="main-footer">
+  <div class="container">
+    <p>© 2026 <strong>Cakir Technics – IT-Solutions</strong>. Tüm hakları saklıdır. |
+       <strong>VKN: BE 0637.765.003</strong></p>
+    <p class="small-text">
+      HDD ve yol işleri, kablolama ve aydınlatma, dashboard ve bilgi ekranları.
+    </p>
   </div>
-</section>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>
