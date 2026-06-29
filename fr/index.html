@@ -362,61 +362,90 @@
   </section>
 
   <!-- CONTACT -->
-  <section class="section-padding reveal" id="contact">
-    <div class="container">
-      <h2 class="section-title">Contact</h2>
-      <p class="contact-subtitle">
-        Un contact pour le forage et les chantiers, un pour l’IT et les tableaux de bord.
-      </p>
+<section class="section-padding reveal" id="contact">
+  <div class="container">
+    <h2 class="section-title">Contact</h2>
+    <p class="contact-subtitle">
+      Une équipe centrale pour les travaux HDD & civils et les solutions IT & logiciels. 
+      Contactez-nous pour la coordination de projets, des questions de planning ou des outils digitaux.
+    </p>
 
-      <div class="contact-grid reveal">
-        <article class="contact-card whatsapp-card">
-          <div class="icon">
-            <i class="fa-solid fa-user-tie"></i>
+    <div class="contact-layout reveal">
+      <article class="contact-info-card">
+        <div class="icon">
+          <i class="fa-solid fa-building"></i>
+        </div>
+        <h3>HDD & IT Operations</h3>
+        <p>
+          Cakir Technics réunit forage dirigé, câblage, éclairage et travaux civils 
+          avec tableaux de bord, outils web et écrans d’information dans un seul 
+          département intégré.
+        </p>
+        <p>
+          Pour les questions urgentes ou une coordination directe, vous pouvez joindre 
+          notre desk opérations par téléphone ou WhatsApp.
+        </p>
+        <div class="contact-info-block">
+          <div class="contact-info-row">
+            <i class="fa-solid fa-phone"></i>
+            <span>+32 486 24 06 42</span>
           </div>
-          <h3>Contact HDD & Terrain</h3>
-          <span class="contact-person-name">Cakir Ozcan</span>
-          <span class="contact-person-role">
-            Fondateur • HDD • Travaux Civils
-          </span>
-          <a href="mailto:ozcancakir@it-solutions-cakir.be"
-             class="contact-link">
-            ozcancakir@it-solutions-cakir.be
-          </a>
-          <p>
-            Ligne directe pour tracés de forage, câblage, lignes d’éclairage et
-            réfection de voirie.
-          </p>
+          <div class="contact-info-row">
+            <i class="fa-solid fa-envelope"></i>
+            <span>ozcancakir@it-solutions-cakir.be</span>
+          </div>
           <a href="https://wa.me/32486240642"
              target="_blank"
              rel="noopener noreferrer"
-             class="btn-whatsapp">
-            <i class="fa-brands fa-whatsapp"></i> WhatsApp
+             class="btn-whatsapp-inline">
+            <i class="fa-brands fa-whatsapp"></i>
+            Chat WhatsApp
           </a>
-        </article>
+        </div>
+      </article>
 
-        <article class="contact-card">
-          <div class="icon">
-            <i class="fa-solid fa-user-gear"></i>
+      <article class="contact-form-card">
+        <h3>Envoyez-nous votre question</h3>
+        <p class="contact-form-intro">
+          Remplissez le formulaire et notre équipe vous recontactera rapidement à 
+          propos de travaux HDD, de câblage ou de solutions IT.
+        </p>
+
+        <form class="contact-form"
+              action="mailto:ozcancakir@it-solutions-cakir.be"
+              method="post"
+              enctype="text/plain">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="first-name-fr">Prénom</label>
+              <input type="text" id="first-name-fr" name="First name" placeholder="Prénom" required>
+            </div>
+            <div class="form-field">
+              <label for="last-name-fr">Nom</label>
+              <input type="text" id="last-name-fr" name="Last name" placeholder="Nom de famille" required>
+            </div>
           </div>
-          <h3>Contact IT & Logiciel</h3>
-          <span class="contact-person-name">Bekir Fazli Calik</span>
-          <span class="contact-person-role">
-            Logiciel • Systèmes
-          </span>
-          <a href="mailto:bekirfazil.calik@it-solutions-cakir.be"
-             class="contact-link">
-            bekirfazil.calik@it-solutions-cakir.be
-          </a>
-          <p>
-            Contact pour tableaux de bord, outils web, systèmes internes et
-            solutions d’affichage intelligentes liées à vos opérations.
-          </p>
-          <a href="mailto:info@it-solutions-cakir.be"
-             class="contact-link">
-            info@it-solutions-cakir.be
-          </a>
-        </article>
+
+          <div class="form-field">
+            <label for="email-fr">Adresse e-mail</label>
+            <input type="email" id="email-fr" name="Email" placeholder="Votre adresse e-mail" required>
+          </div>
+
+          <div class="form-field">
+            <label for="message-fr">Question / Message</label>
+            <textarea id="message-fr" name="Message" rows="4"
+                      placeholder="Décrivez brièvement votre question, projet ou situation"
+                      required></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary contact-submit-btn">
+            Envoyer
+          </button>
+        </form>
+      </article>
+    </div>
+  </div>
+</section>
 
         <article class="contact-card">
           <div class="icon">
