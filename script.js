@@ -45,10 +45,13 @@
       return;
     }
 
-    const target = parseInt(numEl.getAttribute('data-target'), 10);
-    const suffix = numEl.getAttribute('data-suffix') || '';
-    if (!target || isNaN(target)) return;
+    const targetAttr = numEl.getAttribute('data-target');
+    if (!targetAttr) return;
 
+    const target = parseInt(targetAttr, 10);
+    if (isNaN(target)) return;
+
+    const suffix = numEl.getAttribute('data-suffix') || '';
     let current = 0;
     const steps = 40;
     const increment = target / steps;
@@ -184,4 +187,35 @@
       closeLightbox();
     }
   });
+})();
+
+// ============================================================
+// CONTACT FORM: set Formspree endpoint via base64
+// ============================================================
+(function() {
+  // Base64 encoded Formspree endpoint:
+  // "https://formspree.io/f/mnjkzjkd" -> aHR0cHM6Ly9mb3Jtc3ByZWUuaW8vZi9tbmpremprZA==
+  const encodedEndpoint = 'aHR0cHM6Ly9mb3Jtc3ByZWUuaW8vZi9tbmpremprZA==';
+
+  function decodeBase64(str) {
+    try {
+      return atob(str);
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function initContactFormEndpoint() {
+    const form = document.getElementById('contact-form');
+    if (!form) return;
+
+    const endpoint = decodeBase64(encodedEndpoint);
+    if (endpoint) {
+      form.setAttribute('action', endpoint);
+      form.setAttribute('method', 'post');
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', initContactFormEndpoint);
+  window.addEventListener('load', initContactFormEndpoint);
 })();
