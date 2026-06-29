@@ -1,80 +1,460 @@
-<section class="section-padding reveal" id="contact">
-  <div class="container">
-    <h2 class="section-title">Contact</h2>
-    <p class="contact-subtitle">
-      Une équipe centrale pour les travaux HDD & civils et les solutions IT & 
-      logicielles. Contactez-nous pour la coordination de projets, des questions 
-      de planning ou des outils digitaux.
-    </p>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cakir Technics | Forage dirigé & IT</title>
 
-    <div class="contact-grid reveal">
-      <!-- Carte 1: Opérations + WhatsApp -->
-      <article class="contact-card whatsapp-card">
-        <div class="icon">
-          <i class="fa-solid fa-building"></i>
-        </div>
-        <h3>Opérations HDD & IT</h3>
-        <p>
-          Cakir Technics combine le forage dirigé, le câblage, l’éclairage et les 
-          travaux civils avec des tableaux de bord, des outils web et des écrans 
-          intelligents au sein d’une seule équipe opérationnelle intégrée.
-        </p>
-        <p>
-          Pour des questions urgentes ou une coordination directe, vous pouvez 
-          joindre notre bureau rapidement par téléphone ou WhatsApp.
-        </p>
-        <span class="contact-person-name">Bureau des opérations</span>
-        <span class="contact-person-role">Coordination & planning</span>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
 
-        <div class="contact-info-row">
-          <i class="fa-solid fa-phone"></i>
-          <span>+32 486 24 06 42</span>
-        </div>
+<a href="https://wa.me/32486240642"
+   class="whatsapp-floating"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="Écrire sur WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
 
-        <a href="https://wa.me/32486240642"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="btn-whatsapp">
-          <i class="fa-brands fa-whatsapp"></i>
-          Chat WhatsApp
-        </a>
-      </article>
-
-      <!-- Carte 2: Mail -->
-      <article class="contact-card">
-        <div class="icon">
-          <i class="fa-solid fa-envelope-open-text"></i>
-        </div>
-        <h3>Contact par mail</h3>
-        <span class="contact-person-name">Cakir Technics</span>
-        <span class="contact-person-role">Coordination HDD & IT</span>
-        <p>
-          Pour les détails de projet, des questions de planning ou des outils IT, 
-          vous pouvez envoyer un mail directement à notre adresse centrale.
-        </p>
-        <a href="mailto:ozcancakir@it-solutions-cakir.be"
-           class="contact-link">
-          Mail
-        </a>
-        <p style="margin-top: 6px; font-size: 0.85rem; color: var(--muted);">
-          ozcancakir@it-solutions-cakir.be
-        </p>
-      </article>
-
-      <!-- Carte 3: Siège -->
-      <article class="contact-card">
-        <div class="icon">
-          <i class="fa-solid fa-location-dot"></i>
-        </div>
-        <h3>Siège</h3>
-        <span class="contact-person-name">Kruisstraat 55</span>
-        <span class="contact-person-role">9240 Zele, Belgique</span>
-        <p>
-          Connecté au travail en Belgique, dans le triangle élargi de l’UE et en 
-          Türkiye. Les réunions, la planification et la coordination peuvent être 
-          organisées sur site ou en ligne, selon le projet.
-        </p>
-      </article>
+<header class="site-header">
+  <div class="container navbar">
+    <div class="logo">
+      <img src="../images/logoCAKIRIT.png"
+           alt="Logo Cakir Technics"
+           class="logo-mark">
+      <div class="logo-text">
+        <span class="logo-main">CAKIR TECHNICS</span>
+        <span class="logo-sub">IT-SOLUTIONS</span>
+      </div>
     </div>
+
+    <input type="checkbox" id="nav-toggle" class="nav-toggle">
+    <label for="nav-toggle" class="hamburger" aria-label="Ouvrir le menu">
+      <i class="fa-solid fa-bars"></i>
+    </label>
+
+    <ul class="nav-links">
+      <label for="nav-toggle" class="close-btn" aria-label="Fermer le menu">
+        <i class="fa-solid fa-xmark"></i>
+      </label>
+      <li><a href="#home" class="active">Accueil</a></li>
+      <li><a href="#about">Qui Nous Sommes</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#projects">Projets</a></li>
+      <li><a href="../partners/">Partenaires</a></li>
+      <li><a href="#contact" class="btn-nav-contact">Contact</a></li>
+      <li class="language-wrapper">
+        <a href="../" class="lang-link">EN</a><span>/</span>
+        <a href="../nl/" class="lang-link">NL</a><span>/</span>
+        <a href="../tr/" class="lang-link">TR</a><span>/</span>
+        <a href="../fr/" class="lang-link active">FR</a>
+      </li>
+    </ul>
+
+    <label for="nav-toggle" class="nav-overlay" aria-hidden="true"></label>
   </div>
-</section>
+</header>
+
+<main id="main-content">
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <video class="hero-video" autoplay muted loop playsinline>
+      <source src="../videos/BoringVid1.mp4" type="video/mp4">
+    </video>
+
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+      <span class="badge">
+        EST. 2018 • HDD • CÂBLAGE • IT
+      </span>
+      <h1>
+        Forage dirigé et pose de câbles<br>
+        <span class="highlight">
+          connectés à des tableaux de bord et outils IT clairs
+        </span>
+      </h1>
+      <p>
+        Cakir Technics rassemble les travaux de forage dirigé, câblage, éclairage
+        public et électricité avec des tableaux de bord simples et des écrans
+        d’information.
+      </p>
+      <div class="hero-btns">
+        <a href="#services" class="btn btn-primary">Voir les services</a>
+        <a href="#contact" class="btn btn-outline">Prendre contact</a>
+      </div>
+
+      <div class="hero-media">
+        <div class="hero-media-main">
+          <video class="hero-media-video" autoplay muted loop playsinline>
+            <source src="../videos/BoringVid1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="hero-media-photos">
+          <img src="../images/boring1.jpeg" alt="Forage dirigé">
+          <img src="../images/boring2.jpeg" alt="Pose de conduites et câbles">
+          <img src="../images/boring3.jpeg" alt="Réfection de voirie">
+          <img src="../images/boring4.jpeg" alt="Installation de mats d’éclairage">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARTENAIRES -->
+  <section class="partners-strip">
+    <div class="container">
+      <h2 class="section-title">Partenaires & Réseaux</h2>
+    </div>
+    <div class="partner-logo-slider">
+      <div class="partner-logo-slide" id="partner-slide">
+        <img src="../images/logo1.jpeg" alt="Partenaire 1">
+        <img src="../images/logo2.jpg"  alt="Partenaire 2">
+        <img src="../images/logo3.jpg"  alt="Partenaire 3">
+        <img src="../images/logo4.jpeg" alt="Partenaire 4">
+        <img src="../images/logo5.jpg"  alt="Partenaire 5">
+        <img src="../images/logo6.jpeg" alt="Partenaire 6">
+        <img src="../images/logo7.jpg"  alt="Partenaire 7">
+        <img src="../images/logo8.jpg"  alt="Partenaire 8">
+        <img src="../images/logo9.jpg"  alt="Partenaire 9">
+        <img src="../images/logo10.jpg" alt="Partenaire 10">
+      </div>
+    </div>
+  </section>
+
+  <!-- QUI NOUS SOMMES -->
+  <section class="section-padding reveal" id="about">
+    <div class="container">
+      <h2 class="section-title">Qui Nous Sommes</h2>
+
+      <div class="about-grid">
+        <article class="about-text">
+          <h3>Travaux de terrain et IT dans une seule structure</h3>
+          <p>
+            Le volet forage dirigé de Cakir Technics vient du terrain: depuis 2016,
+            forages horizontaux pour gaines et conduites, tirage de câbles énergie
+            et data, fondations et poses de mats d’éclairage, raccordements et
+            remise en état propre de la voirie et des trottoirs après travaux.
+          </p>
+          <p>
+            Le volet IT-Solutions construit des outils autour de cette réalité:
+            tableaux de bord pour suivre tracés et tâches, vues de planning pour
+            les équipes, interfaces web et mobiles simples et écrans d’information
+            pour l’état d’avancement, la sécurité et les messages clients.
+          </p>
+          <p>
+            La même équipe prépare le sol, pose le câble et montre le travail de
+            façon claire sur écran.
+          </p>
+        </article>
+
+        <div class="about-stats reveal">
+          <article class="stat-box">
+            <i class="fa-solid fa-trowel-bricks"></i>
+            <h3>HDD & Travaux Civils</h3>
+            <p>
+              Forages dirigés sous routes et obstacles, gaines et conduites,
+              terrassement, remblayage et réfection soignée d’asphalte et de pavés.
+            </p>
+          </article>
+          <article class="stat-box">
+            <i class="fa-solid fa-bolt"></i>
+            <h3>Réseaux & Éclairage</h3>
+            <p>
+              Tracés pour puissance et data, armoires de rue, mats d’éclairage,
+              tirage de câbles, raccordements et mise en service électrique sur site.
+            </p>
+          </article>
+          <article class="stat-box">
+            <i class="fa-solid fa-display"></i>
+            <h3>Tableaux de Bord & Écrans</h3>
+            <p>
+              Tableaux de bord pratiques pour tracés, équipes et statut, plus des
+              écrans d’information pour équipes, partenaires et clients finaux.
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <div class="metrics-grid reveal">
+        <article class="metric-card">
+          <span class="metric-number" data-target="10" data-suffix="+">0+</span>
+          <p>Années d’expérience combinée.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-number" data-target="4">0</span>
+          <p>Piliers de services réunis.</p>
+        </article>
+        <article class="metric-card">
+          <span class="metric-number" data-static="24/7">24/7</span>
+          <p>Esprit de planification continue.</p>
+        </article>
+        <article class="metric-card highlight-card">
+          <span class="metric-number" data-static="EU">EU</span>
+          <p>Capacité de projets transfrontaliers.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section-padding services-section reveal" id="services">
+    <div class="container">
+      <h2 class="section-title">Services</h2>
+
+      <div class="services-grid reveal">
+        <article class="service-card">
+          <div class="icon">
+            <i class="fa-solid fa-road"></i>
+          </div>
+          <h3>HDD, Câbles & Voirie</h3>
+          <p>
+            Forages dirigés pour gaines et conduites, tranchées si nécessaire,
+            tirage de câbles, fondations et pose de mats, puis remise en état de
+            la route et du trottoir.
+          </p>
+        </article>
+
+        <article class="service-card">
+          <div class="icon">
+            <i class="fa-solid fa-bolt-lightning"></i>
+          </div>
+          <h3>Réseaux & Électricité</h3>
+          <p>
+            Préparation de tracés pour énergie et data, installation d’armoires
+            de rue et de mats d’éclairage, raccordements, basse tension et tests
+            des lignes d’éclairage.
+          </p>
+        </article>
+
+        <article class="service-card highlight-card">
+          <div class="icon">
+            <i class="fa-solid fa-satellite-dish"></i>
+          </div>
+          <h3>IT & Tableaux de Bord</h3>
+          <p>
+            Tableaux de bord et outils web sur mesure qui affichent chantiers,
+            tracés et planning en un seul endroit, plus des systèmes d’affichage
+            pour scores, infos, publicité ou messages internes.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETS -->
+  <section class="section-padding reveal" id="projects">
+    <div class="container">
+      <h2 class="section-title">Projets</h2>
+      <p class="section-intro">
+        Des chantiers HDD et câblage, avec une vue digitale claire.
+      </p>
+
+      <div class="projects-grid reveal">
+        <article class="project-item">
+          <div class="project-info">
+            <h3>Tracés de Forage & Câbles</h3>
+            <p>
+              Préparation et réalisation de tracés de forage pour nouvelles lignes
+              énergie ou data, tirage de câbles, raccordements et remise en état
+              propre de la rue.
+            </p>
+            <div class="tags">
+              <span>HDD</span>
+              <span>Câbles</span>
+              <span>Réseaux</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-item">
+          <div class="project-info">
+            <h3>Lignes d’Éclairage Public</h3>
+            <p>
+              Gaines, fondations et mats pour l’éclairage, y compris câblage,
+              raccordement et tests des circuits d’éclairage.
+            </p>
+            <div class="tags">
+              <span>Éclairage</span>
+              <span>Électrique</span>
+              <span>Public</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-item">
+          <div class="project-info">
+            <h3>Tableau de Bord Opérations</h3>
+            <p>
+              Un tableau de bord web pour suivre chantiers, lieux, équipes et
+              avancement depuis téléphone, tablette ou PC.
+            </p>
+            <div class="tags">
+              <span>Dashboard</span>
+              <span>Logistique</span>
+              <span>Planning</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="project-item">
+          <div class="project-info">
+            <h3>Écrans Info & Affichage</h3>
+            <p>
+              Écrans connectés pour statut de projet, planning, messages de
+              sécurité ou contenu publicitaire, en bureau, dépôt ou espace public.
+            </p>
+            <div class="tags">
+              <span>Écrans</span>
+              <span>Info</span>
+              <span>Marque</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORCE RÉGIONALE -->
+  <section class="section-padding services-section reveal" id="regions">
+    <div class="container">
+      <h2 class="section-title">Force Régionale</h2>
+      <p class="section-intro">
+        Une présence claire en Belgique, aux Pays-Bas, en Allemagne et en Turquie.
+      </p>
+
+      <div class="regions-grid reveal">
+        <article class="region-card">
+          <h3>Belgique</h3>
+          <p>
+            Base opérationnelle pour HDD, câblage, éclairage et projets IT.
+          </p>
+        </article>
+        <article class="region-card">
+          <h3>Pays-Bas</h3>
+          <p>
+            Projets transfrontaliers avec entrepreneurs et sociétés de réseaux.
+          </p>
+        </article>
+        <article class="region-card">
+          <h3>Allemagne</h3>
+          <p>
+            Projets d’infrastructure avec culture orientée terrain.
+          </p>
+        </article>
+        <article class="region-card">
+          <h3>Turquie</h3>
+          <p>
+            Relations d’affaires à long terme et soutien opérationnel.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT: 3 boîtes, mailto -->
+  <section class="section-padding reveal" id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact</h2>
+      <p class="contact-subtitle">
+        Une équipe centrale pour les travaux HDD & civils et les solutions IT & logicielles. 
+        Contactez-nous pour la coordination de projets, des questions de planning ou des outils digitaux.
+      </p>
+
+      <div class="contact-grid reveal">
+        <!-- Boîte 1: HDD & IT opérations + WhatsApp -->
+        <article class="contact-card whatsapp-card">
+          <div class="icon">
+            <i class="fa-solid fa-building"></i>
+          </div>
+          <h3>Opérations HDD & IT</h3>
+          <p>
+            Cakir Technics combine le forage dirigé, le câblage, l’éclairage et les
+            travaux civils avec des tableaux de bord, des outils web et des écrans
+            intelligents au sein d’une même équipe opérationnelle.
+          </p>
+          <p>
+            Pour des questions urgentes ou une coordination directe, vous pouvez
+            joindre notre bureau rapidement par téléphone ou WhatsApp.
+          </p>
+          <span class="contact-person-name">Bureau des opérations</span>
+          <span class="contact-person-role">Coordination & planning</span>
+
+          <div class="contact-info-row">
+            <i class="fa-solid fa-phone"></i>
+            <span>+32 486 24 06 42</span>
+          </div>
+
+          <a href="https://wa.me/32486240642"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="btn-whatsapp">
+            <i class="fa-brands fa-whatsapp"></i>
+            WhatsApp
+          </a>
+        </article>
+
+        <!-- Boîte 2: Contact par mail (Ozcan) -->
+        <article class="contact-card">
+          <div class="icon">
+            <i class="fa-solid fa-envelope-open-text"></i>
+          </div>
+          <h3>Contact par mail</h3>
+          <span class="contact-person-name">Cakir Technics</span>
+          <span class="contact-person-role">Coordination HDD & IT</span>
+          <p>
+            Pour les détails de projet, des questions de planning ou des outils IT,
+            vous pouvez envoyer un mail directement à notre adresse centrale.
+          </p>
+          <a href="mailto:ozcancakir@it-solutions-cakir.be"
+             class="contact-link">
+            Mail
+          </a>
+          <p style="margin-top: 6px; font-size: 0.85rem; color: var(--muted);">
+            ozcancakir@it-solutions-cakir.be
+          </p>
+        </article>
+
+        <!-- Boîte 3: Siège -->
+        <article class="contact-card">
+          <div class="icon">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+          <h3>Siège</h3>
+          <span class="contact-person-name">Kruisstraat 57</span>
+          <span class="contact-person-role">9240 Zele, Belgique</span>
+          <p>
+            Relié à des projets en Belgique, dans le triangle élargi de l’UE et en Turquie.
+            Réunions, planning et coordination peuvent être organisés sur site ou en ligne,
+            selon le projet.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="main-footer">
+  <div class="container">
+    <p>© 2026 <strong>Cakir Technics – IT-Solutions</strong>. Tous droits réservés. |
+       <strong>TVA: BE 0637.765.003</strong></p>
+    <p class="small-text">
+      Travaux HDD et civils, câblage et éclairage, tableaux de bord et écrans d’information.
+    </p>
+  </div>
+</footer>
+
+<script src="../script.js"></script>
+</body>
+</html>
